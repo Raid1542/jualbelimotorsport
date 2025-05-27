@@ -1,3 +1,4 @@
+<!-- views/pages/admin/produk.blade.php -->
 @extends('layouts.admin_layout')
 
 @section('title', 'Produk - Admin')
