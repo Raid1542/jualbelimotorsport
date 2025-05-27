@@ -7,7 +7,7 @@
 @section('konten')
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold text-yellow-400">Daftar Produk</h2>
-    <a href="/admin/produk/create" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded shadow">+ Tambah Produk</a>
+    <a href="{{ route('produk.create') }}" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded shadow">+ Tambah Produk</a>
   </div>
 
   <div class="overflow-x-auto rounded-lg shadow border border-gray-700">
