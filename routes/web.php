@@ -32,8 +32,12 @@ Route::prefix('admin')->group(function () {
 
     // Produk (CRUD)
     Route::get('/produk', [ProdukController::class, 'index'])->name('admin.produk.index');      // Menampilkan daftar produk
-    Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');   // Menampilkan form tambah produk
-    Route::post('/produk/store', [ProdukController::class, 'store'])->name('produk.store');     // Menyimpan produk ke database
+    Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');   // Form tambah produk
+    Route::post('/produk/store', [ProdukController::class, 'store'])->name('produk.store');     // Simpan produk
+
+    Route::get('/produk/{id}/edit', [ProdukController::class, 'edit'])->name('produk.edit');    // Form edit produk
+    Route::put('/produk/{id}/update', [ProdukController::class, 'update'])->name('produk.update'); // Update produk
+    Route::delete('/produk/{id}/delete', [ProdukController::class, 'destroy'])->name('produk.destroy'); // Hapus produk
 });
 
 # PEMBELI #
