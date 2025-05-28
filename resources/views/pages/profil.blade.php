@@ -30,12 +30,6 @@
                     <li><strong>Alamat:</strong> Jl. Contoh Alamat No. 123, Jakarta</li>
                 </ul>
             </div>
-
-            <!-- Foto KTP -->
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-xl font-semibold mb-4 text-black">Foto KTP</h3>
-                <img src="https://via.placeholder.com/300x200" alt="Foto KTP" class="w-full h-auto object-cover rounded-md border-2 border-yellow-400">
-            </div>
         </div>
 
         <!-- Pengaturan Akun -->
