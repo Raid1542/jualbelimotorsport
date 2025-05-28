@@ -1,4 +1,3 @@
-<!-- views/pages/admin/produk.blade.php -->
 @extends('layouts.admin_layout')
 
 @section('title', 'Produk - Admin')
@@ -40,10 +39,14 @@
           <td class="px-4 py-2">{{ $produk['warna'] }}</td>
           <td class="px-4 py-2">{{ $produk['kategori'] }}</td>
           <td class="px-4 py-2">
-            <a href="#" class="text-blue-400 hover:underline">Ubah</a>
+            <a href="{{ route('produk.edit', $produk->id) }}" class="text-blue-400 hover:underline">Ubah</a>
           </td>
           <td class="px-4 py-2">
-            <a href="#" class="text-red-400 hover:underline">Hapus</a>
+            <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="text-red-400 hover:underline">Hapus</button>
+            </form>
           </td>
         </tr>
         @endforeach

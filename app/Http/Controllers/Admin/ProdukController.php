@@ -8,14 +8,24 @@ use App\Models\Produk;
 
 class ProdukController extends Controller
 {
+    public function index()
+    {
+        $produkList = Produk::all();
+        return view('pages.admin.produk', compact('produkList'));
+    }
+
     public function create()
     {
-        return view('pages.admin.crud'); // tampilkan form input
+        return view('pages.admin.crud', [
+            'produk' => null,
+            'form_action' => route('produk.store'),
+            'form_method' => 'POST',
+            'button_label' => 'Simpan Produk'
+        ]);
     }
 
     public function store(Request $request)
     {
-        // Validasi data
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'required',
@@ -26,7 +36,6 @@ class ProdukController extends Controller
             'kategori' => 'required|string',
         ]);
 
-        // Upload gambar
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $namaFile = time() . '_' . $file->getClientOriginalName();
@@ -34,16 +43,53 @@ class ProdukController extends Controller
             $validated['gambar'] = $namaFile;
         }
 
-        // Simpan ke database
         Produk::create($validated);
 
-        return redirect('/admin/produk')->with('success', 'Produk berhasil ditambahkan!');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 
-    public function index()
+    public function edit($id)
     {
-        $produkList = \App\Models\Produk::all(); // Ambil semua data dari tabel produk
-        return view('pages.admin.produk', compact('produkList')); // Pastikan path view-nya benar
+        $produk = Produk::findOrFail($id);
+        return view('pages.admin.crud', [
+            'produk' => $produk,
+            'form_action' => route('produk.update', $produk->id),
+            'form_method' => 'PUT',
+            'button_label' => 'Update Produk'
+        ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $produk = Produk::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required',
+            'harga' => 'required|integer',
+            'stok' => 'required|integer',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'warna' => 'required|string',
+            'kategori' => 'required|string',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $namaFile = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images'), $namaFile);
+            $validated['gambar'] = $namaFile;
+        }
+
+        $produk->update($validated);
+
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $produk = Produk::findOrFail($id);
+        $produk->delete();
+
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil dihapus!');
+    }
 }
