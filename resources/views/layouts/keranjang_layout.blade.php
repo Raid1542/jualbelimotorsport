@@ -6,7 +6,7 @@
     <title>@yield('title')</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-gray-100 text-yellow-500 font-sans">
+<body class="bg-gray-100 text-white font-sans">
     @yield('content')
 </body>
 </html>
