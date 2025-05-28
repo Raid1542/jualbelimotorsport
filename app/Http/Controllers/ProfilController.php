@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 class ProfilController extends Controller
 {
-    public function profil() {
+    public function profil()
+    {
+        // logika fungsi profil
         return view('pages.profil');
     }
 }
