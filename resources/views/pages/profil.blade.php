@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.profil_layout')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profil | SpeedZone</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+@section('title', 'Profil | Speedzone')
 
-<body class="bg-gray-100 text-yellow-500 font-sans">
-
-    <!-- Navbar -->
-    <header class="bg-yellow-400 p-6 relative flex items-center justify-center">
-        <!-- Tombol kembali di kiri -->
-        <a href="javascript:history.back()" class="absolute left-6 text-3xl font-semibold text-white hover:text-yellow-200">&larr;</a>
-        <h1 class="text-2xl md:text-3xl font-bold text-white">Profil Saya</h1>
-    </header>
-
+@section('content')
+@include('components.navbar_profil')   
     <!-- Konten Profil -->
     <main class="max-w-4xl mx-auto py-10 px-6">
         <!-- Foto Profil & Nama -->
@@ -67,7 +54,4 @@
             </div>
         </div>
     </main>
-
-</body>
-
-</html>
+@endsection
