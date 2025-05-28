@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EditProfilController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfildController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
+
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -25,7 +31,28 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 
 # ADMIN #
+Route::prefix('admin')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
+    // Riwayat transaksi
+    Route::view('/riwayat-transaksi', 'admin.riwayat-transaksi')->name('admin.riwayat-transaksi');
+
+    // Rekap penjualan
+    Route::view('/rekap-penjualan', 'pages.admin.rekap-penjualan')->name('admin.rekap-penjualan');
+
+    // Konfirmasi pembayaran
+    Route::get('/konfirmasi_pembayaran', [KonfirmasiPembayaranController::class, 'index'])->name('admin.konfirmasi.index');
+
+    // Produk (CRUD)
+    Route::get('/produk', [ProdukController::class, 'index'])->name('admin.produk.index');      // Menampilkan daftar produk
+    Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');   // Form tambah produk
+    Route::post('/produk/store', [ProdukController::class, 'store'])->name('produk.store');     // Simpan produk
+
+    Route::get('/produk/{id}/edit', [ProdukController::class, 'edit'])->name('produk.edit');    // Form edit produk
+    Route::put('/produk/{id}/update', [ProdukController::class, 'update'])->name('produk.update'); // Update produk
+    Route::delete('/produk/{id}/delete', [ProdukController::class, 'destroy'])->name('produk.destroy'); // Hapus produk
+});
 
 
 # PEMBELI #
@@ -54,6 +81,4 @@ Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
 
 // Halaman Produk Detail
 Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.detail');
-
-Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
 
