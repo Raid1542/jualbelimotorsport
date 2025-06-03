@@ -1,40 +1,33 @@
 @extends('layouts.detail')
 
 @section('content')
-<section class="py-16 bg-gradient-to-b from-yellow-50 to-white min-h-screen">
-  <div class="max-w-6xl mx-auto px-6">
-
-    <!-- Header dengan tombol kembali -->
-    <div class="mb-8">
-      <a href="{{ route('produk') }}" class="flex items-center text-yellow-600 hover:text-yellow-700 font-semibold text-lg">
-      </a>
+<section class="py-16 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
+    
+    <!-- Gambar Produk -->
+    <div>
+      <img src="{{ $produk->gambar ? asset('storage/' . $produk->gambar) : 'https://source.unsplash.com/600x400/?motorcycle' }}"
+     alt="{{ $produk->nama }}" class="w-full h-auto rounded-lg shadow-md">
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white rounded-3xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+    <!-- Detail Produk -->
+    <div>
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">{{ $produk->nama }}</h2>
+      <p class="text-yellow-600 text-2xl font-semibold mb-6">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
 
-      <!-- Gambar Produk -->
-    <div class="h-[500px] lg:h-[600px]">
-     <img src="{{ $produk['gambar'] }}" alt="{{ $produk['nama'] }}" class="w-full h-full object-cover rounded-l-3xl">
-    </div>
+      <p class="text-gray-700 mb-6">{{ $produk->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
 
+      <ul class="mb-6 space-y-2 text-sm text-gray-600">
+        <li><strong>Stok:</strong> {{ $produk->stok }}</li>
+        <li><strong>Warna:</strong> {{ $produk->warna }}</li>
+        <li><strong>Kategori:</strong> {{ $produk->kategori }}</li>
+      </ul>
 
-      <!-- Deskripsi Produk -->
-      <div class="p-8 space-y-6">
-        <h1 class="text-4xl font-bold text-gray-800">{{ $produk['nama'] }}</h1>
-        <p class="text-2xl text-yellow-600 font-semibold">Rp{{ number_format($produk['harga'], 0, ',', '.') }}</p>
-        <p class="text-gray-600 leading-relaxed">{{ $produk['deskripsi'] }}</p>
+      <div class="flex gap-4">
+  <a href="{{ route('keranjang.tambah', $produk->id) }}" class="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition">Tambah ke Keranjang</a>
+  <a href="{{ route('checkout', $produk->id) }}" class="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition">Beli Sekarang</a>
+</div>
 
-        <!-- Tombol Aksi -->
-        <div class="flex gap-4 pt-4">
-          <button class="inline-block px-6 py-3 border border-yellow-500 text-yellow-600 font-semibold rounded-xl hover:bg-yellow-500 hover:text-white transition-all duration-300">
-            Tambah ke Keranjang
-          </button>
-
-          <button class="inline-block px-6 py-3 bg-yellow-500 text-white font-semibold rounded-xl hover:bg-yellow-600 shadow-lg transition-all duration-300">
-            Beli Sekarang
-          </button>
-        </div>
-      </div>
 
     </div>
   </div>

@@ -27,11 +27,9 @@
     
     <!-- Kanan: Ikon Home + Keranjang -->
     <nav class="flex items-center space-x-6 text-white">
-      <!-- Home Icon -->
+     <!-- Home Icon (modern) -->
       <a href="/" class="hover:text-yellow-800 transition-transform transform hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10.707 1.707a1 1 0 00-1.414 0l-8 8A1 1 0 002 11h1v6a1 1 0 001 1h4a1 1 0 001-1v-4h2v4a1 1 0 001 1h4a1 1 0 001-1v-6h1a1 1 0 00.707-1.707l-8-8z" />
-        </svg>
+        <i class="fas fa-house-chimney text-2xl"></i>
       </a>
 
       <!-- Cart Icon -->

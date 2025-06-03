@@ -15,28 +15,17 @@ class LoginController extends Controller
 
    public function login(Request $request)
 {
-    $credentials = $request->validate([
-        'username' => ['required', 'string'],
-        'password' => ['required', 'string'],
-    ]);
+    $credentials = $request->only('username', 'password');
 
     if (Auth::attempt($credentials)) {
-        if (Auth::check()) {
-        // User berhasil login
         $request->session()->regenerate();
-        return redirect()->intended('/dashboard');
+        return redirect('/dashboard')->with('message', 'Login berhasil!');
     }
-}
 
     return back()->withErrors([
-        'username' => 'Username atau password salah.',
-    ])->onlyInput('username');
+        'username' => 'Username atau password salah',
+    ]);
 }
-
-    protected function authenticated(Request $request, $user)
-    {
-        return redirect()->route('dashboard');
-    }
 
     public function logout(Request $request)
     {
@@ -44,5 +33,10 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');
+    }
+
+    public function username()
+    {
+        return 'username';
     }
 }

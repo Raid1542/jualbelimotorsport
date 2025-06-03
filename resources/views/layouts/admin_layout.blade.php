@@ -7,32 +7,32 @@
   <title>@yield('title', 'Speedzone Admin')</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-yellow-300 font-sans">
+<body class="bg-gray-200 text-yellow-300 font-sans">
 
   <div class="flex h-screen flex-col">
 
-    <!-- Navbar -->
-    <nav class="bg-gradient-to-r from-yellow-400 to-yellow-600 shadow-md py-4 px-6 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <img src="{{ asset('images/LogoSpeedzone.jpg') }}" alt="Logo" class="h-14 w-14 rounded-full object-cover">
-        <span class="text-2xl font-bold tracking-wide text-white">SpeedZone</span>
-      </div>
-      <div class="absolute left-1/2 transform -translate-x-1/2">
-        <span class="text-2xl font-bold tracking-wide text-white">@yield('judul_halaman', 'Dashboard Penjual')</span>
-      </div>
-    </nav>
+   <!-- Navbar -->
+<nav class="bg-gradient-to-r from-yellow-400 to-yellow-600 shadow-md py-4 px-6 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <!-- Logo Bulat Lebih Besar -->
+    <img src="{{ asset('images/speedzone.jpg') }}" alt="logo" class="w-16 h-16 rounded-full object-cover" />
+  </div>
+  <div class="absolute left-1/2 transform -translate-x-1/2">
+    <span class="text-2xl font-bold tracking-wide text-white">@yield('judul_halaman', 'Dashboard Penjual')</span>
+  </div>
+</nav>
 
     <div class="flex flex-1">
 
       <!-- SIDEBAR -->
-      <aside class="bg-gray-800 w-64 p-4">
-        <div class="text-yellow-300 text-lg font-semibold mb-8">Menu</div>
+      <aside class="bg-[#ffffff]  w-64 p-4">
+        <div class="text-gray-900 text-lg font-semibold mb-8">Menu</div>
         <ul class="space-y-4">
-          <li><a href="/admin/dashboard" class="block text-white hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Dashboard</a></li>
-          <li><a href="/admin/produk" class="block text-white hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Produk</a></li>
-          <li><a href="/admin/konfirmasi_pembayaran" class="block text-white hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Pesanan</a></li>
-          <li><a href="/admin/rekap-penjualan" class="block text-white hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Rekap Penjualan</a></li>
-          <li><a href="/logout" class="block text-red-500 hover:bg-red-700 hover:text-white px-4 py-2 rounded-lg">Logout</a></li>
+          <li><a href="/admin/dashboard" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Dashboard</a></li>
+          <li><a href="/admin/produk" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Produk</a></li>
+          <li><a href="/admin/konfirmasi_pembayaran" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Pesanan</a></li>
+          <li><a href="/admin/rekap-penjualan" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Rekap Penjualan</a></li>
+          <li><a href="/logout" class="block text-red-500 hover:bg-red-700 hover:text-gray-800 px-4 py-2 rounded-lg">Logout</a></li>
         </ul>
       </aside>
 

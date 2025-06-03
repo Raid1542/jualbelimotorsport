@@ -3,7 +3,7 @@
 @section('content')
 {{-- Hero Section --}}
 <section class="h-screen bg-cover bg-center bg-no-repeat relative" 
-  style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/iklan2.png');">
+  style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur1.png');">
 
   <div class="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
     <div class="grid md:grid-cols-2 gap-12 items-center animate-fade-in-up">
@@ -83,7 +83,7 @@
 {{-- Features Section --}}
 <section class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
-    <h2 class="text-4xl font-extrabold text-gray-800 mb-8">Mengapa Memilih SpeedZone?</h2>
+    <h2 class="text-4xl font-extrabold text-gray-800 mb-8">Mengapa Memilih Speedzone?</h2>
     <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
       <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-yellow-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

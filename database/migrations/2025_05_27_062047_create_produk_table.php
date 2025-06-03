@@ -10,7 +10,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('produk', function (Blueprint $table) {
-            $table->id();
+           $table->bigIncrements('id'); // di migration produk
             $table->string('nama');
             $table->string('gambar')->nullable();
             $table->text('deskripsi')->nullable();
