@@ -29,15 +29,20 @@ Route::view('/welcome', 'welcome');
 | Rute Autentikasi
 |--------------------------------------------------------------------------
 */
+
+
 // Login
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Register
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardPembeliController::class, 'index'])->name('dashboard');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -48,30 +53,25 @@ Route::post('/register', [RegisterController::class, 'register']);
 // Produk
     Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
     Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
-    Route::get('/produk/kategori/{id}', [ProdukController::class, 'kategori'])->name('');
+ 
+     // ✅ Route yang butuh login
+Route::middleware(['auth'])->group(function () {
 
-     // Keranjang
+    // 🔒 Profil (butuh login)
+    Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
+    Route::get('/edit_profil', [ProfilController::class, 'edit'])->name('profil.edit');
+    Route::post('/update_profil', [ProfilController::class, 'update'])->name('profil.update');
+
+    // 🔒 Keranjang (butuh login)
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
     Route::get('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
     Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
 
-Route::middleware('auth')->group(function () {
-    // Dashboard Pembeli
-    Route::get('/dashboard', [DashboardPembeliController::class, 'index'])->name('dashboard');
-
-    // Profil
-    Route::get('/profil', [ProfilController::class, 'profil'])->name('profil');
-    Route::get('/edit_profil', [EditProfilController::class, 'edit_profil'])->name('edit_profil');
-
-    // Keranjang
-    //Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
-    //Route::get('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
-    //Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
-
-    // Checkout
+    // 🔒 Checkout (butuh login)
     Route::get('/checkout/{id}', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/proses', [CheckoutController::class, 'proses'])->name('checkout.proses');
 });
+
 
 
 /*
