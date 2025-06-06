@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 
-class ProdukController extends Controller
+class AdminProdukController extends Controller
 {
     public function index()
     {
@@ -18,7 +18,7 @@ class ProdukController extends Controller
     {
         return view('pages.admin.crud', [
             'produk' => null,
-            'form_action' => route('produk.store'),
+            'form_action' => route('admin.produk.store'),
             'form_method' => 'POST',
             'button_label' => 'Simpan Produk'
         ]);
@@ -53,7 +53,7 @@ class ProdukController extends Controller
         $produk = Produk::findOrFail($id);
         return view('pages.admin.crud', [
             'produk' => $produk,
-            'form_action' => route('produk.update', $produk->id),
+            'form_action' => route('admin.produk.update', $produk->id),
             'form_method' => 'PUT',
             'button_label' => 'Update Produk'
         ]);
