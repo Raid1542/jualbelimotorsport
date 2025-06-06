@@ -12,7 +12,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\DashboardPembeliController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
-use App\Http\Controllers\Admin\ProdukController as AdminProdukController;
+use App\Http\Controllers\Admin\AdminProdukController;
 use App\Http\Controllers\CheckoutController;
 
 
@@ -21,6 +21,7 @@ use App\Http\Controllers\CheckoutController;
 | Rute Umum (Bisa Diakses Semua)
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/welcome', 'welcome');
 
@@ -51,10 +52,10 @@ Route::middleware(['auth'])->group(function () {
 */
 
 // Produk
-    Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
-    Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
- 
-     // ✅ Route yang butuh login
+Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
+Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
+
+// ✅ Route yang butuh login
 Route::middleware(['auth'])->group(function () {
 
     // 🔒 Profil (butuh login)
@@ -98,5 +99,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/produk/{id}/update', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 });
-
-
