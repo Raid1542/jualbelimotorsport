@@ -1,3 +1,4 @@
+<!-- views/pages/admin/rekap-penjualan.blade.php -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
