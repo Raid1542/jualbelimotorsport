@@ -7,13 +7,13 @@
 
 @section('konten')
     <div class="max-w-7xl mx-auto py-16 px-6">
-        <h2 class="text-2xl font-bold text-yellow-400 mb-8 text-center">Daftar Pembayaran Menunggu Konfirmasi</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">Daftar Pembayaran Menunggu Konfirmasi</h2>
 
-        <div class="overflow-x-auto bg-gray-800 shadow-xl rounded-xl p-4">
-            <table class="min-w-full table-auto text-sm text-yellow-300">
+        <div class="overflow-x-auto bg-white shadow-xl rounded-xl p-4">
+            <table class="min-w-full table-auto text-sm text-gray-800">
                 <thead class="bg-yellow-600 text-gray-900 uppercase text-left">
                     <tr>
-                        <th class="px-6 py-3">Nama</th>
+                        <th class="px-6 py-3">Nama</th> 
                         <th class="px-6 py-3">Bank</th>
                         <th class="px-6 py-3">Telepon</th>
                         <th class="px-6 py-3">Alamat</th>
@@ -29,7 +29,7 @@
                         <td class="px-6 py-4">{{ $p['bank'] }}</td>
                         <td class="px-6 py-4">{{ $p['telepon'] }}</td>
                         <td class="px-6 py-4">{{ $p['alamat'] }}</td>
-                        <td class="px-6 py-4 font-semibold text-yellow-400">Rp {{ number_format($p['total'], 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 font-semibold text-gray-800">Rp {{ number_format($p['total'], 0, ',', '.') }}</td>
                         <td class="px-6 py-4">
                             <span class="px-2 py-1 bg-red-200 text-red-700 text-xs font-semibold rounded-full">{{ $p['status'] }}</span>
                         </td>

@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.profil_layout')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profil | SpeedZone</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+@section('title', 'Profil | Speedzone')
 
-<body class="bg-gray-100 text-yellow-500 font-sans">
-
-    <!-- Navbar -->
-    <header class="bg-yellow-400 p-6 relative flex items-center justify-center">
-        <!-- Tombol kembali di kiri -->
-        <a href="javascript:history.back()" class="absolute left-6 text-3xl font-semibold text-white hover:text-yellow-200">&larr;</a>
-        <h1 class="text-2xl md:text-3xl font-bold text-white">Profil Saya</h1>
-    </header>
-
+@section('content')
+@include('components.navbar_profil')   
     <!-- Konten Profil -->
     <main class="max-w-4xl mx-auto py-10 px-6">
         <!-- Foto Profil & Nama -->
@@ -43,12 +30,6 @@
                     <li><strong>Alamat:</strong> Jl. Contoh Alamat No. 123, Jakarta</li>
                 </ul>
             </div>
-
-            <!-- Foto KTP -->
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-xl font-semibold mb-4 text-black">Foto KTP</h3>
-                <img src="https://via.placeholder.com/300x200" alt="Foto KTP" class="w-full h-auto object-cover rounded-md border-2 border-yellow-400">
-            </div>
         </div>
 
         <!-- Pengaturan Akun -->
@@ -67,7 +48,4 @@
             </div>
         </div>
     </main>
-
-</body>
-
-</html>
+@endsection

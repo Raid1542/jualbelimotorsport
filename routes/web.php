@@ -1,47 +1,102 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EditProfilController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\DashboardPembeliController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
+use App\Http\Controllers\Admin\ProdukController as AdminProdukController;
+use App\Http\Controllers\CheckoutController;
 
-Route::get('/', function () {
-    return view('welcome');
+
+/*
+|--------------------------------------------------------------------------
+| Rute Umum (Bisa Diakses Semua)
+|--------------------------------------------------------------------------
+*/
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::view('/welcome', 'welcome');
+
+/*
+|--------------------------------------------------------------------------
+| Rute Autentikasi
+|--------------------------------------------------------------------------
+*/
+// Login
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Register
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Rute Pembeli (Harus Login)
+|--------------------------------------------------------------------------
+*/
+
+// Produk
+    Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
+    Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
+    Route::get('/produk/kategori/{id}', [ProdukController::class, 'kategori'])->name('');
+
+     // Keranjang
+    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
+    Route::get('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
+    Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
+
+Route::middleware('auth')->group(function () {
+    // Dashboard Pembeli
+    Route::get('/dashboard', [DashboardPembeliController::class, 'index'])->name('dashboard');
+
+    // Profil
+    Route::get('/profil', [ProfilController::class, 'profil'])->name('profil');
+    Route::get('/edit_profil', [EditProfilController::class, 'edit_profil'])->name('edit_profil');
+
+    // Keranjang
+    //Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
+    //Route::get('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
+    //Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
+
+    // Checkout
+    Route::get('/checkout/{id}', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/checkout/proses', [CheckoutController::class, 'proses'])->name('checkout.proses');
 });
 
-# AUTENTIKASI #
 
-
-
-# ADMIN #
-Route::prefix('admin')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| Rute Admin (Prefix: /admin)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Riwayat transaksi
-    Route::view('/riwayat-transaksi', 'admin.riwayat-transaksi')->name('admin.riwayat-transaksi');
+    // Riwayat transaksi & Rekap penjualan (hanya view)
+    Route::view('/riwayat-transaksi', 'admin.riwayat-transaksi')->name('riwayat-transaksi');
+    Route::view('/rekap-penjualan', 'pages.admin.rekap-penjualan')->name('rekap-penjualan');
 
-    // Rekap penjualan
-    Route::view('/rekap-penjualan', 'pages.admin.rekap-penjualan')->name('admin.rekap-penjualan');
-
-    // Konfirmasi pembayaran
-    Route::get('/konfirmasi_pembayaran', [KonfirmasiPembayaranController::class, 'index'])->name('admin.konfirmasi.index');
+    // Konfirmasi Pembayaran
+    Route::get('/konfirmasi_pembayaran', [KonfirmasiPembayaranController::class, 'index'])->name('konfirmasi.index');
 
     // Produk (CRUD)
-    Route::get('/produk', [ProdukController::class, 'index'])->name('admin.produk.index');      // Menampilkan daftar produk
-    Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');   // Form tambah produk
-    Route::post('/produk/store', [ProdukController::class, 'store'])->name('produk.store');     // Simpan produk
-
-    Route::get('/produk/{id}/edit', [ProdukController::class, 'edit'])->name('produk.edit');    // Form edit produk
-    Route::put('/produk/{id}/update', [ProdukController::class, 'update'])->name('produk.update'); // Update produk
-    Route::delete('/produk/{id}/delete', [ProdukController::class, 'destroy'])->name('produk.destroy'); // Hapus produk
+    Route::get('/produk', [AdminProdukController::class, 'index'])->name('produk.index');
+    Route::get('/produk/create', [AdminProdukController::class, 'create'])->name('produk.create');
+    Route::post('/produk/store', [AdminProdukController::class, 'store'])->name('produk.store');
+    Route::get('/produk/{id}/edit', [AdminProdukController::class, 'edit'])->name('produk.edit');
+    Route::put('/produk/{id}/update', [AdminProdukController::class, 'update'])->name('produk.update');
+    Route::delete('/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 });
 
-# PEMBELI #
 
-Route::get('/edit_profil', [EditProfilController::class, 'edit_profil'])->name('edit_profil');
-Route::get('/profil', [ProfilController::class, 'profil'])->name('profil');
-Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
