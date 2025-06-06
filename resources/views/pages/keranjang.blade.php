@@ -8,7 +8,7 @@
 
     @if($keranjang->isEmpty())
         <div class="bg-white p-6 rounded shadow text-center">
-            <p class="text-gray-600 text-lg">Keranjang kamu masih kosong 😢</p>
+            <p class="text-gray-600 text-lg">Keranjang kamu masih kosong</p>
             <a href="{{ route('produk') }}" class="mt-4 inline-block bg-yellow-500 text-white px-5 py-2 rounded hover:bg-yellow-600 transition">Belanja Sekarang</a>
         </div>
     @else

@@ -5,20 +5,18 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void
-    {
-       Schema::create('users', function (Blueprint $table) {
-    $table->id();
-    $table->string('name');
-    $table->string('username')->unique(); // tambahkan ini
-    $table->string('email')->unique()->nullable(); // boleh nullable jika tidak selalu diisi
-    $table->timestamp('email_verified_at')->nullable();
-    $table->string('password');
-    $table->rememberToken();
-    $table->timestamps();
-});
 
-    }
+   public function up()
+{
+    Schema::create('users', function (Blueprint $table) {
+        $table->id();
+        $table->string('name'); // <- pastikan ini ada
+        $table->string('username')->unique();
+        $table->string('email')->nullable()->unique();
+        $table->string('password');
+        $table->timestamps();
+    });
+}
 
     public function down(): void
     {

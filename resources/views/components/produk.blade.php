@@ -7,7 +7,7 @@
     </div>
     
     <!-- Search Bar -->
-    <form action="#" method="GET" class="relative max-w-sm flex-grow mx-6">
+    <form action="{{ route('produk') }}" method="GET" class="relative max-w-sm flex-grow mx-6">
       <!-- Ikon Search -->
       <svg xmlns="http://www.w3.org/2000/svg"
            class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-500"
@@ -21,13 +21,15 @@
         type="text" 
         name="keyword" 
         placeholder="Cari motor impianmu..." 
+        value="{{ request('keyword') }}" 
         class="w-full pl-10 pr-4 py-2 rounded-full shadow-inner focus:outline-none focus:ring-2 focus:ring-yellow-500 text-gray-700"
+        id="searchInput"
       />
     </form>
-    
+
     <!-- Kanan: Ikon Home + Keranjang -->
     <nav class="flex items-center space-x-6 text-white">
-     <!-- Home Icon (modern) -->
+      <!-- Home Icon -->
       <a href="/" class="hover:text-yellow-800 transition-transform transform hover:scale-110">
         <i class="fas fa-house-chimney text-2xl"></i>
       </a>
@@ -40,3 +42,15 @@
 
   </div>
 </header>
+
+<!-- Auto clear search -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function () {
+      if (this.value.trim() === '') {
+        window.location.href = "{{ route('produk') }}";
+      }
+    });
+  });
+</script>
