@@ -8,29 +8,28 @@ use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
-   public function index(Request $request)
+  public function index(Request $request)
 {
     $query = Produk::query();
 
+    $keyword = ''; // Definisikan default
+
     // Ambil keyword dari input
-  if ($request->filled('keyword')) {
-    $keyword = $request->keyword;
-    $keywords = preg_split('/\s+/', $keyword); // pisahkan berdasarkan spasi
+    if ($request->filled('keyword')) {
+        $keyword = $request->keyword;
+        $keywords = preg_split('/\s+/', $keyword);
 
-    $query->where(function ($q) use ($keywords) {
-        foreach ($keywords as $word) {
-            $q->where(function($subQ) use ($word) {
-                $subQ->orWhere('nama', 'like', "%$word%")
-                     ->orWhere('kategori', 'like', "%$word%")
-                     ->orWhere('warna', 'like', "%$word%")
-                     ->orWhere('deskripsi', 'like', "%$word%");
-            });
-        }
-    });
-}
-
-
-
+        $query->where(function ($q) use ($keywords) {
+            foreach ($keywords as $word) {
+                $q->where(function ($subQ) use ($word) {
+                    $subQ->orWhere('nama', 'like', "%$word%")
+                         ->orWhere('kategori', 'like', "%$word%")
+                         ->orWhere('warna', 'like', "%$word%")
+                         ->orWhere('deskripsi', 'like', "%$word%");
+                });
+            }
+        });
+    }
 
     // Filter harga
     if ($request->filled('harga_min')) {
@@ -48,12 +47,17 @@ class ProdukController extends Controller
 
     $produks = $query->get();
 
-       return view('pages.produk', ['produks' => $produks, 'keyword' => $keyword]);
+    // ✅ Pastikan keyword selalu dikirim, kosong jika tidak ada input
+    return view('pages.produk', [
+        'produks' => $produks,
+        'keyword' => $keyword,
+    ]);
 }
+
 
     // File: app/Http/Controllers/ProdukController.php
 
-public function detail($id)
+public function show($id)
 {
     $produk = Produk::findOrFail($id);
     return view('pages.detail', compact('produk'));
