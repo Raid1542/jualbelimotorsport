@@ -12,10 +12,12 @@ class Produk extends Model
         'nama',
         'deskripsi',
         'harga',
-        'merek',
-        'id_kategori',
-        'gambar'
+        'gambar',
+        'stok',         // <--- TAMBAH INI
+        'warna',        // <--- TAMBAH INI
+        'kategori',     // <--- TAMBAH INI
     ];
+
 
     // Relasi ke kategori
     public function kategori()
