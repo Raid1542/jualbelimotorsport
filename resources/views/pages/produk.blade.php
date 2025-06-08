@@ -58,8 +58,9 @@
       @else
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           @foreach ($produks->take(30) as $produk)
-          <a href="{{ route('produk.detail', $produk->id) }}" class="block bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1">
-            <img src="{{ asset($produk->gambar) }}" class="w-full h-52 object-cover rounded-t-xl" alt="{{ $produk->nama }}">
+          <a href="{{ route('produk.show', $produk->id) }}" class="block bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1">
+            {{-- ✅ Hanya satu gambar yang benar --}}
+            <img src="{{ asset('images/' . $produk->gambar) }}" class="w-full h-52 object-cover rounded-t-xl" alt="{{ $produk->nama }}">
             <div class="p-5">
               <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $produk->nama }}</h3>
               <p class="text-yellow-600 font-bold text-lg mb-2">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>

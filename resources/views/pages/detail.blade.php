@@ -3,11 +3,14 @@
 @section('content')
 <section class="py-16 bg-gray-50">
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
-    
+
     <!-- Gambar Produk -->
     <div>
-      <img src="{{ $produk->gambar ? asset('storage/' . $produk->gambar) : 'https://source.unsplash.com/600x400/?motorcycle' }}"
-     alt="{{ $produk->nama }}" class="w-full h-auto rounded-lg shadow-md">
+      <img
+        src="{{ $produk->gambar ? asset('images/' . $produk->gambar) : 'https://source.unsplash.com/600x400/?motorcycle' }}"
+        alt="{{ $produk->nama }}"
+        class="w-full h-auto max-h-[500px] object-cover rounded-lg shadow-md"
+      >
     </div>
 
     <!-- Detail Produk -->
@@ -24,12 +27,11 @@
       </ul>
 
       <div class="flex gap-4">
-  <a href="{{ route('keranjang.tambah', $produk->id) }}" class="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition">Tambah ke Keranjang</a>
-  <a href="{{ route('checkout', $produk->id) }}" class="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition">Beli Sekarang</a>
-</div>
-
-
+        <a href="{{ route('keranjang.tambah', $produk->id) }}" class="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition">Tambah ke Keranjang</a>
+        <a href="{{ route('checkout', $produk->id) }}" class="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition">Beli Sekarang</a>
+      </div>
     </div>
+
   </div>
 </section>
 @endsection

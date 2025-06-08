@@ -18,6 +18,7 @@ class Produk extends Model
         'gambar'
     ];
 
+
     // Relasi ke kategori
     public function kategori()
     {
