@@ -74,8 +74,8 @@
       @forelse ($produk as $item)
         <a href="{{ route('produk.show', $item->id) }}">
           <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-transform transform hover:-translate-y-2 hover:scale-105 cursor-pointer">
-            <img src="{{ asset($item->gambar) }}" class="w-full h-60 object-cover" alt="{{ $item->nama }}">
-            <div class="p-6">
+           <img src="{{ asset('images/' . $item->gambar) }}" class="w-full h-52 object-cover rounded-t-xl" alt="{{ $item->nama }}">
+            <div class="p-4">
               <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ $item->nama }}</h3>
               <p class="text-xl text-yellow-600 font-bold">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
             </div>
