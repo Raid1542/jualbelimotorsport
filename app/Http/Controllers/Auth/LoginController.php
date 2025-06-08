@@ -8,35 +8,45 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index()
+    public function showLogin()
     {
         return view('auth.login');
     }
 
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
-            'username' => ['required'],
+            'email' => ['required','email'],
             'password' => ['required'],
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+
+            $user = Auth::user();
+
+            // Redirect sesuai role
+            if ($user->role === 'admin') {
+                return redirect()->intended('/admin/dashboard');
+            } elseif ($user->role === 'user') {
+                return redirect()->intended('/home1');
+            }
+
+            // Default redirect
+            return redirect('/');
         }
 
         return back()->withErrors([
-            'login' => 'Username atau password salah!',
+            'email' => 'Login failed. Please check your credentials.',
         ]);
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }
