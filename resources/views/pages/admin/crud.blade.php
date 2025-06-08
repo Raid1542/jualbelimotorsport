@@ -77,6 +77,7 @@
             <!-- Warna -->
             <div>
                 <label class="block font-medium text-gray-700">Warna</label>
+                <input type="text" name="warna" value="{{ old('warna', $produk->warna ?? '') }}" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
                 <select name="warna" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800">
                     @foreach(['Merah', 'Biru', 'Hitam', 'Putih', 'Kuning', 'Hijau'] as $warna)
                         <option value="{{ $warna }}"
@@ -91,6 +92,8 @@
             <div>
                 <label class="block font-medium text-gray-700">Kategori</label>
                 <select name="kategori" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800">
+                    @foreach(['Motor sport', 'Motor', 'Mobil'] as $kategori)
+                        <option value="{{ $kategori }}" {{ old('kategori', $produk->kategori ?? '') == $kategori ? 'selected' : '' }}>
                     @foreach(['Honda', 'Kawasaki', 'Ducati', 'Yamaha'] as $kategori)
                         <option value="{{ $kategori }}"
                             {{ old('kategori', $produk->kategori ?? '') == $kategori ? 'selected' : '' }}>

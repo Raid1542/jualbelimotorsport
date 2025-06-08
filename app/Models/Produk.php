@@ -12,10 +12,10 @@ class Produk extends Model
         'nama',
         'deskripsi',
         'harga',
-        'gambar',
-        'stok',         // <--- TAMBAH INI
-        'warna',        // <--- TAMBAH INI
-        'kategori',     // <--- TAMBAH INI
+        'stok',
+        'warna',
+        'kategori',
+        'gambar'
     ];
 
 
