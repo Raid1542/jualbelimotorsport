@@ -77,17 +77,27 @@
             <!-- Warna -->
             <div>
                 <label class="block font-medium text-gray-700">Warna</label>
-                <input type="text" name="warna" value="{{ old('warna', $produk->warna ?? '') }}"
-                    placeholder="Masukkan warna produk"
-                    class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
+                <select name="warna" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800">
+                    @foreach(['Merah', 'Biru', 'Hitam', 'Putih', 'Kuning', 'Hijau'] as $warna)
+                        <option value="{{ $warna }}"
+                            {{ old('warna', $produk->warna ?? '') == $warna ? 'selected' : '' }}>
+                            {{ $warna }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Kategori -->
             <div>
                 <label class="block font-medium text-gray-700">Kategori</label>
-                <input type="text" name="kategori" value="{{ old('kategori', $produk->kategori ?? '') }}"
-                    placeholder="Masukkan kategori produk"
-                    class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
+                <select name="kategori" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800">
+                    @foreach(['Honda', 'Kawasaki', 'Ducati', 'Yamaha'] as $kategori)
+                        <option value="{{ $kategori }}"
+                            {{ old('kategori', $produk->kategori ?? '') == $kategori ? 'selected' : '' }}>
+                            {{ $kategori }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Tombol Submit -->

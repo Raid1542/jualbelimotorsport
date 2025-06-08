@@ -13,9 +13,9 @@ class Produk extends Model
         'deskripsi',
         'harga',
         'gambar',
-        'stok',
-        'warna',
-        'kategori',  // foreign key kategori
+        'stok',         // <--- TAMBAH INI
+        'warna',        // <--- TAMBAH INI
+        'kategori',     // <--- TAMBAH INI
     ];
 
     // Relasi ke kategori

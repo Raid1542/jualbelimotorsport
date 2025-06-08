@@ -10,6 +10,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\DashboardPembeliController;
+use App\Http\Controllers\RingkasanPembelianController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\AdminProdukController;
@@ -55,14 +56,18 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
 Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.show');
 
+// Ringkasan Pembelian 
+    Route::get('/ringkasan_pembelian', [RingkasanPembelianController::class, 'ringkasan'])->name('ringkasan_pembelian');
+
 // ✅ Route yang butuh login
 Route::middleware(['auth'])->group(function () {
 
     // 🔒 Profil (butuh login)
-    Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
+    Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::get('/edit_profil', [ProfilController::class, 'edit'])->name('profil.edit');
     Route::post('/update_profil', [ProfilController::class, 'update'])->name('profil.update');
-
+    Route::get('/profil/ubah-password', [ProfilController::class, 'editPassword'])->name('profil.edit_password');
+    Route::post('/profil/ubah-password', [ProfilController::class, 'updatePassword'])->name('profil.update_password');
     // 🔒 Keranjang (butuh login)
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
     Route::get('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
@@ -71,7 +76,10 @@ Route::middleware(['auth'])->group(function () {
     // 🔒 Checkout (butuh login)
     Route::get('/checkout/{id}', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/proses', [CheckoutController::class, 'proses'])->name('checkout.proses');
+
+    
 });
+
 
 
 
