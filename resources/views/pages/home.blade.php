@@ -35,7 +35,7 @@
           Temukan motor impianmu di SpeedZone! Berbagai pilihan motor sport premium dengan harga terbaik dan proses transaksi yang mudah & aman.
         </p>
         <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-          <a href="#product" class="bg-yellow-500 text-white font-bold px-8 py-4 rounded-full hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:scale-110">
+          <a href="{{ route('home') }}" class="bg-yellow-500 text-white font-bold px-8 py-4 rounded-full hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:scale-110">
             Lihat Produk
           </a>
         </div>
@@ -55,7 +55,8 @@
     <div class="text-center mb-14">
       <h2 class="text-4xl font-extrabold text-gray-800">
         @if(request('keyword'))
-          Hasil Pencarian: "{{ request('keyword') }}"
+          Hasil Pencarian: 
+          <span class="text-yellow-500">"{{ request('keyword') }}"</span>
         @else
           Pilihan Produk Unggulan
         @endif
@@ -73,21 +74,86 @@
       @forelse ($produk as $item)
         <a href="{{ route('produk.show', $item->id) }}">
           <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-transform transform hover:-translate-y-2 hover:scale-105 cursor-pointer">
-            <img 
-              src="{{ $item->gambar ? asset('images/' . $item->gambar) : 'https://source.unsplash.com/400x300/?motorcycle' }}"
-              class="w-full h-60 object-cover"
-              alt="{{ $item->nama }}"
-            >
-            <div class="p-6">
+           <img src="{{ asset('images/' . $item->gambar) }}" class="w-full h-52 object-cover rounded-t-xl" alt="{{ $item->nama }}">
+            <div class="p-4">
               <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ $item->nama }}</h3>
               <p class="text-xl text-yellow-600 font-bold">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
             </div>
           </div>
         </a>
       @empty
-        <p class="text-gray-600 text-center col-span-3">Produk tidak ditemukan.</p>
+        <div class="col-span-full text-center">
+          <p class="text-gray-600 text-lg">Produk tidak ditemukan.</p>
+        </div>
       @endforelse
     </div>
   </div>
 </section>
+
+{{-- Keunggulan Section --}}
+<section class="bg-white py-16">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-extrabold text-gray-800">Kenapa Memilih SpeedZone?</h2>
+      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">Kami memberikan pengalaman berbelanja yang tidak hanya mudah, tapi juga terpercaya dan profesional.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="mx-auto mb-4 w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Jaminan Keaslian</h3>
+        <p class="text-gray-600">Setiap produk dijamin 100% asli.</p>
+      </div>
+      <div class="text-center">
+        <div class="mx-auto mb-4 w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M3 10h11l1-2h6v10h-6l-1-2H3z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Pengiriman Cepat</h3>
+        <p class="text-gray-600">Proses pengiriman cepat, aman dan terpercaya.</p>
+      </div>
+      <div class="text-center">
+        <div class="mx-auto mb-4 w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 8v4l3 3" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Proses Mudah</h3>
+        <p class="text-gray-600">Pembayaran fleksibel, aman, dan mudah dilakukan kapan saja.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.querySelector('input[name="keyword"]');
+    const searchForm = searchInput?.closest('form');
+
+    if (searchInput && searchForm) {
+      let timer;
+      searchInput.addEventListener('input', function () {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          if (searchInput.value.trim() === '') {
+            // Tambahkan efek fade out ke body sebelum redirect
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+              window.location.href = "{{ route('home') }}";
+            }, 500); // waktu transisi sama dengan CSS (0.5s)
+          }
+        }, 500);
+      });
+    }
+  });
+</script>
+
+ 
+
+
 @endsection

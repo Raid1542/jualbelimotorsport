@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\AdminProdukController;
 use App\Http\Controllers\CheckoutController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Rute Umum (Bisa Diakses Semua)
@@ -106,3 +107,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/produk/{id}/update', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 });
+
