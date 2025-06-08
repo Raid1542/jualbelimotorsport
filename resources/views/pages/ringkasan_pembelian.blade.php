@@ -80,16 +80,6 @@
                 <!-- Transfer Dana -->
                 <div id="transfer-section" class="space-y-2">
                     <div>
-                        <label class="block font-medium mb-1">Nomor Dana</label>
-                        <input type="text" value="0812-3456-7890" readonly
-                            class="w-full border-2 border-yellow-300 text-black rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-                    </div>
-                    <div>
-                        <label class="block font-medium mb-1">Nama Penerima</label>
-                        <input type="text" value="Toko Miniatur Motor" readonly
-                            class="w-full border-2 border-yellow-300 text-black rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-                    </div>
-                    <div>
                         <label class="block font-medium mb-1">Catatan</label>
                         <textarea class="w-full text-black rounded px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
                             placeholder="Isi catatan jika ada..." rows="2"></textarea>
