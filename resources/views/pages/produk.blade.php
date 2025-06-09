@@ -12,7 +12,7 @@
       <div>
         <h3 class="font-semibold text-gray-700 mb-3">Kategori</h3>
         <div class="space-y-2 max-h-40 overflow-y-auto">
-          @foreach(['Motor Sport', 'Motor Biasa', 'Mobil'] as $kategori)
+          @foreach(['Motor Sport', 'Motor', 'Mobil'] as $kategori)
           <label class="flex items-center space-x-3 cursor-pointer hover:bg-yellow-50 rounded-md p-2 transition">
             <input
               type="checkbox"
