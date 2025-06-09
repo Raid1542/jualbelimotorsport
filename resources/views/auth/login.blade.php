@@ -24,20 +24,12 @@
     @endif
 
     <form method="POST" action="{{ route('login') }}">
-      @csrf
-      <div class="mb-4">
-        <input type="text" name="username" placeholder="Username" required autofocus
-          class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-      </div>
-      <div class="mb-4">
-        <input type="password" name="password" placeholder="Password" required
-          class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-      </div>
-      <button type="submit"
-        class="w-full py-3 rounded-lg bg-[#ffbf29] text-white font-semibold hover:bg-[#f6b958] transition duration-300">
-        Masuk
-      </button>
-    </form>
+    @csrf
+    <input type="text" name="username" placeholder="Username" required autofocus>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Masuk</button>
+</form>
+
 
     <p class="text-center mt-6 text-sm">
       Belum punya akun? 
