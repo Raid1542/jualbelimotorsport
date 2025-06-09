@@ -2,101 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfilController extends Controller
 {
-   public function index()
-   {
-       // Dummy data user (belum pakai login)
-       $user = (object)[
-           'nama' => 'Frima Rizky',
-           'email' => 'frima@example.com',
-           'telepon' => '081234567890',
-           'alamat' => 'Jl. Informatika No. 10',
-           'foto' => null, // Atau 'default.jpg' jika sudah ada di storage
-       ];
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-       return view('pages.profil', compact('user'));
-   }
+    public function index()
+    {
+        $user = Auth::user();
+        return view('pages.profil', compact('user'));
+    }
 
-   // Menampilkan form edit profil
-   public function edit()
-   {
-       // Dummy data user untuk edit (bisa ambil data user asli jika sudah login)
-       $user = (object)[
-           'nama' => 'Frima Rizky',
-           'email' => 'frima@example.com',
-           'telepon' => '081234567890',
-           'alamat' => 'Jl. Informatika No. 10',
-           'foto' => null,
-       ];
+    public function edit()
+    {
+        $user = Auth::user();
+        return view('pages.edit_profil', compact('user'));
+    }
 
-       return view('pages.edit_profil', compact('user'));
-   }
+    public function update(Request $request)
+{
+    $user = Auth::user();
 
-   // Proses update profil (POST)
-   public function update(Request $request)
-   {
-       $request->validate([
-           'nama' => 'required|string|max:255',
-           'email' => 'required|email',
-           'telepon' => 'nullable|string|max:20',
-           'alamat' => 'nullable|string|max:255',
-           'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-       ]);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+        'telepon' => 'nullable|string|max:20',
+        'alamat' => 'nullable|string|max:255',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+    ]);
 
-       // Simulasi upload file (tidak disimpan benar-benar)
-       if ($request->hasFile('foto')) {
-           $fotoName = $request->file('foto')->getClientOriginalName();
-       } else {
-           $fotoName = null;
-       }
+    $user->name = $request->name;
+    $user->username = $request->username;
+    $user->telepon = $request->telepon;
+    $user->alamat = $request->alamat;
 
-       // Simpan data ke session (bukan ke database)
-       $profilBaru = [
-           'nama' => $request->nama,
-           'email' => $request->email,
-           'telepon' => $request->telepon,
-           'alamat' => $request->alamat,
-           'foto' => $fotoName
-       ];
+    if ($request->hasFile('foto')) {
+        $file = $request->file('foto');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images'), $filename);
+        $user->foto = $filename;
+    }
 
-       return redirect()->back()->with('success', 'Profil berhasil disimpan sementara. (belum terhubung ke user)')->with('profil', $profilBaru);
-   }
+    $user->save();
 
-   // Menampilkan form ubah password
-   public function editPassword()
-   {
-       return view('pages.edit_password');
-   }
+    // Redirect pakai JavaScript agar hapus riwayat edit
+    return view('pages.profil_redirect');
+}
 
-   // Proses update password
-   public function updatePassword(Request $request)
-   {
-       $request->validate([
-           'current_password' => ['required'],
-           'new_password' => ['required', 'min:8'],
-           'new_password_confirmation' => ['same:new_password'],
-       ]);
 
-       // Dummy check password karena belum pakai autentikasi asli
-       // Kalau sudah ada login, ganti dengan user dari Auth
-       $user = (object)[
-           'password' => bcrypt('passwordlama') // contoh hash password lama
-       ];
+    // Tambahan method untuk edit password
+    public function editPassword()
+    {
+        return view('pages.edit_password');  // pastikan file view ini ada
+    }
 
-       // Cek password lama - ganti dengan Hash::check jika pakai user asli
-       if (!Hash::check($request->current_password, $user->password)) {
-           return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
-       }
+    // Method untuk proses update password
+    public function updatePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:8|confirmed',
+    ]);
 
-       // Simulasi update password (belum tersambung ke database)
-       // Jika pakai user asli: 
-       // Auth::user()->update(['password' => Hash::make($request->new_password)]);
+    if (!Hash::check($request->current_password, auth()->user()->password)) {
+        return back()->withErrors(['current_password' => 'Password lama salah']);
+    }
 
-       return redirect()->route('profil')->with('success', 'Password berhasil diubah (simulasi).');
-   }
+    auth()->user()->update([
+        'password' => Hash::make($request->new_password),
+    ]);
+
+    return redirect()->route('profil')->with('status', 'Password berhasil diubah');
+}
 }
