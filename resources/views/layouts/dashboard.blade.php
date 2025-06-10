@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard - SpeedZone</title>
 
-   <!-- Tailwind CSS -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  
+</head>
 <body class="font-sans bg-gray-100 text-gray-800">
 
   {{-- Navbar khusus member --}}
   <nav class="bg-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="{{ route('dashboard') }}" class="text-2xl font-extrabold text-yellow-500">SpeedZone</a>
+      {{-- Logo dan Judul --}}
+      <div class="flex items-center space-x-3">
+        <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full object-cover">
+        <a href="{{ route('dashboard') }}" class="text-2xl font-extrabold text-yellow-500">SpeedZone</a>
+      </div>
+
+      {{-- Navigasi --}}
       <div class="flex gap-6 items-center">
         <a href="{{ route('produk') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Produk</a>
         <a href="{{ route('profil') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Profil</a>
@@ -30,6 +36,11 @@
   <main>
     @yield('content')
   </main>
+
+  @include('components.footer')
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 
 </body>
 </html>
