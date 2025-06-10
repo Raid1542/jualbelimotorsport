@@ -30,7 +30,7 @@
     <!-- Kanan: Ikon Home + Keranjang -->
     <nav class="flex items-center space-x-6 text-white">
       <!-- Home Icon -->
-      <a href="/" class="hover:text-yellow-800 transition-transform transform hover:scale-110">
+      <a href="/dashboard" class="hover:text-yellow-800 transition-transform transform hover:scale-110">
         <i class="fas fa-house-chimney text-2xl"></i>
       </a>
 

@@ -49,13 +49,13 @@ class AdminProdukController extends Controller
 
         Produk::create($validated);
 
-        return redirect()->route('admin.produk.store')->with('success', 'Produk berhasil disimpan!');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil disimpan!');
     }
 
     public function edit($id)
     {
         $produk = Produk::findOrFail($id);
-        $kategoriList = ['Motorsport', 'Motor', 'Mobil']; // kategori statis
+        $kategoriList = Kategori::all(); 
 
         return view('pages.admin.crud', [
             'produk' => $produk,
@@ -89,7 +89,7 @@ class AdminProdukController extends Controller
 
         $produk->update($validated);
 
-        return redirect()->route('admin.produk.update', $produk->id)->with('success', 'Produk berhasil diperbarui!');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -103,6 +103,6 @@ class AdminProdukController extends Controller
 
         $produk->delete();
 
-        return redirect()->route('admin.produk.destroy', $produk->id)->with('success', 'Produk berhasil dihapus!');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil dihapus!');
     }
 }
