@@ -78,36 +78,25 @@
             <div>
                 <label class="block font-medium text-gray-700">Warna</label>
                 <input type="text" name="warna" value="{{ old('warna', $produk->warna ?? '') }}" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
-                <select name="warna" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800">
-                    @foreach(['Merah', 'Biru', 'Hitam', 'Putih', 'Kuning', 'Hijau'] as $warna)
-                        <option value="{{ $warna }}"
-                            {{ old('warna', $produk->warna ?? '') == $warna ? 'selected' : '' }}>
-                            {{ $warna }}
-                        </option>
-                    @endforeach
-                </select>
             </div>
 
             <!-- Kategori -->
             <div>
                 <label class="block font-medium text-gray-700">Kategori</label>
-                <select name="kategori" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800">
+                <select name="kategori" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
                     @foreach(['Motor sport', 'Motor', 'Mobil'] as $kategori)
                         <option value="{{ $kategori }}" {{ old('kategori', $produk->kategori ?? '') == $kategori ? 'selected' : '' }}>
-                    @foreach(['Honda', 'Kawasaki', 'Ducati', 'Yamaha'] as $kategori)
-                        <option value="{{ $kategori }}"
-                            {{ old('kategori', $produk->kategori ?? '') == $kategori ? 'selected' : '' }}>
                             {{ $kategori }}
                         </option>
                     @endforeach
                 </select>
+
             </div>
 
             <!-- Tombol Submit -->
             <div class="pt-4">
                 <button type="submit"
-                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg shadow transition duration-200">
-                    {{ $button_label }}
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg shadow transition duration-200">{{ $button_label }}
                 </button>
             </div>
         </form>
