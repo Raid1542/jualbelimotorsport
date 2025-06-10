@@ -6,22 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Produk extends Model
 {
-    protected $table = 'produk'; // Sesuaikan jika nama tabel berbeda
+    protected $table = 'produk';
 
     protected $fillable = [
-        'nama',
-        'deskripsi',
-        'harga',
-        'stok',
-        'warna',
-        'kategori',
-        'gambar'
+        'nama', 'deskripsi', 'harga', 'stok', 'gambar', 'warna', 'kategori'
     ];
 
-
-    // Relasi ke kategori
     public function kategori()
-    {
-        return $this->belongsTo(Kategori::class, 'id_kategori');
-    }
+{
+    return $this->belongsTo(Kategori::class);
+}
 }

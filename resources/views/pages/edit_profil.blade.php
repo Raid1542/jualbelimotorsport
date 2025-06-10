@@ -9,22 +9,39 @@
     <form action="{{ route('profil.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
-        <!-- Nama -->
+        <!-- Nama Lengkap -->
         <div>
-            <label for="nama" class="block text-m font-medium text-black">Nama Lengkap</label>
+            <label for="name" class="block text-m font-medium text-black">Nama Lengkap</label>
             <input
                 type="text"
-                id="nama"
-                name="nama"
-                value="{{ old('nama', $user->nama ?? '') }}"
-                class="mt-1 block w-full bg-white text-black rounded-md shadow-sm border-2 border-yellow-200 focus:border-yellow-600 focus:ring-yellow-400"
+                id="name"
+                name="name"
+                value="{{ old('name', $user->name ?? '') }}"
+                class="mt-1 block w-full bg-white text-black rounded-md border border-gray-300 focus:border-yellow-500 focus:outline-none transition duration-150 ease-in-out"
+                required
             >
-            @error('nama')
+            @error('name')
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
-        <!-- Email -->
+        <!-- Username -->
+        <div>
+            <label for="username" class="block text-m font-medium text-black">Username</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                value="{{ old('username', $user->username ?? '') }}"
+                class="mt-1 block w-full bg-white text-black rounded-md border border-gray-300 focus:border-yellow-500 focus:outline-none transition duration-150 ease-in-out"
+                required
+            >
+            @error('username')
+                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Email (readonly) -->
         <div>
             <label for="email" class="block text-m font-medium text-black">Email</label>
             <input
@@ -32,11 +49,9 @@
                 id="email"
                 name="email"
                 value="{{ old('email', $user->email ?? '') }}"
-                class="mt-1 block w-full bg-white text-black rounded-md shadow-sm border-2 border-yellow-200 focus:border-yellow-600 focus:ring-yellow-400"
+                class="mt-1 block w-full bg-gray-100 text-black rounded-md border border-gray-300"
+                readonly
             >
-            @error('email')
-                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-            @enderror
         </div>
 
         <!-- Telepon -->
@@ -47,7 +62,7 @@
                 id="telepon"
                 name="telepon"
                 value="{{ old('telepon', $user->telepon ?? '') }}"
-                class="mt-1 block w-full bg-white text-black rounded-md shadow-sm border-2 border-yellow-200 focus:border-yellow-600 focus:ring-yellow-400"
+                class="mt-1 block w-full bg-white text-black rounded-md border border-gray-300 focus:border-yellow-500 focus:outline-none transition duration-150 ease-in-out"
             >
             @error('telepon')
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -61,7 +76,7 @@
                 id="alamat"
                 name="alamat"
                 rows="3"
-                class="mt-1 block w-full bg-white text-black rounded-md shadow-sm border-2 border-yellow-200 focus:border-yellow-600 focus:ring-yellow-400"
+                class="mt-1 block w-full bg-white text-black rounded-md border border-gray-300 focus:border-yellow-500 focus:outline-none transition duration-150 ease-in-out"
             >{{ old('alamat', $user->alamat ?? '') }}</textarea>
             @error('alamat')
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -83,8 +98,7 @@
 
             @if(!empty($user->foto))
                 <p class="mt-2 text-sm text-gray-600">Foto saat ini: {{ $user->foto }}</p>
-                {{-- Kalau kamu sudah upload dan simpan di storage, bisa tampilkan gambar dengan: --}}
-                {{-- <img src="{{ asset('storage/foto_profil/' . $user->foto) }}" alt="Foto Profil" class="mt-2 w-24 h-24 rounded-full object-cover"> --}}
+                <img src="{{ asset('images/' . $user->foto) }}" alt="Foto Profil" class="mt-2 w-24 h-24 rounded-full object-cover">
             @endif
         </div>
 

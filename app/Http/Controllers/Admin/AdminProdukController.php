@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use App\Models\Kategori;
 
 class AdminProdukController extends Controller
 {
@@ -16,11 +17,14 @@ class AdminProdukController extends Controller
 
     public function create()
     {
+        $kategoriList = Kategori::all();
+
         return view('pages.admin.crud', [
             'produk' => null,
             'form_action' => route('admin.produk.store'),
             'form_method' => 'POST',
-            'button_label' => 'Simpan Produk'
+            'button_label' => 'Simpan Produk',
+            'kategoriList' => $kategoriList,
         ]);
     }
 
@@ -31,7 +35,7 @@ class AdminProdukController extends Controller
             'deskripsi' => 'required',
             'harga' => 'required|integer',
             'stok' => 'required|integer',
-            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'warna' => 'required|string',
             'kategori' => 'required|string',
         ]);
@@ -45,17 +49,20 @@ class AdminProdukController extends Controller
 
         Produk::create($validated);
 
-        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil ditambahkan!');
+        return redirect()->route('admin.produk.store')->with('success', 'Produk berhasil disimpan!');
     }
 
     public function edit($id)
     {
         $produk = Produk::findOrFail($id);
+        $kategoriList = ['Motorsport', 'Motor', 'Mobil']; // kategori statis
+
         return view('pages.admin.crud', [
             'produk' => $produk,
             'form_action' => route('admin.produk.update', $produk->id),
             'form_method' => 'PUT',
-            'button_label' => 'Update Produk'
+            'button_label' => 'Update Produk',
+            'kategoriList' => $kategoriList,
         ]);
     }
 
@@ -76,20 +83,26 @@ class AdminProdukController extends Controller
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $namaFile = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images'), $namaFile);
+            $file->move(public_path('images/'), $namaFile);
             $validated['gambar'] = $namaFile;
         }
 
         $produk->update($validated);
 
-        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diperbarui!');
+        return redirect()->route('admin.produk.update', $produk->id)->with('success', 'Produk berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
+
+        // Hapus file gambar jika ada
+        if ($produk->gambar && file_exists(public_path('images/' . $produk->gambar))) {
+            unlink(public_path('images/' . $produk->gambar));
+        }
+
         $produk->delete();
 
-        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil dihapus!');
+        return redirect()->route('admin.produk.destroy', $produk->id)->with('success', 'Produk berhasil dihapus!');
     }
 }

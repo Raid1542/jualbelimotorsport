@@ -1,15 +1,15 @@
 <?php
 
-// app/Models/User.php
-
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -26,8 +26,15 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * Override username sebagai kolom login
+     */
     public function getAuthIdentifierName()
     {
-        return 'username'; // login pakai username
+        return 'username';  // pakai username sebagai identifier login
     }
 }
