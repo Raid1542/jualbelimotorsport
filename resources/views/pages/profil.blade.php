@@ -22,12 +22,12 @@
     <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col md:flex-row items-center gap-6">
         <!-- Foto Profil -->
         <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-yellow-400">
-            <img src="{{ $fotoProfil }}" alt="Foto Profil" class="w-full h-full object-cover">
+            <img src="{{ asset('images/' . $user->foto) }}" alt="Foto Profil" class="w-full h-full object-cover">
         </div>
 
         <!-- Info Profil -->
         <div class="text-center md:text-left">
-            <h2 class="text-3xl font-semibold text-black">{{ $user->nama ?? 'Pengguna' }}</h2>
+            <h2 class="text-3xl font-semibold text-black">{{ $user->username ?? 'Pengguna' }}</h2>
         </div>
     </div>
 
