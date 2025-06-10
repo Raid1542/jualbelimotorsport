@@ -29,6 +29,27 @@
   </div>
 </section>
 
+{{-- Galeri Produk Unggulan --}}
+@if($produkUnggulan->count() >= 3)
+<section class="bg-white py-16">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-extrabold text-gray-800">Galeri Produk Unggulan</h2>
+      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">Lihat beberapa produk andalan kami yang paling populer di SpeedZone.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      @foreach($produkUnggulan->take(3) as $item)
+        <a href="{{ route('produk.show', ['id' => $item->id]) }}" class="block overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300">
+          <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}" class="w-full h-64 object-cover">
+        </a>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
+
+
 {{-- Keunggulan --}}
 <section class="bg-white py-16">
   <div class="max-w-7xl mx-auto px-6 lg:px-12">

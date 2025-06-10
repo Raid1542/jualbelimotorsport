@@ -26,7 +26,7 @@
 
       <!-- SIDEBAR -->
       <aside class="bg-[#ffffff]  w-64 p-4">
-        <div class="text-gray-900 text-lg font-semibold mb-8">Menu</div>
+        <div class="text-gray-900 text-lg font-semibold mb-8">speedzone</div>
         <ul class="space-y-4">
           <li><a href="/admin/dashboard" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Dashboard</a></li>
           <li><a href="/admin/produk" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Produk</a></li>
