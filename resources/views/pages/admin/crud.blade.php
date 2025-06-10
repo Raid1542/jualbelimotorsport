@@ -79,7 +79,7 @@
             <!-- Warna -->
             <div>
                 <label class="block font-medium text-gray-700">Warna</label>
-                <input type="text" name="warna" value="{{ old('warna', $produk->warna ?? '') }}" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
+                <input type="text" name="warna" value="{{ old('warna', $produk->warna ?? '') }}" placeholder="Masukkan Warna" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
             </div>
 
             <!-- Kategori -->
