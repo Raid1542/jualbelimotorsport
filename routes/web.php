@@ -11,11 +11,13 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\DashboardPembeliController;
+use App\Http\Controllers\RingkasanPembeliController;
+use App\Http\Controllers\PembayaranDanaController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\AdminProdukController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\RingkasanPembelianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,17 +34,18 @@ Route::view('/welcome', 'welcome');
 |--------------------------------------------------------------------------
 */
 
-
 // Login
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
 
 // Register
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -55,20 +58,19 @@ Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
 Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.show');
 
 
-Route::middleware(['auth', 'role:user'])->group(function () {
-    // user-only routes
-});
-
 // ✅ Route yang butuh login
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardPembeliController::class, 'index'])->name('dashboard');
+});
 
-
-    // 🔒 Profil (butuh login)
-    Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
-    Route::get('/edit_profil', [ProfilController::class, 'edit'])->name('profil.edit');
-    Route::post('/update_profil', [ProfilController::class, 'update'])->name('profil.update');
+    Route::middleware(['auth'])->group(function () {
+    Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
+    Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
+    Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
+      
+     Route::get('/profil/password', [ProfilController::class, 'editPassword'])->name('profil.edit_password');
+    Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.update_password');
 
     // 🔒 Keranjang (butuh login)
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
@@ -78,19 +80,16 @@ Route::middleware(['auth'])->group(function () {
     // 🔒 Checkout (butuh login)
     Route::get('/checkout/{id}', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/proses', [CheckoutController::class, 'proses'])->name('checkout.proses');
+
 });
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Rute Admin (Prefix: /admin)
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->group(function () {
-
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Riwayat transaksi & Rekap penjualan (hanya view)
     Route::view('/riwayat-transaksi', 'admin.riwayat-transaksi')->name('riwayat-transaksi');
