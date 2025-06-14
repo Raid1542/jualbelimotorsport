@@ -89,7 +89,7 @@ Route::middleware(['auth'])->group(function () {
 */
 Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     // Riwayat transaksi & Rekap penjualan (hanya view)
     Route::view('/riwayat-transaksi', 'admin.riwayat-transaksi')->name('riwayat-transaksi');
