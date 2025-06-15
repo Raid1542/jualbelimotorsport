@@ -2,7 +2,7 @@
    
     
     <!-- Judul Tengah -->
-    <h1 class="text-2xl md:text-3xl font-bold text-white">Profil Saya</h1>
+    <h1 class="text-2xl md:text-3xl font-bold text-white">Tentang Kami</h1>
 
     <!-- Ikon kanan -->
     <div class="absolute right-6 flex space-x-4 text-white text-2xl">

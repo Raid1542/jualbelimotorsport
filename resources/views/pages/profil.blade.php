@@ -3,29 +3,21 @@
 @section('title', 'Profil | Speedzone')
 
 @section('content')
-@include('components.navbar_profil')   
 
 @php
     use Illuminate\Support\Facades\Storage;
-
-    // Gunakan Auth::user() sebagai default jika $user tidak dikirim dari controller
     $user = $user ?? auth()->user();
-
-    // Cek apakah user punya foto dan file ada di storage public
     $fotoProfil = ($user && $user->foto && Storage::disk('public')->exists($user->foto))
         ? Storage::url($user->foto)
-        : asset('images/default.jpg'); // ganti dengan path foto default kamu
+        : asset('images/default.jpg');
 @endphp
 
 <main class="max-w-4xl mx-auto py-10 px-6">
     <!-- Foto Profil & Nama -->
     <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col md:flex-row items-center gap-6">
-        <!-- Foto Profil -->
         <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-yellow-400">
             <img src="{{ asset('images/' . $user->foto) }}" alt="Foto Profil" class="w-full h-full object-cover">
         </div>
-
-        <!-- Info Profil -->
         <div class="text-center md:text-left">
             <h2 class="text-3xl font-semibold text-black">{{ $user->username ?? 'Pengguna' }}</h2>
         </div>
@@ -65,4 +57,19 @@
         </div>
     </div>
 </main>
+@endsection
+
+@section('scripts')
+@if(session('success'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: @json(session('success')),
+        timer: 3000,
+        showConfirmButton: false
+    });
+</script>
+@endif
 @endsection

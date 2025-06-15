@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class KeranjangController extends Controller
 {
+
+    public function __construct()
+    {
+    $this->middleware('auth');
+    }
     public function index()
+    
     {
         $keranjang = Keranjang::with('produk')
             ->where('user_id', Auth::id())

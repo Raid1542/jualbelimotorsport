@@ -110,6 +110,22 @@
             <button type="submit" class="bg-green-600 hover:bg-green-400 text-white font-semibold py-2 px-6 rounded transition">
                 Simpan Perubahan
             </button>
+
+          @if(session('success'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: @json(session('success')),
+            timer: 3000,
+            showConfirmButton: false
+        });
+    </script>
+@endif
+
+
+
         </div>
     </form>
 </main>

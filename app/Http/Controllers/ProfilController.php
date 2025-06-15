@@ -51,8 +51,8 @@ class ProfilController extends Controller
 
     $user->save();
 
-    // Redirect pakai JavaScript agar hapus riwayat edit
-    return view('pages.profil_redirect');
+   return redirect()->route('profil')->with('success', 'Data berhasil disimpan!');
+
 }
 
 

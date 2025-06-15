@@ -9,8 +9,8 @@
     <div class="grid md:grid-cols-2 gap-12 items-center">
 
       <div class="flex flex-col items-center md:items-start">
-        <h1 class="text-6xl md:text-8xl font-extrabold text-white leading-tight drop-shadow-2xl animate-pulse text-center md:text-left">
-          Selamat Datang, {{ $user->name }}
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-2xl text-center md:text-left">
+         Selamat Datang, {{ $user->name }}
         </h1>
         <p class="text-white text-lg mt-6 max-w-xl drop-shadow-md leading-relaxed tracking-wide text-center md:text-left">
           Nikmati pengalaman belanja terbaik di SpeedZone. Temukan produk impianmu sekarang!
