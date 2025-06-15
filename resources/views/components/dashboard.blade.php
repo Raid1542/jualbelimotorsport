@@ -16,13 +16,21 @@
     {{-- Kanan: Ikon Profil Dropdown --}}
     <div class="relative group">
       <button class="focus:outline-none">
-        <img src="{{ asset('images/user-icon.png') }}" alt="Profil" class="w-10 h-10 rounded-full border border-gray-300 cursor-pointer">
+        @php
+          use Illuminate\Support\Facades\Auth;
+          $user = Auth::user();
+          $foto = $user && $user->foto
+              ? asset('images/' . $user->foto)
+              : asset('images/'); // fallback jika belum upload
+        @endphp
+
+        <img src="{{ $foto }}" alt="Profil" class="w-10 h-10 rounded-full border border-gray-300 object-cover cursor-pointer">
       </button>
 
-      {{-- Sidebar/Dropdown --}}
+      {{-- Dropdown --}}
       <div class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
         <a href="{{ route('profil') }}" class="block px-4 py-3 hover:bg-gray-100 text-gray-700">Akun Saya</a>
-        <a href="{{ route('pesanan') }}" class="block px-4 py-3 hover:bg-gray-100 text-gray-700">Pesanan</a>
+        <a href="{{ route('pesanan') }}" class="block px-4 py-3 hover:bg-gray-100 text-gray-700">Pesanan Saya</a>
         <form method="POST" action="{{ route('logout') }}">
           @csrf
           <button type="submit" class="w-full text-left px-4 py-3 hover:bg-gray-100 text-red-600">Logout</button>
