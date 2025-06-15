@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\AdminProdukController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\RingkasanPembelianController;
-
+use App\Http\Controllers\TentangController;
 /*
 |--------------------------------------------------------------------------
 | Rute Umum (Bisa Diakses Semua)
@@ -68,6 +68,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
     Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
+    Route::get('/pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
+    Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
       
      Route::get('/profil/password', [ProfilController::class, 'editPassword'])->name('profil.edit_password');
     Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.update_password');
