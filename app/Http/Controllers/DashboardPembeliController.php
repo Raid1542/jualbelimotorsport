@@ -11,13 +11,13 @@ class DashboardPembeliController extends Controller
     {
         $user = Auth::user();
 
-        $produkTerbaru = Produk::latest()->take(6)->get(); // jika kamu mau pakai juga
-        $produkUnggulan = Produk::where('unggulan', true)->take(4)->get();
+         $produkBaru = Produk::orderBy('created_at', 'desc')->take(4)->get();
 
         return view('pages.dashboard', [
             'user' => $user,
-            'produkTerbaru' => $produkTerbaru,
-            'produkUnggulan' => $produkUnggulan
+            'produkBaru' => $produkBaru,
+        
         ]);
+        
     }
 }

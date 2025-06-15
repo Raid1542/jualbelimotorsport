@@ -34,11 +34,15 @@
           <td class="px-4 py-2">
             <img src="{{ asset('images/'.$produk['gambar']) }}" alt="Gambar Produk {{ $produk['id'] }}" class="w-16 h-16 object-cover rounded">
           </td>
-          <td class="px-4 py-2">{{ $produk['deskripsi'] }}</td>
+          <td class="px-4 py-2 max-w-xs overflow-hidden whitespace-nowrap text-ellipsis" title="{{ $produk['deskripsi'] }}">
+            {{ $produk['deskripsi'] }}
+          </td>
           <td class="px-4 py-2 text-yellow-600 font-semibold">Rp{{ number_format($produk['harga'], 0, ',', '.') }}</td>
           <td class="px-4 py-2">{{ $produk['stok'] }}</td>
           <td class="px-4 py-2">{{ $produk['warna'] }}</td>
-          <td class="px-4 py-2">{{ $produk['kategori'] }}</td>
+          <td class="px-4 py-2">
+            {{ is_array($produk['kategori']) ? $produk['kategori']['nama'] : $produk['kategori'] }}
+          </td>
           <td class="px-4 py-2">
             <a href="{{ route('admin.produk.edit', $produk->id) }}" class="text-blue-600 hover:underline">Ubah</a>
           </td>

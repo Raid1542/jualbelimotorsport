@@ -33,11 +33,11 @@ class AdminProdukController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'required',
-            'harga' => 'required|integer',
+            'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'warna' => 'required|string',
-            'kategori' => 'required|string',
+            'kategori_id' => 'required|exists:kategori,id',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -73,11 +73,11 @@ class AdminProdukController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'required',
-            'harga' => 'required|integer',
+            'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'warna' => 'required|string',
-            'kategori' => 'required|string',
+            'kategori_id' => 'required|exists:kategori,id',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -96,7 +96,6 @@ class AdminProdukController extends Controller
     {
         $produk = Produk::findOrFail($id);
 
-        // Hapus file gambar jika ada
         if ($produk->gambar && file_exists(public_path('images/' . $produk->gambar))) {
             unlink(public_path('images/' . $produk->gambar));
         }

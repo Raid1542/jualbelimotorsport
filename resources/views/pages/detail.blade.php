@@ -23,7 +23,7 @@
       <ul class="mb-6 space-y-2 text-sm text-gray-600">
         <li><strong>Stok:</strong> {{ $produk->stok }}</li>
         <li><strong>Warna:</strong> {{ $produk->warna }}</li>
-        <li><strong>Kategori:</strong> {{ $produk->kategori }}</li>
+        <li><strong>Kategori:</strong> {{ $produk->kategori->nama ?? '-' }}</li>
       </ul>
 
       <div class="flex gap-4">

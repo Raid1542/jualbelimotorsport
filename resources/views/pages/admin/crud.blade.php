@@ -76,33 +76,37 @@
             @endif
         </div>
 
-            <!-- Warna -->
-            <div>
-                <label class="block font-medium text-gray-700">Warna</label>
-                <input type="text" name="warna" value="{{ old('warna', $produk->warna ?? '') }}" placeholder="Masukkan Warna" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
-            </div>
+        <!-- Warna -->
+        <div>
+            <label class="block font-medium text-gray-700">Warna</label>
+            <input type="text" name="warna" value="{{ old('warna', $produk->warna ?? '') }}"
+                   placeholder="Masukkan warna"
+                   class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
+        </div>
 
-            <!-- Kategori -->
-            <div>
-                <label class="block font-medium text-gray-700">Kategori</label>
-                <select name="kategori" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
-                    @foreach(['Motor sport', 'Motor', 'Mobil'] as $kategori)
-                        <option value="{{ $kategori }}" {{ old('kategori', $produk->kategori ?? '') == $kategori ? 'selected' : '' }}>
-                            {{ $kategori }}
-                        </option>
-                    @endforeach
-                </select>
+        <!-- Kategori -->
+        <div>
+            <label class="block font-medium text-gray-700">Kategori</label>
+<select name="kategori_id" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
+    <option value="">-- Pilih Kategori --</option>
+    @foreach ($kategoriList as $kategori)
+        <option value="{{ $kategori->id }}"
+            {{ old('kategori_id', $produk->kategori_id ?? '') == $kategori->id ? 'selected' : '' }}>
+            {{ $kategori->nama }}
+        </option>
+    @endforeach
+</select>
+        </div>
 
-            </div>
-
-            <!-- Tombol Submit -->
-            <div class="pt-4">
-                <button type="submit"
-                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg shadow transition duration-200">{{ $button_label }}
-                </button>
-            </div>
-        </form>
-    </div>
+        <!-- Tombol Submit -->
+        <div class="pt-4">
+            <button type="submit"
+                class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg shadow transition duration-200">
+                {{ $button_label }}
+            </button>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

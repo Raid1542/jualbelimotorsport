@@ -23,24 +23,29 @@
       </div>
 
       <div class="w-full max-w-md">
-        {{-- Tambahkan gambar profil/banner jika ada --}}
+        {{-- Bisa tambahkan banner motor di sini kalau ada --}}
       </div>
     </div>
   </div>
 </section>
 
-{{-- Galeri Produk Unggulan --}}
-@if($produkUnggulan->count() >= 3)
-<section class="bg-white py-16">
+{{-- ⭐ Tambahan: Produk Terbaru (4 produk) --}}
+@if($produkBaru->count() > 0)
+<section class="bg-gray-50 py-16">
   <div class="max-w-7xl mx-auto px-6 lg:px-12">
     <div class="text-center mb-12">
-      <h2 class="text-4xl font-extrabold text-gray-800">Galeri Produk Unggulan</h2>
-      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">Lihat beberapa produk andalan kami yang paling populer di SpeedZone.</p>
+      <h2 class="text-3xl font-extrabold text-gray-800">Produk Terbaru</h2>
+      <p class="text-gray-600 mt-2">Lihat motor-motor terbaru kami yang siap untuk kamu miliki.</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      @foreach($produkUnggulan->take(3) as $item)
-        <a href="{{ route('produk.show', ['id' => $item->id]) }}" class="block overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300">
-          <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}" class="w-full h-64 object-cover">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      @foreach($produkBaru->take(4) as $item)
+        <a href="{{ route('produk.show', ['id' => $item->id]) }}" class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1">
+          <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}" class="w-full h-48 object-cover rounded-t-xl">
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-800 truncate">{{ $item->nama }}</h3>
+            <p class="text-sm text-gray-500 mt-1">{{ $item->kategori->nama }}</p>
+            <p class="text-yellow-600 font-bold text-md mt-2">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
+          </div>
         </a>
       @endforeach
     </div>
@@ -48,14 +53,14 @@
 </section>
 @endif
 
-
+{{-- Galeri Produk Unggulan --}}
 
 {{-- Keunggulan --}}
 <section class="bg-white py-16">
   <div class="max-w-7xl mx-auto px-6 lg:px-12">
     <div class="text-center mb-12">
       <h2 class="text-4xl font-extrabold text-gray-800">Kenapa Memilih SpeedZone?</h2>
-      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">SKami memberikan pengalaman berbelanja yang tidak hanya mudah, tapi juga terpercaya dan profesional.</p>
+      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">Kami memberikan pengalaman berbelanja yang tidak hanya mudah, tapi juga terpercaya dan profesional.</p>
     </div>
     <div class="grid md:grid-cols-3 gap-8">
       <div class="text-center">
