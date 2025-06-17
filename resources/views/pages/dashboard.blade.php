@@ -7,10 +7,9 @@
   style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur.png');">
   <div class="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
     <div class="grid md:grid-cols-2 gap-12 items-center">
-
       <div class="flex flex-col items-center md:items-start">
         <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-2xl text-center md:text-left">
-         Selamat Datang, {{ $user->name }}
+          Selamat Datang, {{ $user->name }}
         </h1>
         <p class="text-white text-lg mt-6 max-w-xl drop-shadow-md leading-relaxed tracking-wide text-center md:text-left">
           Nikmati pengalaman belanja terbaik di SpeedZone. Temukan produk impianmu sekarang!
@@ -21,41 +20,45 @@
           </a>
         </div>
       </div>
-
       <div class="w-full max-w-md">
-        {{-- Bisa tambahkan banner motor di sini kalau ada --}}
+        {{-- Tambahkan banner atau gambar promo jika diperlukan --}}
       </div>
     </div>
   </div>
 </section>
 
-{{-- ⭐ Tambahan: Produk Terbaru (4 produk) --}}
-@if($produkBaru->count() > 0)
-<section class="bg-gray-50 py-16">
-  <div class="max-w-7xl mx-auto px-6 lg:px-12">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-extrabold text-gray-800">Produk Terbaru</h2>
-      <p class="text-gray-600 mt-2">Lihat motor-motor terbaru kami yang siap untuk kamu miliki.</p>
+
+{{-- Produk Terbaru --}}
+<section class="bg-white py-16">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-extrabold text-gray-800">Produk Terbaru</h2>
+    <p class="text-gray-600 mt-2">Lihat motor-motor terbaru kami yang siap untuk kamu miliki.</p>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 space-y-20">
+@foreach($produkBaru->take(4) as $index => $item)
+  <div class="flex flex-col md:flex-row {{ $index % 2 === 1 ? 'md:flex-row-reverse' : '' }} gap-10 items-center">
+    <div>
+      <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}"
+        class="w-full h-80 object-cover rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      @foreach($produkBaru->take(4) as $item)
-        <a href="{{ route('produk.show', ['id' => $item->id]) }}" class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1">
-          <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}" class="w-full h-48 object-cover rounded-t-xl">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800 truncate">{{ $item->nama }}</h3>
-            <p class="text-sm text-gray-500 mt-1">{{ $item->kategori->nama }}</p>
-            <p class="text-yellow-600 font-bold text-md mt-2">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
-          </div>
+    <div class="flex flex-col space-y-6">
+      <h3 class="text-3xl font-bold text-gray-800 text-center">{{ $item->nama }}</h3>
+      <div class="flex justify-center">
+        <a href="{{ route('produk.show', ['id' => $item->id]) }}"
+          class="bg-yellow-500 text-white font-semibold px-6 py-3 rounded-full hover:bg-yellow-600 transition duration-300">
+          Belanja Sekarang
         </a>
-      @endforeach
+      </div>
     </div>
   </div>
+@endforeach
+  </div>
 </section>
-@endif
 
-{{-- Galeri Produk Unggulan --}}
 
-{{-- Keunggulan --}}
+
+{{-- Keunggulan SpeedZone --}}
 <section class="bg-white py-16">
   <div class="max-w-7xl mx-auto px-6 lg:px-12">
     <div class="text-center mb-12">

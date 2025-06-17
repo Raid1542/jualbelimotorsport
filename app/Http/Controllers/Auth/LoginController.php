@@ -26,11 +26,10 @@ class LoginController extends Controller
         // Coba login pakai username dan password
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate(); // regenerasi session agar aman
-
-            return redirect()->intended(route('dashboard')); // redirect ke dashboard atau halaman tujuan
+            return redirect()->intended(route('dashboard')); // redirect ke dashboard
         }
 
-        // Kalau gagal login
+        // Gagal login
         return back()->withErrors([
             'username' => 'Username atau password salah.',
         ])->onlyInput('username');
@@ -40,10 +39,14 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect('/login');
+    }
+
+    // Tambahan untuk pakai kolom username saat login (bukan email)
+    public function username()
+    {
+        return 'username';
     }
 }
