@@ -9,13 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class KeranjangController extends Controller
 {
-
     public function __construct()
     {
-    $this->middleware('auth');
+        $this->middleware('auth');
     }
+
     public function index()
-    
     {
         $keranjang = Keranjang::with('produk')
             ->where('user_id', Auth::id())
@@ -24,32 +23,60 @@ class KeranjangController extends Controller
         return view('pages.keranjang', compact('keranjang'));
     }
 
-public function tambah($id)
-{
-    $user_id = Auth::id();
+    public function tambah($id)
+    {
+        $user_id = Auth::id();
 
-    if (!$user_id) {
-        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu');
+        $keranjang = Keranjang::firstOrCreate(
+            [
+                'user_id' => $user_id,
+                'produk_id' => $id
+            ],
+            [
+                'jumlah' => 1
+            ]
+        );
+
+        if (!$keranjang->wasRecentlyCreated) {
+            $keranjang->increment('jumlah');
+        }
+
+        return redirect()->route('keranjang.index')->with('success', 'Produk ditambahkan ke keranjang!');
     }
 
-    $keranjang = \App\Models\Keranjang::firstOrCreate(
-        ['user_id' => $user_id, 'produk_id' => $id],
-        ['jumlah' => 1]
-    );
+    public function tambahLangsung($keranjang_id)
+    {
+        $keranjang = Keranjang::where('id', $keranjang_id)
+            ->where('user_id', Auth::id())
+            ->first();
 
-    if (!$keranjang->wasRecentlyCreated) {
-        $keranjang->increment('jumlah');
+        if ($keranjang) {
+            $keranjang->increment('jumlah');
+        }
+
+        return redirect()->route('keranjang.index')->with('success', 'Jumlah produk ditambahkan');
     }
 
-    return redirect()->route('keranjang')->with('success', 'Produk ditambahkan ke keranjang');
-}
+    public function kurangi($keranjang_id)
+    {
+        $keranjang = Keranjang::where('id', $keranjang_id)
+            ->where('user_id', Auth::id())
+            ->first();
 
+        if ($keranjang) {
+            if ($keranjang->jumlah > 1) {
+                $keranjang->decrement('jumlah');
+            } else {
+                $keranjang->delete();
+            }
+        }
+
+        return redirect()->route('keranjang.index')->with('success', 'Jumlah produk dikurangi');
+    }
 
     public function hapus($id)
     {
         Keranjang::where('id', $id)->where('user_id', Auth::id())->delete();
-        return back()->with('success', 'Produk dihapus dari keranjang');
+        return redirect()->route('keranjang.index')->with('success', 'Produk dihapus dari keranjang');
     }
-
-    
 }

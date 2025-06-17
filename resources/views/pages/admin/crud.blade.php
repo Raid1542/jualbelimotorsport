@@ -87,14 +87,16 @@
         <!-- Kategori -->
         <div>
             <label class="block font-medium text-gray-700">Kategori</label>
-<select name="kategori_id" class="w-full border border-gray-300 rounded p-2 bg-white text-gray-800" required>
+<select name="kategori_id" class="form-select w-full border border-gray-300 rounded p-2 bg-white text-gray-800">
     <option value="">-- Pilih Kategori --</option>
     @foreach ($kategoriList as $kategori)
-        <option value="{{ $kategori->id }}"
+        <option value="{{ $kategori->id }}" 
             {{ old('kategori_id', $produk->kategori_id ?? '') == $kategori->id ? 'selected' : '' }}>
             {{ $kategori->nama }}
         </option>
     @endforeach
+</select>
+
 </select>
         </div>
 

@@ -1,6 +1,6 @@
 <nav class="bg-white shadow-md sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center relative">
-    
+
     {{-- Kiri: Logo --}}
     <div class="flex items-center space-x-3">
       <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full object-cover">
@@ -11,12 +11,13 @@
     <div class="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
       <a href="{{ route('produk') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Produk</a>
       <a href="{{ route('tentang') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Tentang Kami</a>
+      <a href="{{ route('keranjang.index') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Keranjang</a>
     </div>
 
     {{-- Kanan: Search dan Profil --}}
     <div class="flex items-center space-x-4">
 
-      {{-- ✅ Perbaikan: Search Bar --}}
+      {{-- Search Bar --}}
       <form action="{{ route('produk') }}" method="GET" class="relative">
         <input type="text" name="keyword" placeholder="Cari produk..."
           class="border border-gray-300 rounded-full py-1.5 pl-4 pr-10 text-sm focus:ring-yellow-400 focus:border-yellow-500 w-48 transition">
@@ -52,7 +53,7 @@
           </form>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </nav>

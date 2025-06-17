@@ -11,17 +11,25 @@ class Keranjang extends Model
 
     protected $table = 'keranjang';
 
-    protected $fillable = [
-        'user_id', 'produk_id', 'jumlah'
+    // ✅ Tambahkan fillable agar mass assignment bisa dilakukan
+    protected $fillable = ['user_id', 'produk_id', 'jumlah'];
+
+    // ✅ Optional, jika kamu ingin memastikan tipe data dikonversi secara otomatis
+    protected $casts = [
+        'user_id' => 'integer',
+        'produk_id' => 'integer',
+        'jumlah' => 'integer',
     ];
 
+    // Relasi ke produk
     public function produk()
     {
         return $this->belongsTo(Produk::class, 'produk_id');
     }
+
+    // Relasi ke user
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
-

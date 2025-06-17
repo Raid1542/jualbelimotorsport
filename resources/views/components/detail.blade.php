@@ -11,7 +11,7 @@
     <!-- Ikon di kanan -->
     <div class="absolute right-4 flex items-center space-x-6 text-white">
      <!-- Home Icon (modern) -->
-      <a href="/" class="hover:text-yellow-800 transition-transform transform hover:scale-110">
+      <a href="/dashboard" class="hover:text-yellow-800 transition-transform transform hover:scale-110">
         <i class="fas fa-house-chimney text-2xl"></i>
       </a>
 

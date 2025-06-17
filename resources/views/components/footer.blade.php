@@ -12,10 +12,9 @@
     <div>
       <h3 class="text-lg font-semibold mb-2">Navigasi</h3>
       <ul class="space-y-1 text-sm">
-        <li><a href="#" class="hover:underline hover:text-yellow-300 transition">Beranda</a></li>
-        <li><a href="#" class="hover:underline hover:text-yellow-300 transition">Produk</a></li>
-        <li><a href="#" class="hover:underline hover:text-yellow-300 transition">Keranjang</a></li>
-        <li><a href="#" class="hover:underline hover:text-yellow-300 transition">Tentang Kami</a></li>
+        <li><a href="{{ route('dashboard') }}" class="hover:underline hover:text-yellow-300 transition">Beranda</a></li>
+        <li><a href="{{ route('produk') }}" class="hover:underline hover:text-yellow-300 transition">Produk</a></li>
+        <li><a href="{{ route('tentang') }}" class="hover:underline hover:text-yellow-300 transition">Tentang Kami</a></li>
       </ul>
     </div>
 
@@ -24,7 +23,7 @@
       <h3 class="text-lg font-semibold mb-2">Kontak Kami</h3>
       <p class="text-sm">Email: <a href="mailto:info@speedzone.com" class="hover:underline">info@speedzone.com</a></p>
       <p class="text-sm">Telepon: <a href="tel:+628123456789" class="hover:underline">+62 812 3456 789</a></p>
-      <p class="text-sm">Instagram: <a href="https://instagram.com/Speedzone_." target="_blank" class="hover:underline">@Speedzone_.</a></p>
+      <p class="text-sm">Instagram: <a href="https://instagram.com/spdzne_" target="_blank" class="hover:underline">@spdzne__</a></p>
     </div>
   </div>
 

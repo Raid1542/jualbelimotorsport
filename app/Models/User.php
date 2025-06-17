@@ -30,11 +30,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Override username sebagai kolom login
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'username';  // pakai username sebagai identifier login
-    }
-}
+   }
