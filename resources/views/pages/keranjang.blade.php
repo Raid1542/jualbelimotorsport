@@ -15,6 +15,14 @@
         <form action="{{ route('checkout.pilih') }}" method="POST">
             @csrf
 
+            <!-- Pilih Semua -->
+            <div class="flex justify-end mb-4">
+                <label class="inline-flex items-center space-x-2">
+                    <input type="checkbox" id="pilihSemua" class="w-5 h-5 accent-yellow-500" onchange="toggleSemua()">
+                    <span class="text-gray-700 font-medium">Pilih Semua</span>
+                </label>
+            </div>
+
             <div class="bg-white rounded shadow divide-y">
                 @foreach ($keranjang as $item)
                     @php
@@ -102,6 +110,17 @@ function updateTotal() {
         totalText.textContent = 'Rp 0';
         checkoutBtn.disabled = true;
     }
+}
+
+function toggleSemua() {
+    const masterCheckbox = document.getElementById('pilihSemua');
+    const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+
+    itemCheckboxes.forEach(cb => {
+        cb.checked = masterCheckbox.checked;
+    });
+
+    updateTotal();
 }
 </script>
 @endsection
