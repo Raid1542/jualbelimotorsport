@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\AdminProdukController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\RingkasanPembelianController;
 use App\Http\Controllers\TentangController;
+use App\Http\Controllers\Admin\AdminTentangKamiController;
+use App\Http\Controllers\PesananController;
 /*
 |--------------------------------------------------------------------------
 | Rute Umum (Bisa Diakses Semua)
@@ -75,12 +77,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.update_password');
 
     // 🔒 Keranjang (butuh login)
-    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
-    Route::get('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
+     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
+    Route::post('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
+    Route::post('/keranjang/tambahlangsung/{id}', [KeranjangController::class, 'tambahLangsung'])->name('keranjang.tambahlangsung');
+    Route::post('/keranjang/kurangi/{id}', [KeranjangController::class, 'kurangi'])->name('keranjang.kurangi');
     Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
 
     // 🔒 Checkout (butuh login)
     Route::get('/checkout/{id}', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/checkout/pilih', [CheckoutController::class, 'checkoutTerpilih'])->name('checkout.pilih');
     Route::post('/checkout/proses', [CheckoutController::class, 'proses'])->name('checkout.proses');
 
 });
@@ -107,4 +112,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/produk/{id}/edit', [AdminProdukController::class, 'edit'])->name('produk.edit');
     Route::put('/produk/{id}/update', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
+
 });
