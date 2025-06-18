@@ -21,6 +21,7 @@ use App\Http\Controllers\RingkasanPembelianController;
 use App\Http\Controllers\TentangController;
 use App\Http\Controllers\Admin\AdminTentangKamiController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ResiController;
 /*
 |--------------------------------------------------------------------------
 | Rute Umum (Bisa Diakses Semua)
@@ -71,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
     Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
     Route::get('/pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
+    Route::get('/resi', [ResiController::class, 'resi'])->middleware('auth')->name('resi');
     Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
 
     Route::get('/profil/password', [ProfilController::class, 'editPassword'])->name('profil.edit_password');
