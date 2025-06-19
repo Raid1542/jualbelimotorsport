@@ -21,6 +21,7 @@ use App\Http\Controllers\RingkasanPembelianController;
 use App\Http\Controllers\TentangController;
 use App\Http\Controllers\Admin\AdminTentangKamiController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ResiController;
 /*
 |--------------------------------------------------------------------------
 | Rute Umum (Bisa Diakses Semua)
@@ -66,18 +67,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardPembeliController::class, 'index'])->name('dashboard');
 });
 
-    Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
     Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
     Route::get('/pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
+    Route::get('/resi', [ResiController::class, 'resi'])->middleware('auth')->name('resi');
     Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
-      
-     Route::get('/profil/password', [ProfilController::class, 'editPassword'])->name('profil.edit_password');
+
+    Route::get('/profil/password', [ProfilController::class, 'editPassword'])->name('profil.edit_password');
     Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.update_password');
 
     // 🔒 Keranjang (butuh login)
-     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
+    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
     Route::post('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
     Route::post('/keranjang/tambahlangsung/{id}', [KeranjangController::class, 'tambahLangsung'])->name('keranjang.tambahlangsung');
     Route::post('/keranjang/kurangi/{id}', [KeranjangController::class, 'kurangi'])->name('keranjang.kurangi');
@@ -85,9 +87,8 @@ Route::middleware(['auth'])->group(function () {
 
     // 🔒 Checkout (butuh login)
     Route::get('/checkout/{id}', [CheckoutController::class, 'index'])->name('checkout');
-    Route::post('/checkout/pilih', [CheckoutController::class, 'checkoutTerpilih'])->name('checkout.pilih');
+    Route::post('/checkout/pilih', [CheckoutController::class, 'pilih'])->name('checkout.pilih');
     Route::post('/checkout/proses', [CheckoutController::class, 'proses'])->name('checkout.proses');
-
 });
 /*
 |--------------------------------------------------------------------------
@@ -112,5 +113,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/produk/{id}/edit', [AdminProdukController::class, 'edit'])->name('produk.edit');
     Route::put('/produk/{id}/update', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
-
 });
