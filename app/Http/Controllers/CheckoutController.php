@@ -6,77 +6,59 @@ use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use App\Models\Produk;
 use App\Models\Pesanan;
+use App\Models\Transaksi;
 use App\Models\DetailPesanan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
-    public function pilih(Request $request)
-    {
-        $keranjangIds = $request->keranjang_id;
+    // Menampilkan halaman checkout dari item yang dipilih saja (dicentang)
+    public function checkout(Request $request)
+{
+    $selectedItems = $request->items;
 
-        $keranjangItems = Keranjang::with('produk')->whereIn('id', $keranjangIds)->get();
-
-        $total = $keranjangItems->sum(function ($item) {
-            return $item->produk ? $item->produk->harga * $item->jumlah : 0;
-        });
-
-        return view('checkout.pilih', compact('keranjangItems', 'total'));
+    if (!$selectedItems || count($selectedItems) === 0) {
+        return redirect()->back()->with('error', 'Silakan pilih minimal satu produk.');
     }
 
-    public function proses(Request $request)
+    // Ambil data keranjang terpilih
+    $keranjang = Keranjang::with('produk')
+        ->whereIn('id', $selectedItems)
+        ->get();
+
+    $user = auth()->user();
+    $subtotal = $keranjang->sum(function ($item) {
+        return $item->produk ? $item->produk->harga * $item->jumlah : 0;
+    });
+
+    return view('checkout', compact('keranjang', 'user', 'subtotal', 'ongkir', 'total'));
+}
+
+
+    // Untuk validasi keranjang tidak kosong saat klik checkout dari halaman keranjang
+    public function pilih()
     {
-        $request->validate([
-            'nama' => 'required|string|max:100',
-            'alamat' => 'required|string',
-            'pembayaran' => 'required|in:transfer,cod',
-        ]);
+        $user = Auth::user();
+        $keranjang = Keranjang::with('produk')->where('user_id', $user->id)->get();
 
-        DB::beginTransaction();
-        try {
-            // Simpan pesanan utama
-            $pesanan = Pesanan::create([
-                'user_id' => Auth::id(),
-                'nama_penerima' => $request->nama,
-                'alamat' => $request->alamat,
-                'metode_pembayaran' => $request->pembayaran,
-                'status' => 'menunggu pembayaran', // default
-                'total_harga' => 0, // nanti dihitung ulang
-            ]);
-
-            $totalHarga = 0;
-
-            // Ambil kembali keranjang (dari sesi sebelumnya)
-            $keranjangIds = $request->input('keranjang_id', []);
-            $keranjangItems = Keranjang::with('produk')->whereIn('id', $keranjangIds)->get();
-
-            foreach ($keranjangItems as $item) {
-                if ($item->produk) {
-                    $subtotal = $item->produk->harga * $item->jumlah;
-                    $totalHarga += $subtotal;
-
-                    DetailPesanan::create([
-                        'pesanan_id' => $pesanan->id,
-                        'produk_id' => $item->produk->id,
-                        'jumlah' => $item->jumlah,
-                        'harga' => $item->produk->harga,
-                        'subtotal' => $subtotal,
-                    ]);
-                }
-            }
-
-            // Update total harga di pesanan
-            $pesanan->update(['total_harga' => $totalHarga]);
-
-            // Hapus keranjang yang sudah di-checkout
-            Keranjang::whereIn('id', $keranjangIds)->delete();
-
-            DB::commit();
-            return redirect()->route('dashboard')->with('success', 'Pesanan berhasil dibuat!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Gagal memproses pesanan. Silakan coba lagi.');
+        if ($keranjang->isEmpty()) {
+            return redirect()->route('keranjang.index')->with('error', 'Keranjang kamu kosong.');
         }
+
+        $subtotal = $keranjang->sum(function ($item) {
+            return $item->produk->harga * $item->jumlah;
+        });
+
+        $ongkir = 10000;
+        $total = $subtotal + $ongkir;
+
+        return view('pages.checkout', compact('keranjang', 'user', 'subtotal', 'ongkir', 'total'));
+    }
+
+    // Menampilkan detail konfirmasi pembayaran (setelah transaksi)
+    public function konfirmasi($id)
+    {
+        $transaksi = Transaksi::with('detail.produk')->findOrFail($id);
+        return view('pages.konfirmasi_pembayaran', compact('transaksi'));
     }
 }
