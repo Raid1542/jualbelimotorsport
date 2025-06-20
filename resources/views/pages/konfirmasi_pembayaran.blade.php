@@ -1,66 +1,45 @@
-@extends('layouts.konfirmasi')
+@extends('layouts.konfirmasi') {{-- atau layout kamu yang lain --}}
 
-@section('title', 'Konfirmasi Pembayaran - SpeedZone')
+@section('title', 'Konfirmasi Pembayaran')
 
 @section('content')
-<div class="max-w-3xl mx-auto px-4 py-6">
-    <!-- Informasi Transaksi -->
-    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
-        <h2 class="text-lg font-bold text-yellow-600 mb-2">Informasi Transaksi</h2>
-        <p class="text-sm text-gray-700"><strong>ID Transaksi:</strong> {{ $transaksi->id }}</p>
-        <p class="text-sm text-gray-700"><strong>Status:</strong>
-            <span class="font-semibold {{ $transaksi->status == 'menunggu pembayaran' ? 'text-red-600' : 'text-green-600' }}">
-                {{ ucfirst($transaksi->status) }}
-            </span>
-        </p>
-        <p class="text-sm text-gray-700"><strong>Metode Pembayaran:</strong> {{ strtoupper($transaksi->metode_pembayaran) }}</p>
+<div class="max-w-4xl mx-auto p-6 bg-white shadow rounded">
+    <h2 class="text-2xl font-bold text-yellow-600 mb-6">Konfirmasi Pembayaran</h2>
+
+    <div class="mb-6">
+        <h3 class="font-semibold text-lg">Informasi Transaksi</h3>
+        <p><strong>Nama:</strong> {{ $transaksi->nama }}</p>
+        <p><strong>Alamat:</strong> {{ $transaksi->alamat }}</p>
+        <p><strong>No HP:</strong> {{ $transaksi->no_hp }}</p>
+        <p><strong>Status:</strong> <span class="text-blue-600">{{ $transaksi->status }}</span></p>
     </div>
 
-    <!-- Detail Produk -->
-    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
-        <h2 class="text-lg font-bold text-yellow-600 mb-2">Produk yang Dibeli</h2>
-        @foreach ($transaksi->detail as $item)
-        <div class="flex gap-4 items-start mb-4">
-            <img src="{{ asset('images/' . $item->produk->gambar) }}" alt="produk" class="w-20 h-20 object-cover rounded">
-            <div>
-                <h3 class="font-semibold text-gray-800">{{ $item->produk->nama }}</h3>
-                <p class="text-sm text-gray-500">Qty: {{ $item->jumlah }}</p>
-                <p class="text-sm text-red-600 font-semibold">Rp{{ number_format($item->harga * $item->jumlah, 0, ',', '.') }}</p>
-            </div>
-        </div>
-        @endforeach
+    <div>
+        <h3 class="font-semibold text-lg mb-2">Detail Pesanan:</h3>
+        <table class="w-full table-auto border text-left">
+            <thead class="bg-yellow-200">
+                <tr>
+                    <th class="p-2">Produk</th>
+                    <th class="p-2">Jumlah</th>
+                    <th class="p-2">Harga</th>
+                    <th class="p-2">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($transaksi->detail as $item)
+                <tr class="border-t">
+                    <td class="p-2">{{ $item->produk->nama ?? 'Produk tidak tersedia' }}</td>
+                    <td class="p-2">{{ $item->jumlah }}</td>
+                    <td class="p-2">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
+                    <td class="p-2">Rp {{ number_format($item->harga * $item->jumlah, 0, ',', '.') }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
-    <!-- Ringkasan Pembayaran -->
-    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
-        <h2 class="text-lg font-bold text-yellow-600 mb-2">Ringkasan Pembayaran</h2>
-        <div class="flex justify-between text-sm text-gray-700 mb-1">
-            <span>Total Harga</span>
-            <span>Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}</span>
-        </div>
+    <div class="text-right mt-4">
+        <h3 class="text-xl font-bold">Total: Rp {{ number_format($transaksi->total_harga ?? $transaksi->total ?? 0, 0, ',', '.') }}</h3>
     </div>
-
-    @if ($transaksi->metode_pembayaran == 'qris' && $transaksi->status == 'menunggu pembayaran')
-    <!-- Form Upload Bukti Transfer -->
-    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
-        <h2 class="text-lg font-bold text-yellow-600 mb-2">Upload Bukti Pembayaran</h2>
-        <form action="{{ route('pembayaran.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Pengirim</label>
-                <input type="text" name="nama_pengirim" class="w-full border rounded px-3 py-2" required>
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Bukti Transfer</label>
-                <input type="file" name="bukti_transfer" class="w-full border rounded px-3 py-2" accept="image/*" required>
-            </div>
-            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded shadow">
-                Kirim Bukti Pembayaran
-            </button>
-        </form>
-    </div>
-    @endif
-
-    <a href="{{ route('dashboard') }}" class="inline-block mt-4 text-blue-600 hover:underline text-sm">Kembali ke Dashboard</a>
 </div>
 @endsection

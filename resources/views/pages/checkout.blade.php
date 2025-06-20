@@ -4,14 +4,14 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto px-4 py-6">
-    <!-- Alamat Pengiriman -->
+    <!-- Alamat -->
     <div class="bg-white rounded-xl shadow-md p-4 mb-4">
         <h2 class="font-bold text-lg text-yellow-600 mb-2">Alamat Pengiriman</h2>
         <p class="text-sm text-gray-800 font-medium">{{ $user->name }} - {{ $user->phone }}</p>
         <p class="text-sm text-gray-600">{{ $user->alamat }}</p>
     </div>
 
-    <!-- Produk yang Dibeli -->
+    <!-- Produk -->
     <div class="bg-white rounded-xl shadow-md p-4 mb-4">
         <h2 class="font-bold text-lg mb-3 text-yellow-600">Detail Produk</h2>
         @foreach($keranjang as $item)
@@ -39,21 +39,23 @@
                 <span>QRIS (Scan untuk Bayar)</span>
             </label>
         </div>
+
+        <!-- Tampilkan QR jika QRIS dipilih -->
+        <div id="qrisSection" class="mt-4 hidden">
+            <p class="text-sm text-gray-700 mb-2">Silakan scan QR berikut untuk pembayaran:</p>
+            <img src="{{ asset('images/qris.jpg') }}" alt="QRIS" class="w-48 h-48 mx-auto rounded-xl shadow-md">
+        </div>
     </div>
 
-    <!-- Ringkasan Pembayaran -->
+    <!-- Rincian -->
     <div class="bg-white rounded-xl shadow-md p-4 mb-4">
         <h2 class="font-bold text-lg text-yellow-600 mb-2">Rincian Pembayaran</h2>
         <div class="flex justify-between text-sm text-gray-700 mb-1">
             <span>Subtotal</span>
             <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
         </div>
-        <div class="flex justify-between text-sm text-gray-700 mb-1">
-            <span>Ongkir</span>
-            <span>Rp{{ number_format($ongkir, 0, ',', '.') }}</span>
-        </div>
         <div class="flex justify-between text-base font-bold text-gray-800 mt-2">
-            <span>Total Pembayaran</span>
+            <span>Total</span>
             <span class="text-red-600">Rp{{ number_format($total, 0, ',', '.') }}</span>
         </div>
     </div>
@@ -62,6 +64,9 @@
     <form action="{{ route('checkout.proses') }}" method="POST">
         @csrf
         <input type="hidden" name="metode_pembayaran_terpilih" id="metode_pembayaran_terpilih" value="cod">
+        @foreach ($selectedItems as $id)
+            <input type="hidden" name="items[]" value="{{ $id }}">
+        @endforeach
         <button type="submit"
             class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl shadow">
             Buat Pesanan
@@ -70,10 +75,14 @@
 </div>
 
 <script>
-    // update metode pembayaran yang dipilih ke input hidden
-    document.querySelectorAll('input[name="metode_pembayaran"]').forEach((radio) => {
+    const radios = document.querySelectorAll('input[name="metode_pembayaran"]');
+    const metodeHidden = document.getElementById('metode_pembayaran_terpilih');
+    const qrisSection = document.getElementById('qrisSection');
+
+    radios.forEach((radio) => {
         radio.addEventListener('change', function () {
-            document.getElementById('metode_pembayaran_terpilih').value = this.value;
+            metodeHidden.value = this.value;
+            qrisSection.classList.toggle('hidden', this.value !== 'qris');
         });
     });
 </script>

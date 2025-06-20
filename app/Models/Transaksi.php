@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DetailPesanan;
 
 class Transaksi extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'metode_pembayaran',
-        'status',
-        'total_harga',
+        'user_id', 'nama', 'alamat', 'no_hp', 'total_harga', 'status'
     ];
 
     public function user()
@@ -22,8 +20,7 @@ class Transaksi extends Model
     }
 
     public function detail()
-    {
-        return $this->hasMany(DetailTransaksi::class);
-    }
-
+{
+    return $this->hasMany(DetailPesanan::class);
+}
 }

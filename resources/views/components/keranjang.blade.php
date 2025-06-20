@@ -14,11 +14,6 @@
       <a href="{{ route('dashboard') }}" class="hover:text-yellow-800 transition-transform transform hover:scale-110">
         <i class="fas fa-house-chimney text-2xl"></i>
       </a>
-
-      <!-- Ikon Keranjang -->
-      <a href="{{ route('keranjang.index') }}" class="hover:text-yellow-800 transition text-2xl relative">
-        <i class="fas fa-shopping-cart"></i>
-      </a>
     </div>
 
   </div>
