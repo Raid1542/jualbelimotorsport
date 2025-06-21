@@ -6,20 +6,16 @@
   <title>@yield('title', 'SpeedZone')</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
 </head>
 <body class="bg-gray-100">
 
- @include('components.detail')
+ @include('components.konfirmasi')
 
   {{-- Konten --}}
   <main>
     @yield('content')
   </main>
 
-  {{-- Footer (opsional, bisa pakai include jika ada komponen) --}}
-  @include('components.footer')
 
 </body>
 </html>

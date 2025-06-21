@@ -41,7 +41,7 @@ class KeranjangController extends Controller
             $keranjang->increment('jumlah');
         }
 
-        return redirect()->route('keranjang.index')->with('success', 'Produk ditambahkan ke keranjang!');
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
     }
 
     public function tambahLangsung($keranjang_id)
@@ -74,9 +74,16 @@ class KeranjangController extends Controller
         return redirect()->route('keranjang.index')->with('success', 'Jumlah produk dikurangi');
     }
 
-    public function hapus($id)
+    public function destroy($id)
     {
-        Keranjang::where('id', $id)->where('user_id', Auth::id())->delete();
-        return redirect()->route('keranjang.index')->with('success', 'Produk dihapus dari keranjang');
+        $item = Keranjang::where('id', $id)->where('user_id', Auth::id())->first();
+
+        if (!$item) {
+            return response()->json(['success' => false, 'message' => 'Item tidak ditemukan.'], 404);
+        }
+
+        $item->delete();
+
+        return response()->json(['success' => true]);
     }
 }
