@@ -1,5 +1,3 @@
-<!-- views/pages/admin/konfirmasi_pembayaran.blade..php -->
-
 @extends('layouts.admin_layout')
 
 @section('title', 'Konfirmasi Pembayaran')
@@ -31,27 +29,18 @@
                         <td class="px-6 py-4">{{ $p['alamat'] }}</td>
                         <td class="px-6 py-4 font-semibold text-gray-800">Rp {{ number_format($p['total'], 0, ',', '.') }}</td>
                         <td class="px-6 py-4">
-                            <span class="px-2 py-1 bg-red-200 text-red-700 text-xs font-semibold rounded-full">{{ $p['status'] }}</span>
+                            <span class="px-2 py-1 bg-red-200 text-red-700 text-xs font-semibold rounded-full">
+                                {{ $p['status'] }}
+                            </span>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="flex flex-wrap gap-2">
-                                <button onclick="updateStatus(this, 'Terkonfirmasi', 'green')"
-                                    class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-                                    Konfirmasi
-                                </button>
-                                <button onclick="updateStatus(this, 'Diproses', 'blue')"
-                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-                                    Proses Kirim
-                                </button>
-                                <button onclick="updateStatus(this, 'Dikirim', 'purple')"
-                                    class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-                                    Dikirim
-                                </button>
-                                <button onclick="updateStatus(this, 'Diterima', 'gray')"
-                                    class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-                                    Diterima
-                                </button>
-                            </div>
+                            <select onchange="updateStatusDropdown(this)" class="text-xs font-bold rounded-full px-2 py-1 bg-yellow-200 text-yellow-800">
+                                <option disabled selected>Pilih Aksi</option>
+                                <option value="Terkonfirmasi|green">Konfirmasi</option>
+                                <option value="Diproses|blue">Proses Kirim</option>
+                                <option value="Dikirim|purple">Dikirim</option>
+                                <option value="Diterima|gray">Diterima</option>
+                            </select>
                         </td>
                     </tr>
                     @endforeach
@@ -61,8 +50,9 @@
     </div>
 
     <script>
-        function updateStatus(button, status, color) {
-            const row = button.closest('tr');
+        function updateStatusDropdown(select) {
+            const [status, color] = select.value.split('|');
+            const row = select.closest('tr');
             const statusSpan = row.querySelector('td:nth-child(6) span');
 
             const colorMap = {

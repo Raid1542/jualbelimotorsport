@@ -41,7 +41,7 @@
           <td class="px-4 py-2">{{ $produk['stok'] }}</td>
           <td class="px-4 py-2">{{ $produk['warna'] }}</td>
           <td class="px-4 py-2">
-            {{ is_array($produk['kategori']) ? $produk['kategori']['nama'] : $produk['kategori'] }}
+            {{ $produk->kategori->nama ?? '-' }}
           </td>
           <td class="px-4 py-2">
             <a href="{{ route('admin.produk.edit', $produk->id) }}" class="text-blue-600 hover:underline">Ubah</a>
