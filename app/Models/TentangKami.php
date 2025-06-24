@@ -1,5 +1,6 @@
 <?php
 
+// app/Models/TentangKami.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,9 +9,5 @@ class TentangKami extends Model
 {
     protected $table = 'tentang_kami';
 
-    protected $fillable = ['deskripsi', 'cerita', 'visi', 'misi', 'nilai', 'tim'];
-
-    protected $casts = [
-        'tim' => 'array',
-    ];
+    protected $fillable = ['nama', 'telepon', 'gambar'];
 }

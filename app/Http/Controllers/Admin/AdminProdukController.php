@@ -11,7 +11,7 @@ class AdminProdukController extends Controller
 {
     public function index()
     {
-        $produkList = Produk::all();
+        $produkList = Produk::with('kategori')->get();
         return view('pages.admin.produk', compact('produkList'));
     }
 
