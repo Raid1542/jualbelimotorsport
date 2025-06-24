@@ -4,7 +4,7 @@
     {{-- Kiri: Logo --}}
     <div class="flex items-center space-x-3">
       <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full object-cover">
-      <a href="{{ route('dashboard') }}" class="text-2xl font-extrabold text-yellow-500">SpeedZone</a>
+      <a href="{{ route('dashboard') }}" class="text-2xl font-extrabold text-yellow-500">Speedzone</a>
     </div>
 
     {{-- Tengah: Navigasi --}}
@@ -17,9 +17,9 @@
     {{-- Kanan: Search, Keranjang (ikon), dan Profil --}}
     <div class="flex items-center space-x-4">
 
-      {{-- Search Bar --}}
-      <form action="{{ route('produk') }}" method="GET" class="relative mr-1">
-        <input type="text" name="keyword" placeholder="Cari produk..."
+      {{-- ✅ Search Bar diperbaiki ke route dashboard.search --}}
+      <form action="{{ route('dashboard') }}" method="GET" class="relative mr-1">
+        <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Cari produk..."
           class="border border-gray-300 rounded-full py-1.5 pl-4 pr-10 text-sm focus:ring-yellow-400 focus:border-yellow-500 w-48 transition">
         <button type="submit" class="absolute right-2 top-1.5 text-gray-500 hover:text-yellow-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,21 +29,19 @@
         </button>
       </form>
 
-     {{-- Ikon Keranjang dengan badge --}}
-<a href="/keranjang" class="hover:text-yellow-800 transition relative">
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M6 6h15l-1.5 9h-13L4 4H2" stroke="currentColor" stroke-width="2" fill="none"/>
-    <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
-    <circle cx="18" cy="20" r="1.5" fill="currentColor"/>
-  </svg>
-
-  @if($jumlahKeranjang > 0)
-  <span class="absolute -top-2 -right-2 bg-yellow-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
-    {{ $jumlahKeranjang }}
-  </span>
-  @endif
-</a>
-
+      {{-- Ikon Keranjang dengan badge --}}
+      <a href="/keranjang" class="hover:text-yellow-800 transition relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 6h15l-1.5 9h-13L4 4H2" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
+          <circle cx="18" cy="20" r="1.5" fill="currentColor"/>
+        </svg>
+        @if($jumlahKeranjang > 0)
+          <span class="absolute -top-2 -right-2 bg-yellow-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+            {{ $jumlahKeranjang }}
+          </span>
+        @endif
+      </a>
 
       {{-- Dropdown Profil --}}
       <div class="relative group">

@@ -57,8 +57,8 @@
         </form>
 
         {{-- Beli Sekarang --}}
-        <a href="{{ route('checkout.beli', $produk->id) }}"
-          class="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl shadow-md font-semibold text-base text-center transition-all duration-300">
+        <a href="{{ route('checkout', $produk->id) }}"
+          class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-yellow-600 px-6 py-3 rounded-xl shadow-md font-semibold text-base text-center transition-all duration-300">
           Beli Sekarang
         </a>
       </div>

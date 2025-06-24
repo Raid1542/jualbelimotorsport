@@ -4,12 +4,20 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto px-4 py-6">
-    <!-- Alamat -->
-    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
-        <h2 class="font-bold text-lg text-yellow-600 mb-2">Alamat Pengiriman</h2>
-        <p class="text-sm text-gray-800 font-medium">{{ $user->name }} - {{ $user->phone }}</p>
-        <p class="text-sm text-gray-600">{{ $user->alamat }}</p>
-    </div>
+   <!-- Alamat Pengiriman -->
+<div class="bg-white rounded-xl shadow-md p-4 mb-4">
+    <h2 class="font-bold text-lg text-yellow-600 mb-2">Alamat Pengiriman</h2>
+    <p class="text-sm text-gray-700 mb-1">
+        <span class="font-medium">Nama:</span> {{ Auth::user()->name ?? '-' }}
+    </p>
+    <p class="text-sm text-gray-700 mb-1">
+        <span class="font-medium">Telepon:</span> {{ Auth::user()->telepon ?? '-' }}
+    </p>
+    <p class="text-sm text-gray-700">
+        <span class="font-medium">Alamat:</span> {{ Auth::user()->alamat ?? '-' }}
+    </p>
+</div>
+
 
     <!-- Produk -->
     <div class="bg-white rounded-xl shadow-md p-4 mb-4">

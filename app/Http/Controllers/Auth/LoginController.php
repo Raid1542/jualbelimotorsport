@@ -25,9 +25,11 @@ class LoginController extends Controller
 
         // Coba login pakai username dan password
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // regenerasi session agar aman
-            return redirect()->intended(route('dashboard')); // redirect ke dashboard
-        }
+    $request->session()->regenerate(); // regenerasi session agar aman
+    session(['show_welcome' => true]); // ✅ SET session
+    return redirect()->intended(route('dashboard')); // redirect ke dashboard
+}
+
 
         // Gagal login
         return back()->withErrors([
