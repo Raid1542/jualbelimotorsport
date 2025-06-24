@@ -68,11 +68,20 @@
                 <div id="totalTerpilih" class="text-2xl font-bold text-red-600">Rp 0</div>
             </div>
 
-            <div class="flex justify-end mt-6">
-                <button type="submit" id="checkoutBtn" disabled class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl shadow-lg font-semibold transition">
-                    Checkout Barang Terpilih
-                </button>
-            </div>
+            <div class="flex justify-between items-center mt-6 mb-6">
+    <a href="{{ route('produk') }}" 
+       class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl shadow-lg font-semibold transition text-center">
+        + Belanja Lagi
+    </a>
+    
+    <button type="submit" id="checkoutBtn" disabled 
+        class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl shadow-lg font-semibold transition">
+        Checkout Barang Terpilih
+    </button>
+</div>
+
+
+
         </form>
     @endif
 </div>

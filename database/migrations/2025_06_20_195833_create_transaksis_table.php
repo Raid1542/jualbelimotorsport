@@ -16,7 +16,7 @@ return new class extends Migration
         $table->unsignedBigInteger('user_id');
         $table->string('nama');
         $table->string('alamat');
-        $table->string('no_hp');
+        $table->string('telepon');
         $table->integer('total_harga');
         $table->string('status')->default('pending');
         $table->timestamps();
