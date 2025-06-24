@@ -1,3 +1,4 @@
+<!-- views/pages/admin/dashboard.blade.php -->
 @extends('layouts.admin_layout')
 
 @section('title', 'Dashboard Penjual')
