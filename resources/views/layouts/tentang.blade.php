@@ -9,7 +9,7 @@
 <body class="bg-gray-100 text-gray-800">
 
   {{-- Navbar --}}
-  @include('components.tentangkami')
+  @include('components.tentang')
 
   {{-- Content --}}
   <main>

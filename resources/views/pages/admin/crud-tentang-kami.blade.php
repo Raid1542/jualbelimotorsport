@@ -28,19 +28,28 @@
       <!-- Nama -->
       <div>
         <label class="block font-medium text-gray-700">Nama</label>
-        <input type="text" name="nama" value="{{ old('nama', $biodata->nama ?? '') }}" class="w-full border border-gray-300 rounded p-2" required>
+        <input type="text" name="nama" value="{{ old('nama', $biodata->nama ?? '') }}"
+               class="w-full border border-gray-300 rounded p-2 text-gray-900" required>
       </div>
 
       <!-- Telepon -->
       <div>
         <label class="block font-medium text-gray-700">Telepon</label>
-        <input type="text" name="telepon" value="{{ old('telepon', $biodata->telepon ?? '') }}" class="w-full border border-gray-300 rounded p-2" required>
+        <input type="text" name="telepon" value="{{ old('telepon', $biodata->telepon ?? '') }}"
+               class="w-full border border-gray-300 rounded p-2 text-gray-900" required>
+      </div>
+
+      <!-- Instagram -->
+      <div>
+        <label class="block font-medium text-gray-700">Instagram</label>
+        <input type="text" name="instagram" value="{{ old('instagram', $biodata->instagram ?? '') }}"
+               class="w-full border border-gray-300 rounded p-2 text-gray-900" placeholder="@username">
       </div>
 
       <!-- Gambar -->
       <div>
         <label class="block font-medium text-gray-700">Gambar</label>
-        <input type="file" name="gambar" class="w-full border border-gray-300 rounded p-2">
+        <input type="file" name="gambar" class="w-full border border-gray-300 rounded p-2 text-gray-900">
         @if(isset($biodata->gambar))
           <p class="mt-2 text-sm text-gray-600">Gambar saat ini:</p>
           <img src="{{ asset('images/' . $biodata->gambar) }}" class="w-32 mt-2 rounded shadow border">

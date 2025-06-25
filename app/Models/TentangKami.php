@@ -9,5 +9,5 @@ class TentangKami extends Model
 {
     protected $table = 'tentang_kami';
 
-    protected $fillable = ['nama', 'telepon', 'gambar'];
+    protected $fillable = ['nama', 'telepon', 'gambar', 'instagram'];
 }

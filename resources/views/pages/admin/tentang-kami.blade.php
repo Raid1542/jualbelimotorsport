@@ -22,6 +22,7 @@
           <th class="px-4 py-2">ID</th>
           <th class="px-4 py-2">Nama</th>
           <th class="px-4 py-2">Telepon</th>
+          <th class="px-4 py-2">Instagram</th> {{-- Kolom baru --}}
           <th class="px-4 py-2">Gambar</th>
           <th class="px-4 py-2">Ubah</th>
           <th class="px-4 py-2">Hapus</th>
@@ -33,6 +34,15 @@
           <td class="px-4 py-2">{{ $biodata->id }}</td>
           <td class="px-4 py-2">{{ $biodata->nama }}</td>
           <td class="px-4 py-2">{{ $biodata->telepon }}</td>
+          <td class="px-4 py-2">
+            @if ($biodata->instagram)
+              <a href="https://instagram.com/{{ ltrim($biodata->instagram, '@') }}" target="_blank" class="text-blue-600 hover:underline">
+                {{ '@' . ltrim($biodata->instagram, '@') }}
+              </a>
+            @else
+              <span class="text-gray-400 italic">Tidak ada</span>
+            @endif
+          </td>
           <td class="px-4 py-2">
             @if($biodata->gambar)
               <img src="{{ asset('images/' . $biodata->gambar) }}" class="w-16 h-16 object-cover rounded shadow">
@@ -53,7 +63,7 @@
         </tr>
         @empty
         <tr>
-          <td colspan="6" class="text-center text-gray-500 py-4">Belum ada data biodata pembuat.</td>
+          <td colspan="7" class="text-center text-gray-500 py-4">Belum ada data biodata pembuat.</td>
         </tr>
         @endforelse
       </tbody>
