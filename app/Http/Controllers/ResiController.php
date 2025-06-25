@@ -9,15 +9,15 @@ class ResiController extends Controller
     public function resi()
     {
         $data = [
-            'id_resi' => '1214144',
-            'kode_pesanan' => 'ORD-20230504-001',
-            'nama' => 'Prima Rizky Islami',
-            'alamat' => 'Contoh Alamat No. 123, Jakarta',
+            'id_resi' => 'MTR123456789',
+            'kode_pesanan' => 'ORD-MINI-20250625-001',
+            'nama' => 'Raid Aqil Athallah',
+            'alamat' => 'Jl. Hobi Motor Miniatur No. 46, Bandung',
             'produk' => [
-                ['nama' => 'Kaus Polos', 'varian' => 'Putih', 'jumlah' => 2, 'harga' => 150000],
-                ['nama' => 'Celana Jeans', 'varian' => 'Hitam', 'jumlah' => 1, 'harga' => 349999],
+                ['nama' => 'Miniatur Yamaha R1', 'skala' => '1:18', 'jumlah' => 1, 'harga' => 249000],
+                ['nama' => 'Miniatur Honda CBR600RR', 'skala' => '1:24', 'jumlah' => 2, 'harga' => 189000],
             ],
-            'total' => 649999
+            'total' => 249000 + 2 * 189000 // = 627000
         ];
 
         return view('pages.resi', compact('data'));

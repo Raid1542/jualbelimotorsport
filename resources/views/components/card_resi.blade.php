@@ -22,7 +22,7 @@
         <p class="font-bold text-yellow-600 mb-2">Detail Produk:</p>
         @foreach ($data['produk'] as $item)
         <div class="flex justify-between mb-1">
-            <span>{{ $item['nama'] }} <span class="text-xs text-gray-400">({{ $item['varian'] }})</span></span>
+            <span>{{ $item['nama'] }} <span class="text-xs text-gray-400">({{ $item['skala'] }})</span></span>
             <span>{{ $item['jumlah'] }} pcs • Rp{{ number_format($item['harga'], 0, ',', '.') }}</span>
         </div>
         @endforeach
