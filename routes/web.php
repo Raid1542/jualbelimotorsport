@@ -15,6 +15,7 @@ use App\Http\Controllers\RingkasanPembeliController;
 use App\Http\Controllers\PembayaranDanaController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\RingkasanPembelianController;
+use App\Http\Controllers\TentangController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ResiController;
@@ -23,7 +24,6 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\AdminProdukController;
 use App\Http\Controllers\Admin\AdminTentangKamiController;
-
 
 
 /*
@@ -70,6 +70,7 @@ Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.show
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardPembeliController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/search', [DashboardPembeliController::class, 'index'])->name('dashboard.search');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -78,8 +79,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
     Route::get('/profil/password', [ProfilController::class, 'editPassword'])->name('profil.edit_password');
     Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.update_password');
+
+
     Route::get('/pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
-    Route::get('/tentang-kami', [TentangKamiController::class, 'show'])->name('tentangkami');
+  
 
     // 🔒 Keranjang (butuh login)
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
@@ -93,7 +96,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/proses', [CheckoutController::class, 'prosesCheckout'])->name('checkout.proses');
     Route::post('/checkout/pilih', [CheckoutController::class, 'pilih'])->name('checkout.pilih');
     Route::get('/checkout/konfirmasi/{id}', [CheckoutController::class, 'konfirmasi'])->name('checkout.konfirmasi');
+    Route::get('/checkout/qris/{id}', [CheckoutController::class, 'qrisShow'])->name('checkout.qris.show');
     Route::get('/beli-sekarang/{id}', [CheckoutController::class, 'beliSekarang'])->name('checkout.beli');
+    Route::get('/checkout/sukses', [CheckoutController::class, 'sukses'])->name('checkout.sukses');
+
 
     Route::post('/konfirmasi/store', [PembayaranController::class, 'store'])->name('konfirmasi.store');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'index'])->name('konfirmasi.index');
@@ -104,6 +110,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/resi', [ResiController::class, 'resi'])->middleware('auth')->name('resi');
     Route::get('/riwayat_pesanan', [PesananController::class, 'pesanan'])->middleware('auth')->name('pesanan');
+
+    Route::get('/pembayaran/{id}', [TransaksiController::class, 'showPembayaran'])->name('pembayaran.show');
+    Route::post('/pembayaran/{id}/upload', [TransaksiController::class, 'uploadBukti'])->name('pembayaran.upload');
+
+    Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
 });
 
 
@@ -132,8 +143,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/produk/{id}/update', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 
-    // Tentang Kami (Edit Biodata Pembuat Website)
-    // Tentang Kami (CRUD)
     Route::get('/tentang-kami', [AdminTentangKamiController::class, 'index'])->name('tentangkami.index');
     Route::get('/tentang-kami/create', [AdminTentangKamiController::class, 'create'])->name('tentangkami.create');
     Route::post('/tentang-kami', [AdminTentangKamiController::class, 'store'])->name('tentangkami.store');
@@ -141,7 +150,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/tentang-kami/{id}', [AdminTentangKamiController::class, 'update'])->name('tentangkami.update');
     Route::delete('/tentang-kami/{id}', [AdminTentangKamiController::class, 'destroy'])->name('tentangkami.destroy');
 
-    Route::resource('tentang-kami', \App\Http\Controllers\Admin\AdminTentangKamiController::class)
+   Route::resource('tentang-kami', AdminTentangKamiController::class)
     ->names('tentangkami')
     ->parameters(['tentang-kami' => 'id']);
+
 });
