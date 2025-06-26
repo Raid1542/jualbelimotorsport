@@ -32,7 +32,7 @@ use App\Http\Controllers\Admin\AdminTentangKamiController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::view('/welcome', 'welcome');
 
 /*
@@ -82,7 +82,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
-  
+
 
     // 🔒 Keranjang (butuh login)
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
@@ -150,8 +150,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/tentang-kami/{id}', [AdminTentangKamiController::class, 'update'])->name('tentangkami.update');
     Route::delete('/tentang-kami/{id}', [AdminTentangKamiController::class, 'destroy'])->name('tentangkami.destroy');
 
-   Route::resource('tentang-kami', AdminTentangKamiController::class)
-    ->names('tentangkami')
-    ->parameters(['tentang-kami' => 'id']);
-
+    Route::resource('tentang-kami', AdminTentangKamiController::class)
+        ->names('tentangkami')
+        ->parameters(['tentang-kami' => 'id']);
 });
