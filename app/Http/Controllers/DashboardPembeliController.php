@@ -24,7 +24,6 @@ class DashboardPembeliController extends Controller
         $produkBaru = $produkQuery->orderBy('created_at', 'desc')->take(4)->get();
     }
 
-    // Ambil dan hapus session 'show_welcome' agar hanya muncul 1x
     $showWelcome = session()->pull('show_welcome', false);
 
     return view('pages.dashboard', [

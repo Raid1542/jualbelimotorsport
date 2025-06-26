@@ -40,11 +40,13 @@
       </div>
 
       <!-- Instagram -->
-      <div>
-        <label class="block font-medium text-gray-700">Instagram</label>
-        <input type="text" name="instagram" value="{{ old('instagram', $biodata->instagram ?? '') }}"
-               class="w-full border border-gray-300 rounded p-2 text-gray-900" placeholder="@username">
+      <div class="mb-4">
+    <label for="instagram" class="block text-sm font-medium text-gray-700">Instagram</label>
+    <input type="text" name="instagram" id="instagram"
+           value="{{ old('instagram', $biodata->instagram ?? '') }}"
+           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
       </div>
+
 
       <!-- Gambar -->
       <div>
