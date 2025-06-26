@@ -32,7 +32,7 @@
           <li><a href="/admin/konfirmasi_pembayaran" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Pesanan</a></li>
           <li><a href="/admin/rekap-penjualan" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Rekap Penjualan</a></li>
           <li><a href="/admin/tentang-kami" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Tentang Kami</a></li>
-          <li><a href="/logout" class="block text-red-500 hover:bg-red-700 hover:text-gray-800 px-4 py-2 rounded-lg">Logout</a></li>
+          <li><a href="/login" class="block text-red-500 hover:bg-red-700 hover:text-gray-800 px-4 py-2 rounded-lg">Logout</a></li>
         </ul>
       </aside>
 

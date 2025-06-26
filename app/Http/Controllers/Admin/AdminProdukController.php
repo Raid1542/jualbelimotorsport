@@ -64,6 +64,7 @@ class AdminProdukController extends Controller
             'button_label' => 'Update Produk',
             'kategoriList' => $kategoriList,
         ]);
+        
     }
 
     public function update(Request $request, $id)
