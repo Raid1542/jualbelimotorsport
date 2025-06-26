@@ -29,6 +29,7 @@ class AdminTentangKamiController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'telepon' => 'required|string|max:255',
+            'instagram' => 'nullable|string|max:255', 
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10000',
         ]);
 
@@ -63,6 +64,7 @@ class AdminTentangKamiController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'telepon' => 'required|string|max:255',
+            'instagram' => 'nullable|string|max:255', 
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10000',
         ]);
 
