@@ -15,6 +15,7 @@ return new class extends Migration
         $table->id();
         $table->string('nama');
         $table->string('telepon');
+        $table->string('instagram')->nullable();
         $table->string('gambar')->nullable();
         $table->timestamps();
     });
