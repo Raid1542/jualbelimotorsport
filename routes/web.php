@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\AdminTentangKamiController;
 
 
 Route::view('/welcome', 'welcome');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /*
 |--------------------------------------------------------------------------
