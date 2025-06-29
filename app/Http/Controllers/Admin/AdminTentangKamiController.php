@@ -11,12 +11,12 @@ class AdminTentangKamiController extends Controller
     public function index()
     {
         $biodataList = TentangKami::all();
-        return view('pages.admin.tentang-kami', compact('biodataList'));
+        return view('pages.admin.tentang_kami', compact('biodataList'));
     }
 
     public function create()
     {
-        return view('pages.admin.crud-tentang-kami', [
+        return view('pages.admin.crud_tentang_kami', [
             'biodata' => null,
             'form_action' => route('admin.tentangkami.store'),
             'form_method' => 'POST',
@@ -49,7 +49,7 @@ class AdminTentangKamiController extends Controller
     {
         $biodata = TentangKami::findOrFail($id);
 
-        return view('pages.admin.crud-tentang-kami', [
+        return view('pages.admin.crud_tentang_kami', [
             'biodata' => $biodata,
             'form_action' => route('admin.tentangkami.update', $biodata->id),
             'form_method' => 'PUT',

@@ -8,10 +8,10 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-black font-sans">
-  @include('components.pesanan-item')
+  {{-- Jangan include item langsung di layout --}}
+  {{-- @include('components.pesanan-item') --}}
 
   @yield('content')
-
   @yield('scripts')
 </body>
 </html>
