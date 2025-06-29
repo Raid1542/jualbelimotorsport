@@ -11,9 +11,6 @@
             <i class="fas fa-home"></i>
         </a>
 
-        <!-- Link ke Keranjang -->
-        <a href="{{ route('keranjang.index') }}" class="hover:text-yellow-200">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
+        
     </div>
 </header>

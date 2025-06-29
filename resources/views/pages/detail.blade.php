@@ -56,13 +56,13 @@
           </button>
         </form>
 
-        {{-- Beli Sekarang --}}
-        <a href="{{ route('checkout', $produk->id) }}"
-          class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-yellow-600 px-6 py-3 rounded-xl shadow-md font-semibold text-base text-center transition-all duration-300">
-          Beli Sekarang
-        </a>
-      </div>
-    </div>
+<a href="{{ route('checkout.beli', $produk->id) }}"
+   class="w-full sm:w-auto text-center bg-gray-100 hover:bg-gray-200 text-yellow-600 px-6 py-3 rounded-xl shadow-md font-semibold text-base transition-all duration-300">
+   Beli Sekarang
+</a>
+
+
+
 
   </div>
 </section>

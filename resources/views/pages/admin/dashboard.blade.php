@@ -16,11 +16,12 @@
             <h3 class="text-xl font-semibold text-gray-800 mb-3">📦 Produk Anda</h3>
             <div class="text-sm text-gray-700 space-y-2">
                 <p><strong>Kategori Produk:</strong></p>
-                <ul class="list-disc list-inside ml-2">
-                    @foreach ($kategori_produk as $kategori)
-                        <li>{{ $kategori->nama }}</li>
-                    @endforeach
+                <ul class="list-disc list-inside ml-2 text-gray-700">
+            @foreach ($kategori_produk as $kategori)
+             <li>{{ $kategori->nama }} ({{ $kategori->produk_count }} produk)</li>
+            @endforeach
                 </ul>
+
                 <p><strong>Jumlah Produk:</strong> {{ $jumlah_produk }}</p>
             </div>
         </div>
@@ -67,7 +68,7 @@
                     <td class="px-4 py-3">{{ $pesanan['status'] }}</td>
                     <td class="px-4 py-3">Rp{{ number_format($pesanan['total'], 0, ',', '.') }}</td>
                     <td class="px-4 py-3">
-                        <a href="/admin/konfirmasi_pembayaran" class="text-blue-500 hover:text-yellow-500 hover:underline">
+                        <a href="/admin/transaksi" class="text-blue-500 hover:text-yellow-500 hover:underline">
                             Detail
                         </a>
                     </td>

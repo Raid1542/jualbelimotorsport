@@ -1,85 +1,83 @@
-<!-- views/pages/admin/rekap-penjualan.blade.php -->
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rekap Penjualan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-200 text-yellow-300 font-sans">
+@extends('layouts.admin_layout')
 
-  <div class="flex h-screen flex-col">
+@section('title', 'Rekap Penjualan')
+@section('judul_halaman', 'Rekap Penjualan')
 
-    <!-- Navbar -->
-    <nav class="bg-gradient-to-r from-yellow-400 to-yellow-600 shadow-md py-4 px-6 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <img src="{{ asset('images/speedzone.jpg') }}" alt="logo" class="w-16 h-16 rounded-full object-cover" />
-        <span class="text-2xl font-bold tracking-wide text-white">SpeedZone</span>
-      </div>
-      <div class="absolute left-1/2 transform -translate-x-1/2">
-        <span class="text-2xl font-bold tracking-wide text-white">Rekap Penjualan</span>
-      </div>
-    </nav>
+@section('konten')
 
-    <!-- Content Area -->
-    <div class="flex flex-1">
+    {{-- Filter Form --}}
+    <form method="GET" class="flex flex-wrap gap-4 items-center mb-6">
+        <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="border p-2 rounded text-sm">
 
-      <!-- SIDEBAR -->
-      <aside class="bg-white w-64 p-4">
-        <div class="text-gray-800 text-lg font-semibold mb-8">Menu</div>
-        <ul class="space-y-4">
-          <li><a href="/admin/dashboard" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Dashboard</a></li>
-          <li><a href="/admin/produk" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Produk</a></li>
-          <li><a href="/admin/konfirmasi_pembayaran" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Pesanan</a></li>
-          <li><a href="/admin/rekap-penjualan" class="block text-gray-800 hover:bg-yellow-500 hover:text-gray-900 px-4 py-2 rounded-lg">Rekap Penjualan</a></li>
-          <li><a href="/login" class="block text-red-500 hover:bg-red-700 hover:text-white px-4 py-2 rounded-lg">Logout</a></li>
-        </ul>
-      </aside>
+        <select name="status" class="border p-2 rounded text-sm">
+            <option value="">Semua Status</option>
+            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="dibayar" {{ request('status') == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
+            <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
+            <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
+            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+        </select>
 
-      <!-- MAIN CONTENT -->
-      <main class="flex-1 p-6 overflow-y-auto">
+        <select name="metode" class="border p-2 rounded text-sm">
+            <option value="">Semua Metode</option>
+            <option value="transfer" {{ request('metode') == 'transfer' ? 'selected' : '' }}>Transfer</option>
+            <option value="qris" {{ request('metode') == 'qris' ? 'selected' : '' }}>QRIS</option>
+        </select>
 
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-2xl font-semibold text-gray-800">Tabel Rekap Penjualan</h3>
-          <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded text-sm">Terapkan Filter</button>
+
+        {{-- Tombol Ekspor --}}
+        <a href="{{ route('admin.rekap-penjualan.export') }}" class="ml-auto bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow text-sm">
             Ekspor ke Excel
-          </button>
-        </div>
+        </a>
+    </form>
 
-        <div class="overflow-x-auto bg-white rounded-lg shadow">
-          <table class="min-w-full text-sm text-left border border-gray-700">
+    {{-- Tabel Rekap --}}
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="min-w-full text-sm text-left border border-gray-700">
             <thead class="bg-yellow-600 text-gray-900">
-              <tr>
-                <th class="px-4 py-2 border border-gray-700">No</th>
-                <th class="px-4 py-2 border border-gray-700">ID Pesanan</th>
-                <th class="px-4 py-2 border border-gray-700">Nama Pembeli</th>
-                <th class="px-4 py-2 border border-gray-700">Produk</th>
-                <th class="px-4 py-2 border border-gray-700">Jumlah</th>
-                <th class="px-4 py-2 border border-gray-700">Total Harga</th>
-                <th class="px-4 py-2 border border-gray-700">Metode</th>
-              </tr>
+                <tr>
+                    <th class="px-4 py-2 border">No</th>
+                    <th class="px-4 py-2 border">ID Pesanan</th>
+                    <th class="px-4 py-2 border">Nama Pembeli</th>
+                    <th class="px-4 py-2 border">Produk</th>
+                    <th class="px-4 py-2 border">Jumlah</th>
+                    <th class="px-4 py-2 border">Total Harga</th>
+                    <th class="px-4 py-2 border">Metode</th>
+                </tr>
             </thead>
             <tbody>
-              @for($i = 1; $i <= 10; $i++)
-              <tr class="hover:bg-gray-300 text-gray-800">
-                <td class="px-4 py-2 border border-gray-700">{{ $i }}</td>
-                <td class="px-4 py-2 border border-gray-700">ORD-00{{ $i }}</td>
-                <td class="px-4 py-2 border border-gray-700">Pembeli {{ $i }}</td>
-                <td class="px-4 py-2 border border-gray-700">Produk {{ $i }}</td>
-                <td class="px-4 py-2 border border-gray-700">2</td>
-                <td class="px-4 py-2 border border-gray-700">Rp200.000</td>
-                <td class="px-4 py-2 border border-gray-700">Transfer</td>
-              </tr>
-              @endfor
+                @php $grandTotal = 0; @endphp
+                @forelse ($transaksis as $index => $trx)
+                    @foreach ($trx->detail as $item)
+                        @php
+                            $subtotal = $item->produk->harga * $item->jumlah;
+                            $grandTotal += $subtotal;
+                        @endphp
+                        <tr class="hover:bg-gray-300 text-gray-800">
+                            <td class="px-4 py-2 border">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-2 border">TRX-{{ str_pad($trx->id, 4, '0', STR_PAD_LEFT) }}</td>
+                            <td class="px-4 py-2 border">{{ $trx->nama }}</td>
+                            <td class="px-4 py-2 border">{{ $item->produk->nama_produk ?? 'Produk dihapus' }}</td>
+                            <td class="px-4 py-2 border">{{ $item->jumlah }}</td>
+                            <td class="px-4 py-2 border">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
+                            <td class="px-4 py-2 border">{{ ucfirst($trx->metode_pembayaran) }}</td>
+                        </tr>
+                    @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center text-gray-500 py-6">Belum ada transaksi</td>
+                    </tr>
+                @endforelse
             </tbody>
-          </table>
-        </div>
-
-      </main>
+        </table>
     </div>
 
-  </div>
+    {{-- Total Penjualan --}}
+    @if($transaksis->count() > 0)
+        <div class="mt-4 text-right text-lg font-bold text-gray-700">
+            Total Penjualan: Rp{{ number_format($grandTotal, 0, ',', '.') }}
+        </div>
+    @endif
 
-</body>
-</html>
+@endsection
