@@ -7,25 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pesanan extends Model
 {
-    use HasFactory;
+    protected $table = 'pesanan';
 
     protected $fillable = [
         'user_id',
-        'produk_id',
+        'kode_invoice',
         'status',
-        'jumlah',
+        'resi'
     ];
 
-    // Relasi ke User
+
+
+    // Relasi ke user
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-    // Relasi ke Produk
-    public function produk()
-    {
-        return $this->belongsTo(Produk::class);
-    }
 }
-

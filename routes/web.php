@@ -24,7 +24,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KonfirmasiPembayaranController;
 use App\Http\Controllers\Admin\AdminProdukController;
 use App\Http\Controllers\Admin\AdminTentangKamiController;
-
+use App\Http\Controllers\Admin\AdminTransaksiController;
+use App\Http\Controllers\Admin\AdminRekapController;
+use App\Http\Controllers\Admin\AdminPesananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +34,8 @@ use App\Http\Controllers\Admin\AdminTentangKamiController;
 |--------------------------------------------------------------------------
 */
 
-
-Route::view('/welcome', 'welcome');
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::view('/welcome', 'welcome');
 
 /*
 |--------------------------------------------------------------------------
@@ -82,7 +83,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.update_password');
 
 
-    Route::get('/pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
+    Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan');
+    Route::get('/riwayat', [PesananController::class, 'riwayat'])->name('riwayat');
+    Route::post('/pesanan/selesai/{id}', [PesananController::class, 'selesaikan'])->name('pesanan.selesai');
+    Route::get('/invoice/{id}', [PesananController::class, 'invoice'])->name('pesanan.invoice');
 
 
     // 🔒 Keranjang (butuh login)
@@ -96,8 +100,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::post('/checkout/proses', [CheckoutController::class, 'prosesCheckout'])->name('checkout.proses');
     Route::post('/checkout/pilih', [CheckoutController::class, 'pilih'])->name('checkout.pilih');
-    Route::get('/checkout/konfirmasi/{id}', [CheckoutController::class, 'konfirmasi'])->name('checkout.konfirmasi');
-    Route::get('/checkout/qris/{id}', [CheckoutController::class, 'qrisShow'])->name('checkout.qris.show');
+    Route::post('/checkout/qris/konfirmasi/{id}', [CheckoutController::class, 'konfirmasiQris'])->name('checkout.qris.konfirmasi');
+    Route::get('/checkout/qris/{id}', [CheckoutController::class, 'checkoutQris'])->name('checkout.qris');
     Route::get('/beli-sekarang/{id}', [CheckoutController::class, 'beliSekarang'])->name('checkout.beli');
     Route::get('/checkout/sukses', [CheckoutController::class, 'sukses'])->name('checkout.sukses');
 
@@ -110,7 +114,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favorite/{produk}', [FavoriteController::class, 'store'])->name('favorite.store');
 
     Route::get('/resi', [ResiController::class, 'resi'])->middleware('auth')->name('resi');
-    Route::get('/riwayat_pesanan', [PesananController::class, 'pesanan'])->middleware('auth')->name('pesanan');
+    Route::get('/riwayat_pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
 
     Route::get('/pembayaran/{id}', [TransaksiController::class, 'showPembayaran'])->name('pembayaran.show');
     Route::post('/pembayaran/{id}/upload', [TransaksiController::class, 'uploadBukti'])->name('pembayaran.upload');
@@ -129,12 +133,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-    // Riwayat transaksi & Rekap penjualan (hanya view)
-    Route::view('/riwayat-transaksi', 'admin.riwayat-transaksi')->name('riwayat-transaksi');
-    Route::view('/rekap-penjualan', 'pages.admin.rekap-penjualan')->name('rekap-penjualan');
+    // Transaksi
+    Route::get('/transaksi', [AdminTransaksiController::class, 'index'])->name('transaksi');
+    Route::post('/transaksi/update-status/{id}', [AdminTransaksiController::class, 'updateStatus'])->name('transaksi.update');
+    Route::post('/pesanan/konfirmasi/{id}', [AdminTransaksiController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
+    Route::post('/pesanan/kirim/{id}', [AdminTransaksiController::class, 'kirim'])->name('pesanan.kirim');
 
-    // Konfirmasi Pembayaran
-    Route::get('/konfirmasi_pembayaran', [KonfirmasiPembayaranController::class, 'index'])->name('konfirmasi.index');
+    // Rekap Penjualan
+    Route::get('/rekap-penjualan', [AdminRekapController::class, 'index'])->name('rekap-penjualan');
+    Route::get('/rekap-penjualan/export', [AdminRekapController::class, 'export'])->name('rekap-penjualan.export');
 
     // Produk (CRUD)
     Route::get('/produk', [AdminProdukController::class, 'index'])->name('produk.index');
@@ -144,6 +151,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/produk/{id}/update', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 
+    // Tentang Kami
     Route::get('/tentang-kami', [AdminTentangKamiController::class, 'index'])->name('tentangkami.index');
     Route::get('/tentang-kami/create', [AdminTentangKamiController::class, 'create'])->name('tentangkami.create');
     Route::post('/tentang-kami', [AdminTentangKamiController::class, 'store'])->name('tentangkami.store');
@@ -151,7 +159,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/tentang-kami/{id}', [AdminTentangKamiController::class, 'update'])->name('tentangkami.update');
     Route::delete('/tentang-kami/{id}', [AdminTentangKamiController::class, 'destroy'])->name('tentangkami.destroy');
 
-    Route::resource('tentang-kami', AdminTentangKamiController::class)
-        ->names('tentangkami')
-        ->parameters(['tentang-kami' => 'id']);
+    Route::get('/pesanan', [AdminPesananController::class, 'index'])->name('admin.pesanan');
+    Route::post('/pesanan/{id}/konfirmasi', [AdminPesananController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
+    Route::post('/pesanan/{id}/proses', [AdminPesananController::class, 'proses'])->name('pesanan.proses');
+    Route::post('/pesanan/{id}/kirim', [AdminPesananController::class, 'kirim'])->name('pesanan.kirim');
 });
