@@ -8,19 +8,19 @@ use App\Models\DetailPesanan;
 
 class Transaksi extends Model
 {
-    use HasFactory;
+    protected $table = 'transaksis';
 
     protected $fillable = [
-    'user_id', 'nama', 'alamat', 'telepon', 'total_harga', 'metode_pembayaran', 'status'
-];
+        'user_id', 'status', 'tanggal', 'total', 'metode_pembayaran'
+    ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function detail()
-{
-    return $this->hasMany(DetailPesanan::class);
-}
+    public function detailPesanan()
+    {
+        return $this->hasMany(DetailPesanan::class, 'transaksi_id');
+    }
 }

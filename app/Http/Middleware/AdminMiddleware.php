@@ -15,6 +15,6 @@ class AdminMiddleware
         }
 
         // Jika bukan admin, redirect ke halaman lain, misal home user
-        return redirect('/home')->with('error', 'Anda tidak memiliki akses admin');
+        return redirect('/dashboard')->with('error', 'Anda tidak memiliki akses admin');
     }
 }
