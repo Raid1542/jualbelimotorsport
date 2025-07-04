@@ -4,7 +4,7 @@
     {{-- Kiri: Logo --}}
     <div class="flex items-center space-x-3">
       <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full object-cover">
-      <a href="{{ route('produk') }}" class="text-2xl font-extrabold text-yellow-500">Speedzone</a>
+      <a href="{{ route('home') }}" class="text-2xl font-extrabold text-yellow-500">Speedzone</a>
     </div>
 
     {{-- Tengah: Search Bar --}}

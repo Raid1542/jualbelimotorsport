@@ -11,6 +11,7 @@
         <p class="text-gray-500 text-sm">SpeedZone - Bukti Pembelian</p>
     </div>
 
+
     {{-- Info pesanan --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-sm">
         <div>
@@ -66,12 +67,16 @@
         </div>
     </div>
 
-    {{-- Aksi --}}
+    {{-- Tombol Aksi --}}
     <div class="mt-8 flex justify-between items-center print:hidden">
         <a href="{{ route('pesanan') }}"
            class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg shadow">
             Kembali ke Pesanan
         </a>
+        <button onclick="window.print()"
+           class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow">
+            Cetak
+        </button>
     </div>
 </div>
 @endsection

@@ -8,5 +8,5 @@
 
 
     <!-- Judul Tengah -->
-    <h1 class="text-xl md:text-2xl font-extrabold text-yellow-500">Edit Profil</h1>
+    <h1 class="text-xl md:text-2xl font-extrabold text-yellow-500">Edit Kata Sandi</h1>
 </header>

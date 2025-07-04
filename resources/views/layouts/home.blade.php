@@ -13,12 +13,11 @@
 </head>
 <body class="bg-yellow-400 text-gray-800">
 
-  @yield('content')
-
-  {{-- Include header global jika ada --}}
   @includeIf('components.header')
 
+  @yield('content')
 
+ 
   @include('components.footer')
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
