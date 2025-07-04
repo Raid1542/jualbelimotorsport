@@ -11,50 +11,59 @@
         <p class="text-gray-500 text-sm">SpeedZone - Bukti Pembelian</p>
     </div>
 
-    {{-- Info Transaksi & Pembeli --}}
+
+    {{-- Info pesanan --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-sm">
         <div>
-            <h2 class="font-semibold text-yellow-600 mb-2">Informasi Invoice</h2>
-            <p><span class="font-medium">No. Invoice:</span> INV-{{ $transaksi->created_at->format('Ymd') }}-{{ str_pad($transaksi->id, 3, '0', STR_PAD_LEFT) }}</p>
-            <p><span class="font-medium">Tanggal:</span> {{ $transaksi->created_at->format('d M Y, H:i') }}</p>
-            <p><span class="font-medium">Status:</span> <span class="capitalize text-yellow-700 font-semibold">{{ $transaksi->status }}</span></p>
+            <h2 class="font-semibold text-yellow-600 mb-1">Informasi Invoice</h2>
+            <p><strong>No. Invoice:</strong> INV-{{ $pesanan->created_at->format('Ymd') }}-{{ str_pad($pesanan->id, 3, '0', STR_PAD_LEFT) }}</p>
+            <p><strong>Tanggal:</strong> {{ $pesanan->created_at->format('d M Y, H:i') }}</p>
+            <p><strong>Status:</strong> <span class="capitalize">{{ $pesanan->status }}</span></p>
         </div>
         <div>
-            <h2 class="font-semibold text-yellow-600 mb-2">Data Pembeli</h2>
-            <p><span class="font-medium">Nama:</span> {{ $transaksi->user->name }}</p>
-            <p><span class="font-medium">Alamat:</span> {{ $transaksi->user->alamat }}</p>
-            <p><span class="font-medium">Telepon:</span> {{ $transaksi->user->telepon }}</p>
+            <h2 class="font-semibold text-yellow-600 mb-1">Data Pembeli</h2>
+            <p><strong>Nama:</strong> {{ $pesanan->user->name }}</p>
+            <p><strong>Alamat:</strong> {{ $pesanan->user->alamat }}</p>
+            <p><strong>Telepon:</strong> {{ $pesanan->user->telepon }}</p>
         </div>
     </div>
 
-    {{-- Produk Dipesan --}}
-    <h2 class="font-semibold text-yellow-600 mb-3 text-base">Produk yang Dipesan</h2>
-    <div class="space-y-4 mb-6">
-        @foreach($transaksi->detailPesanan as $item)
-        <div class="flex gap-4 items-start border rounded-xl p-4 bg-gray-50 shadow-sm">
-            <img src="{{ asset('images/' . optional($item->produk)->gambar) }}" alt="produk"
-                 class="w-20 h-20 object-cover rounded-lg">
-            <div class="flex-1">
-                <h3 class="font-semibold text-gray-800 text-sm">{{ optional($item->produk)->nama ?? 'Produk tidak tersedia' }}</h3>
-                <p class="text-gray-500 text-xs">Jumlah: {{ $item->jumlah }}</p>
-                <p class="text-sm text-red-600 font-semibold mt-1">
-                    Rp{{ number_format($item->harga * $item->jumlah, 0, ',', '.') }}
-                </p>
-                <p class="text-xs text-gray-400">Harga satuan: Rp{{ number_format($item->harga, 0, ',', '.') }}</p>
+    {{-- Daftar Produk --}}
+    <div class="mb-6">
+        <h2 class="font-semibold text-yellow-600 mb-3">Detail Produk</h2>
+        <table class="w-full text-sm border border-gray-200">
+            <thead class="bg-gray-100 text-gray-600 text-left">
+                <tr>
+                    <th class="px-4 py-2 border-b">Produk</th>
+                    <th class="px-4 py-2 border-b text-center">Jumlah</th>
+                    <th class="px-4 py-2 border-b text-right">Harga Satuan</th>
+                    <th class="px-4 py-2 border-b text-right">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($pesanan->detailPesanan as $item)
+                <tr class="border-t">
+                    <td class="px-4 py-2">{{ $item->produk->nama }}</td>
+                    <td class="px-4 py-2 text-center">{{ $item->jumlah }}</td>
+                    <td class="px-4 py-2 text-right">Rp{{ number_format($item->harga, 0, ',', '.') }}</td>
+                    <td class="px-4 py-2 text-right">Rp{{ number_format($item->harga * $item->jumlah, 0, ',', '.') }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Ringkasan --}}
+    <div class="flex justify-end">
+        <div class="w-full sm:w-1/2 text-sm space-y-1">
+            <div class="flex justify-between font-semibold border-t pt-2">
+                <span>Total Bayar:</span>
+                <span class="text-red-600">Rp{{ number_format($pesanan->total, 0, ',', '.') }}</span>
             </div>
-        </div>
-        @endforeach
-    </div>
-
-    {{-- Ringkasan Pembayaran --}}
-    <div class="bg-white border-t pt-4 text-sm space-y-2">
-        <div class="flex justify-between font-semibold">
-            <span>Total Bayar:</span>
-            <span class="text-red-600">Rp{{ number_format($transaksi->total, 0, ',', '.') }}</span>
-        </div>
-        <div class="flex justify-between">
-            <span>Metode Pembayaran:</span>
-            <span>{{ strtoupper($transaksi->metode_pembayaran) }}</span>
+            <div class="flex justify-between">
+                <span>Metode Pembayaran:</span>
+                <span>{{ strtoupper($pesanan->metode_pembayaran) }}</span>
+            </div>
         </div>
     </div>
 

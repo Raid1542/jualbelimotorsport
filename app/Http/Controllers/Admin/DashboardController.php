@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\Models\Transaksi;
 use App\Models\Produk;
 use App\Models\Kategori;
 use Carbon\Carbon;
+use App\Models\Pesanan;
 
 class DashboardController extends Controller
 {
@@ -15,13 +15,13 @@ class DashboardController extends Controller
     {
         $jumlah_produk = Produk::count();
         $kategori_produk = Kategori::withCount('produk')->get();
-        $total_pesanan = Transaksi::count();
-        $pesanan_terbaru = Transaksi::where('created_at', '>=', now()->subDay())->count();
+        $total_pesanan = Pesanan::count();
+        $pesanan_terbaru = Pesanan::where('created_at', '>=', now()->subDay())->count();
 
-        $pendapatan_harian = Transaksi::whereDate('created_at', Carbon::today())->sum('total');
-        $pendapatan_bulanan = Transaksi::whereMonth('created_at', Carbon::now()->month)->sum('total');
+        $pendapatan_harian = Pesanan::whereDate('created_at', Carbon::today())->sum('total');
+        $pendapatan_bulanan = Pesanan::whereMonth('created_at', Carbon::now()->month)->sum('total');
 
-        $pesanan_list = Transaksi::with('detailPesanan.produk')
+        $pesanan_list = Pesanan::with('detailPesanan.produk')
             ->latest()
             ->take(5)
             ->get()
