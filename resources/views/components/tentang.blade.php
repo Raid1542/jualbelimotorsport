@@ -1,16 +1,15 @@
-<header class="bg-yellow-400 p-6 relative flex items-center justify-center">
-   
-    
-    <!-- Judul Tengah -->
-    <h1 class="text-2xl md:text-3xl font-bold text-white">Tentang Kami</h1>
+<header class="bg-white shadow-md sticky top-0 z-50 px-4 py-4">
+  <div class="relative flex items-center justify-center">
 
-    <!-- Ikon kanan -->
-    <div class="absolute right-6 flex space-x-4 text-white text-2xl">
-        <!-- Link ke Dashboard -->
-        <a href="{{ route('dashboard') }}" class="hover:text-yellow-200">
-            <i class="fas fa-home"></i>
-        </a>
+    <!-- Kiri: Logo & Nama (bisa diklik ke dashboard) -->
+    <a href="{{ route('dashboard') }}" class="absolute left-4 flex items-center space-x-3">
+      <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-10 h-10 rounded-full object-cover">
+      <span class="text-xl font-extrabold text-yellow-500">Speedzone</span>
+    </a>
 
-        
-    </div>
+    <!-- Tengah: Judul Halaman -->
+    <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-500 text-center">Tentang Kami</h1>
+
+
+  </div>
 </header>

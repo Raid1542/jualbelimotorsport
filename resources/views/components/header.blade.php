@@ -1,31 +1,51 @@
-<header class="fixed top-0 left-0 w-full z-10 flex items-center justify-between px-8 py-4 bg-yellow-400 bg-opacity-90 shadow">
-  <div class="flex items-center space-x-3 font-bold text-xl text-white">
-    <!-- Logo bulat diperbesar -->
-    <div class="w-16 h-16 rounded-full overflow-hidden bg-white flex-shrink-0">
-      <img src="/images/speedzone.jpg" alt="logo" class="w-full h-full object-cover" />
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    
+    {{-- Kiri: Logo dan Nama --}}
+    <div class="flex items-center space-x-3">
+      <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full object-cover">
+      <span class="text-2xl font-extrabold text-yellow-500">Speedzone</span>
     </div>
-    <span class="text-2xl md:text-3xl font-extrabold">Speedzone</span>
+
+    {{-- Tengah: Navigasi Desktop --}}
+    <nav class="hidden md:flex gap-8 font-semibold">
+      <a href="{{ route('produk2') }}" class="text-gray-700 hover:text-yellow-600">Produk</a>
+      <a href="{{ route('tentang') }}" class="text-gray-700 hover:text-yellow-600">Tentang Kami</a>
+    </nav>
+
+    {{-- Kanan: Login & Hamburger --}}
+    <div class="flex items-center space-x-4">
+      {{-- Tombol Login --}}
+      <a href="{{ route('login') }}">
+        <button class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition">
+          Login
+        </button>
+      </a>
+
+      {{-- Hamburger Mobile --}}
+      <button id="menu-toggle" class="md:hidden focus:outline-none text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <nav class="hidden md:flex space-x-6 text-gray font-medium">
-    <a href="#product" class="hover:text-yellow-700 hover:underline underline-offset-4 transition duration-200">Beranda</a>
-    <a href="/produk" class="hover:text-yellow-700 hover:underline underline-offset-4 transition duration-200">Produk</a>
-    <a href="#" class="hover:text-yellow-700 hover:underline underline-offset-4 transition duration-200">Tentang Kami</a>
-  </nav>
-
-  <div class="flex items-center space-x-4">
-    <!-- Tombol Login -->
-    <a href="{{ route('login') }}">
-      <button class="px-4 py-1 bg-yellow-600 text-white font-semibold rounded-md transition hover:bg-yellow-700 active:scale-95">
-        Login
-      </button>
-    </a>
-
-    <!-- Ikon Keranjang Modern (Font Awesome) -->
-    <a href="keranjang" class="text-white hover:text-yellow-800 transition text-2xl relative">
-      <i class="fas fa-shopping-cart"></i>
-      <!-- Badge jika ingin menampilkan jumlah item -->
-      <!-- <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-1.5 rounded-full">3</span> -->
-    </a>
+  {{-- Mobile Menu --}}
+  <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
+    <a href="{{ route('produk2') }}" class="block py-2 text-gray-700 hover:text-yellow-600 font-semibold">Produk</a>
+    <a href="{{ route('tentang') }}" class="block py-2 text-gray-700 hover:text-yellow-600 font-semibold">Tentang Kami</a>
   </div>
 </header>
+
+{{-- JS Toggle for Mobile Menu --}}
+<script>
+  const toggleBtn = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  toggleBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>

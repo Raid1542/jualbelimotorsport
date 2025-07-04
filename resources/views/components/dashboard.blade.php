@@ -11,7 +11,7 @@
     <div class="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
       <a href="{{ route('produk') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Produk</a>
       <a href="{{ route('tentang') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Tentang Kami</a>
-      <a href="{{ route('favorite.index') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Favorite</a>
+      <a href="{{ route('pesanan') }}" class="text-gray-700 hover:text-yellow-600 font-semibold">Pesanan Saya</a>
     </div>
 
     {{-- Kanan: Search, Keranjang (ikon), dan Profil --}}

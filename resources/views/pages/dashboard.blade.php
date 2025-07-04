@@ -21,7 +21,7 @@
           SpeedZone
         </h1>
         <p class="text-white text-lg mt-6 max-w-xl drop-shadow-md leading-relaxed tracking-wide text-center md:text-left">
-          Nikmati pengalaman belanja terbaik di SpeedZone. Temukan produk impianmu sekarang!
+          Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
         </p>
         <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
           <a href="{{ route('produk') }}"
@@ -31,7 +31,6 @@
         </div>
       </div>
       <div class="w-full max-w-md">
-        {{-- Optional: Tambah banner/gambar promo --}}
       </div>
     </div>
   </div>
@@ -45,7 +44,7 @@
       <p class="text-gray-600 mt-3 text-lg">Menampilkan hasil untuk: <strong>"{{ request('keyword') }}"</strong></p>
     @else
       <h2 class="text-4xl font-extrabold text-gray-800">Produk Terbaru</h2>
-      <p class="text-gray-600 mt-3 text-lg">Temukan produk terbaik pilihan SpeedZone yang siap menemani petualanganmu.</p>
+      <p class="text-gray-600 mt-3 text-lg">Temukan Produk terbaik Plihan anda di Speedzone cocok untuk menjadi koleksi kamu dirumah.</p>
     @endif
   </div>
 

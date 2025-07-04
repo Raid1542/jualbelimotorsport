@@ -1,20 +1,15 @@
-<header class="bg-yellow-400 p-6 relative flex items-center justify-center">
-    <!-- Tanda panah kiri -->
-    <a href="javascript:history.back()" class="absolute left-6 text-3xl font-semibold text-white hover:text-yellow-200">&larr;</a>
+<header class="bg-white py-5 px-4 relative flex items-center justify-center shadow-md sticky top-0 z-50">
+  
+  <!-- Judul Tengah -->
+  <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-500">Profil Saya</h1>
 
-    <!-- Judul Tengah -->
-    <h1 class="text-2xl md:text-3xl font-bold text-white">Profil Saya</h1>
+  <!-- Ikon kanan -->
+  <div class="absolute right-4 flex space-x-4 text-gray-700 text-2xl">
+    <!-- Link ke Dashboard -->
+    <a href="{{ route('dashboard') }}" class="hover:text-yellow-500 transition-transform transform hover:scale-110">
+      <i class="fas fa-home"></i>
+    </a>
 
-    <!-- Ikon kanan -->
-    <div class="absolute right-6 flex space-x-4 text-white text-2xl">
-        <!-- Link ke Dashboard -->
-        <a href="{{ route('dashboard') }}" class="hover:text-yellow-200">
-            <i class="fas fa-home"></i>
-        </a>
-
-        <!-- Link ke Keranjang -->
-        <a href="{{ route('keranjang.index') }}" class="hover:text-yellow-200">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
-    </div>
+  
+  </div>
 </header>

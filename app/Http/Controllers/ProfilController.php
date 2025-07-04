@@ -13,11 +13,15 @@ class ProfilController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        $user = Auth::user();
-        return view('pages.profil', compact('user'));
-    }
+   public function index()
+{
+    $user = Auth::user();
+
+    // Hapus flash popup_success jika ada (agar tidak muncul dari aksi sebelumnya)
+    session()->forget('popup_success');
+
+    return view('pages.profil', compact('user'));
+}
 
     public function edit()
     {
@@ -51,7 +55,8 @@ class ProfilController extends Controller
 
     $user->save();
 
-   return redirect()->route('profil')->with('success', 'Data berhasil disimpan!');
+   return redirect()->route('profil')->with('popup_success', 'Data berhasil disimpan!');
+
 
 }
 
@@ -78,6 +83,6 @@ class ProfilController extends Controller
         'password' => Hash::make($request->new_password),
     ]);
 
-    return redirect()->route('profil')->with('status', 'Password berhasil diubah');
+return redirect()->route('profil')->with('popup_success', 'Password berhasil diubah');
 }
 }
