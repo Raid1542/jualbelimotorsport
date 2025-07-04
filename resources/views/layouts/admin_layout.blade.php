@@ -30,7 +30,7 @@
   <ul class="space-y-4">
     <li><a href="{{ route('admin.dashboard') }}" class="block text-gray-800 hover:bg-yellow-500 px-4 py-2 rounded-lg">Dashboard</a></li>
     <li><a href="{{ route('admin.produk.index') }}" class="block text-gray-800 hover:bg-yellow-500 px-4 py-2 rounded-lg">Produk</a></li>
-    <li><a href="{{ route('admin.transaksi') }}" class="block text-gray-800 hover:bg-yellow-500 px-4 py-2 rounded-lg">Pesanan</a></li>
+    <li><a href="{{ route('admin.pesanan') }}" class="block text-gray-800 hover:bg-yellow-500 px-4 py-2 rounded-lg">Pesanan</a></li>
     <li><a href="{{ route('admin.rekap-penjualan') }}" class="block text-gray-800 hover:bg-yellow-500 px-4 py-2 rounded-lg">Rekap Penjualan</a></li>
     <li><a href="{{ route('admin.tentangkami.index') }}" class="block text-gray-800 hover:bg-yellow-500 px-4 py-2 rounded-lg">Tentang Kami</a></li>
     <li><a href="/login" class="block text-red-500 hover:bg-red-700 px-4 py-2 rounded-lg">Logout</a></li>

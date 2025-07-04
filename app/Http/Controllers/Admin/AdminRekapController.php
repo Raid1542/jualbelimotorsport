@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Models\Transaksi;
+use App\Models\Pesanan;
 use Carbon\Carbon;
 
 class AdminRekapController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Transaksi::with('detail.produk');
+        $query = Pesanan::with('detail.produk');
 
         // 🔍 Filter berdasarkan tanggal
         if ($request->filled('tanggal')) {
@@ -29,9 +29,9 @@ class AdminRekapController extends Controller
             $query->where('metode_pembayaran', $request->metode);
         }
 
-        $transaksis = $query->latest()->get();
+        $pesanan = $query->latest()->get();
 
-        return view('pages.admin.rekap-penjualan', compact('transaksis'));
+        return view('pages.admin.rekap-penjualan', compact('pesanan'));
     }
 
     // 📤 Export ke Excel (dummy / bisa dikembangkan dengan Laravel Excel)

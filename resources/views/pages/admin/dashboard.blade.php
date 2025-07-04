@@ -68,7 +68,7 @@
                     <td class="px-4 py-3">{{ $pesanan['status'] }}</td>
                     <td class="px-4 py-3">Rp{{ number_format($pesanan['total'], 0, ',', '.') }}</td>
                     <td class="px-4 py-3">
-                        <a href="/admin/transaksi" class="text-blue-500 hover:text-yellow-500 hover:underline">
+                        <a href="{{ route('admin.pesanan') }}" class="text-blue-500 hover:text-yellow-500 hover:underline">
                             Detail
                         </a>
                     </td>

@@ -11,19 +11,19 @@
         <p class="text-gray-500 text-sm">SpeedZone - Bukti Pembelian</p>
     </div>
 
-    {{-- Info Transaksi --}}
+    {{-- Info pesanan --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-sm">
         <div>
             <h2 class="font-semibold text-yellow-600 mb-1">Informasi Invoice</h2>
-            <p><strong>No. Invoice:</strong> INV-{{ $transaksi->created_at->format('Ymd') }}-{{ str_pad($transaksi->id, 3, '0', STR_PAD_LEFT) }}</p>
-            <p><strong>Tanggal:</strong> {{ $transaksi->created_at->format('d M Y, H:i') }}</p>
-            <p><strong>Status:</strong> <span class="capitalize">{{ $transaksi->status }}</span></p>
+            <p><strong>No. Invoice:</strong> INV-{{ $pesanan->created_at->format('Ymd') }}-{{ str_pad($pesanan->id, 3, '0', STR_PAD_LEFT) }}</p>
+            <p><strong>Tanggal:</strong> {{ $pesanan->created_at->format('d M Y, H:i') }}</p>
+            <p><strong>Status:</strong> <span class="capitalize">{{ $pesanan->status }}</span></p>
         </div>
         <div>
             <h2 class="font-semibold text-yellow-600 mb-1">Data Pembeli</h2>
-            <p><strong>Nama:</strong> {{ $transaksi->user->name }}</p>
-            <p><strong>Alamat:</strong> {{ $transaksi->user->alamat }}</p>
-            <p><strong>Telepon:</strong> {{ $transaksi->user->telepon }}</p>
+            <p><strong>Nama:</strong> {{ $pesanan->user->name }}</p>
+            <p><strong>Alamat:</strong> {{ $pesanan->user->alamat }}</p>
+            <p><strong>Telepon:</strong> {{ $pesanan->user->telepon }}</p>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($transaksi->detailPesanan as $item)
+                @foreach($pesanan->detailPesanan as $item)
                 <tr class="border-t">
                     <td class="px-4 py-2">{{ $item->produk->nama }}</td>
                     <td class="px-4 py-2 text-center">{{ $item->jumlah }}</td>
@@ -57,11 +57,11 @@
         <div class="w-full sm:w-1/2 text-sm space-y-1">
             <div class="flex justify-between font-semibold border-t pt-2">
                 <span>Total Bayar:</span>
-                <span class="text-red-600">Rp{{ number_format($transaksi->total, 0, ',', '.') }}</span>
+                <span class="text-red-600">Rp{{ number_format($pesanan->total, 0, ',', '.') }}</span>
             </div>
             <div class="flex justify-between">
                 <span>Metode Pembayaran:</span>
-                <span>{{ strtoupper($transaksi->metode_pembayaran) }}</span>
+                <span>{{ strtoupper($pesanan->metode_pembayaran) }}</span>
             </div>
         </div>
     </div>
