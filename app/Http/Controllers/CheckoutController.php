@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use App\Models\Produk;
-use App\Models\Transaksi;
+use App\Models\Pesanan;
 use App\Models\DetailPesanan;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,19 +66,18 @@ class CheckoutController extends Controller
 
             $total = $keranjang->sum(fn($item) => $item->produk->harga * $item->jumlah);
 
-            $transaksi = Transaksi::create([
+            $pesanan = Pesanan::create([
                 'user_id' => $user->id,
-                'nama' => $user->name,
                 'alamat' => $user->alamat,
                 'telepon' => $user->telepon,
                 'metode_pembayaran' => $metode,
                 'total' => $total,
-                'status' => 'pending',
+                'status' => $metode === 'cod' ? 'menunggu konfirmasi' : 'pending',
             ]);
 
             foreach ($keranjang as $item) {
                 DetailPesanan::create([
-                    'transaksi_id' => $transaksi->id,
+                    'pesanan_id' => $pesanan->id,
                     'produk_id' => $item->produk_id,
                     'jumlah' => $item->jumlah,
                     'harga' => $item->produk->harga,
@@ -93,54 +92,49 @@ class CheckoutController extends Controller
             $jumlah = $request->input('jumlah', 1);
             $total = $produk->harga * $jumlah;
 
-            $transaksi = Transaksi::create([
+            $pesanan = Pesanan::create([
                 'user_id' => $user->id,
-                'nama' => $user->name,
                 'alamat' => $user->alamat,
                 'telepon' => $user->telepon,
                 'metode_pembayaran' => $metode,
                 'total' => $total,
-                'status' => 'pending',
+                'status' => $metode === 'cod' ? 'menunggu konfirmasi' : 'pending',
             ]);
 
             DetailPesanan::create([
-                'transaksi_id' => $transaksi->id,
+                'pesanan_id' => $pesanan->id,
                 'produk_id' => $produk->id,
                 'jumlah' => $jumlah,
                 'harga' => $produk->harga,
             ]);
         }
 
-        
-       if ($metode === 'qris') {
-    return redirect()->route('checkout.qris', $transaksi->id);
-}
+        if ($metode === 'qris') {
+            return redirect()->route('checkout.qris', $pesanan->id);
+        }
 
-return redirect()->route('checkout.sukses')->with('success', 'Pesanan berhasil dibuat.');
+        return redirect()->route('checkout.sukses')->with('success', 'Pesanan berhasil dibuat.');
+    }
 
-}
-
-  
     public function sukses()
     {
         return view('pages.checkout_sukses');
     }
 
     // ➕ Menampilkan halaman QRIS
-public function checkoutQris($id)
-{
-    $transaksi = Transaksi::findOrFail($id);
-    return view('pages.checkout_qris', compact('transaksi'));
-}
+    public function checkoutQris($id)
+    {
+        $pesanan = Pesanan::findOrFail($id);
+        return view('pages.checkout_qris', compact('pesanan'));
+    }
 
-// ✅ Konfirmasi pembayaran QRIS manual
-public function konfirmasiQris($id)
-{
-    $transaksi = Transaksi::findOrFail($id);
-    $transaksi->status = 'dibayar';
-    $transaksi->save();
+    // ✅ Konfirmasi pembayaran QRIS manual
+    public function konfirmasiQris($id)
+    {
+        $pesanan = Pesanan::findOrFail($id);
+        $pesanan->status = 'dibayar';
+        $pesanan->save();
 
-    return redirect()->route('pesanan')->with('success', 'Pembayaran berhasil! Pesanan kamu sedang diproses.');
-}
-
+        return redirect()->route('pesanan')->with('success', 'Pembayaran berhasil! Pesanan kamu sedang diproses.');
+    }
 }

@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\Transaksi;
+use App\Models\Pesanan;
 
 class PesananController extends Controller
 {
     public function index()
 {
-    $pesananAktif = Transaksi::with('detailPesanan.produk')
+    $pesananAktif = Pesanan::with('detailPesanan.produk')
         ->where('user_id', Auth::id())
         ->where('status', '!=', 'selesai')
         ->orderBy('created_at', 'desc')
         ->get();
 
-    $riwayatSelesai = Transaksi::with('detailPesanan.produk')
+    $riwayatSelesai = Pesanan::with('detailPesanan.produk')
         ->where('user_id', Auth::id())
         ->where('status', 'selesai')
         ->orderBy('created_at', 'desc')
@@ -29,20 +29,20 @@ class PesananController extends Controller
 
     public function selesaikan($id)
 {
-    $transaksi = Transaksi::where('id', $id)
+    $pesanan = Pesanan::where('id', $id)
         ->where('user_id', Auth::id())
         ->where('status', 'dikirim')
         ->firstOrFail();
 
-    $transaksi->status = 'selesai';
-    $transaksi->save();
+    $pesanan->status = 'selesai';
+    $pesanan->save();
 
     return redirect()->route('pesanan')->with('success', 'Pesanan telah selesai.');
 }
 
 public function riwayat()
 {
-    $pesanan = Transaksi::with('detailPesanan.produk')
+    $pesanan = Pesanan::with('detailPesanan.produk')
         ->where('user_id', Auth::id())
         ->where('status', 'selesai')
         ->orderBy('created_at', 'desc')
@@ -53,12 +53,12 @@ public function riwayat()
 
 public function invoice($id)
 {
-    $transaksi = Transaksi::with('detailPesanan.produk', 'user')
+    $pesanan = Pesanan::with('detailPesanan.produk', 'user')
         ->where('user_id', Auth::id())
         ->where('id', $id)
         ->firstOrFail();
 
-    return view('pages.invoice', compact('transaksi'));
+    return view('pages.invoice', compact('pesanan'));
 }
 
 

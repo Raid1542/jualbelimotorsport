@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Transaksi;
+use App\Models\Pesanan;
 use App\Models\Produk;
 
 class DetailPesanan extends Model
 {
-    protected $fillable = ['transaksi_id', 'produk_id', 'jumlah', 'harga'];
+    protected $table = 'detail_pesanan';
 
-    public function transaksi()
+    protected $fillable = ['pesanan_id', 'produk_id', 'jumlah', 'harga'];
+
+    public function pesanan()
     {
-        return $this->belongsTo(Transaksi::class);
+        return $this->belongsTo(Pesanan::class);
     }
 
     public function produk()
