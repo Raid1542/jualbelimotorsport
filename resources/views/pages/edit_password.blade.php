@@ -57,4 +57,18 @@
     </form>
   </div>
 </main>
+
+@if(session('status'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: @json(session('status')),
+        timer: 3000,
+        showConfirmButton: false
+    });
+</script>
+@endif
+
 @endsection
