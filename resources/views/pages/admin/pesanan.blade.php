@@ -38,7 +38,9 @@
                                 @endforeach
                             </ul>
                         </td>
-                        <td class="px-4 py-3 text-red-600 font-semibold">Rp{{ number_format($order->total, 0, ',', '.') }}</td>
+                        <td class="px-4 py-3 text-red-600 font-semibold">
+                            Rp{{ number_format($order->total, 0, ',', '.') }}
+                        </td>
                         <td class="px-4 py-3 capitalize">{{ $order->metode_pembayaran }}</td>
                         <td class="px-4 py-3 capitalize">
                             <span class="inline-block px-2 py-1 rounded-xl text-xs font-semibold
@@ -59,7 +61,7 @@
                                     </button>
                                 </form>
                             @elseif(in_array($order->status, ['diproses', 'diperjalanan']))
-                                <form action="{{ route('admin.pesanan.ubah-status', $order->id) }}" method="POST" class="flex gap-2">
+                                <form action="{{ route('admin.pesanan.ubah-status', $order->id) }}" method="POST" class="flex gap-2 items-center">
                                     @csrf
                                     <select name="status" onchange="this.form.submit()" class="text-xs border rounded px-2 py-1">
                                         <option {{ $order->status == 'diproses' ? 'selected' : '' }} value="diproses">Proses</option>

@@ -15,8 +15,17 @@
             </span>
         </div>
 
-        <p class="text-sm text-gray-600 mb-2">Tanggal: {{ $order->created_at->format('d M Y, H:i') }}</p>
-        <p class="text-sm text-gray-600 mb-4">Metode Pembayaran: <span class="font-medium">{{ strtoupper($order->metode_pembayaran) }}</span></p>
+        <p class="text-sm text-gray-600 mb-1">Tanggal: {{ $order->created_at->format('d M Y, H:i') }}</p>
+        <p class="text-sm text-gray-600 mb-1">Metode Pembayaran: <span class="font-medium">{{ strtoupper($order->metode_pembayaran) }}</span></p>
+
+        {{-- ✅ Tambahan No Resi --}}
+        @if($order->no_resi)
+            <p class="text-sm text-gray-600 mb-4">
+                No. Resi: <span class="text-yellow-600 font-semibold">{{ $order->no_resi }}</span>
+            </p>
+        @else
+            <p class="text-sm text-gray-400 italic mb-4">No. Resi belum tersedia</p>
+        @endif
 
         <div class="space-y-3 mb-3">
             @foreach($order->detailPesanan as $item)

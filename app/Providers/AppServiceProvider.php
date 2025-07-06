@@ -9,25 +9,27 @@ use App\Models\Keranjang;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        
     }
 
-    /**
-     * Bootstrap any application services.
-     */
-   public function boot(): void
+   public function boot()
 {
     View::composer('*', function ($view) {
-        $jumlahKeranjang = 0;
-        if (Auth::check()) {
-            $jumlahKeranjang = Keranjang::where('user_id', Auth::id())->sum('jumlah');
+        if (auth()->check()) {
+            $keranjangDropdown = Keranjang::with('produk')
+                ->where('user_id', auth()->id())
+                ->latest()
+                ->take(5)
+                ->get();
+            $jumlahKeranjang = Keranjang::where('user_id', auth()->id())->count();
+        } else {
+            $keranjangDropdown = collect();
+            $jumlahKeranjang = 0;
         }
-        $view->with('jumlahKeranjang', $jumlahKeranjang);
+
+        $view->with(compact('keranjangDropdown', 'jumlahKeranjang'));
     });
 }
 }

@@ -8,72 +8,70 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    // Tampilkan form login
+   
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Proses login
+  
     public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => ['required', 'string'],
-        'password' => ['required', 'string'],
-        'role'     => ['required', 'string'],
-    ]);
-
-    // ✅ Penjual hardcoded (username: admin, password: admin123)
-    if (
-        $credentials['role'] === 'penjual' &&
-        $credentials['username'] === 'admin' &&
-        $credentials['password'] === 'admin123'
-    ) {
-        session([
-            'username' => 'admin',
-            'role' => 'penjual',
-            'show_welcome' => true,
+    {
+        $credentials = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            'role'     => ['required', 'string'],
         ]);
 
-        return redirect()->route('admin.dashboard'); // 👈 redirect ke halaman admin
-    }
+       
+        if (
+            $credentials['role'] === 'penjual' &&
+            $credentials['username'] === 'admin' &&
+            $credentials['password'] === 'admin123'
+        ) {
+            session([
+                'username' => 'admin',
+                'role' => 'penjual',
+                'show_welcome' => true, 
+            ]);
 
-    // ✅ Login untuk pembeli (via database)
-    if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
-        $request->session()->regenerate();
-        $user = Auth::user();
-
-        if ($user->role !== $credentials['role']) {
-            Auth::logout();
-            return back()->withErrors([
-                'username' => 'Role tidak sesuai dengan akun.',
-            ])->onlyInput('username');
+            return redirect()->route('admin.dashboard');
         }
 
-        session([
-            'role' => $user->role,
-            'show_welcome' => true,
-        ]);
+     
+        if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+            $request->session()->regenerate();
+            $user = Auth::user();
 
-        return redirect()->route('dashboard'); // 👈 ke pages.dashboard untuk pembeli
+            if ($user->role !== $credentials['role']) {
+                Auth::logout();
+                return back()->withErrors([
+                    'username' => 'Role tidak sesuai dengan akun.',
+                ])->onlyInput('username');
+            }
+
+            session([
+                'role' => $user->role,
+                'show_welcome' => true, 
+            ]);
+
+            return redirect()->route('dashboard');
+        }
+
+        return back()->withErrors([
+            'username' => 'Username atau password salah.',
+        ])->onlyInput('username');
     }
 
-    return back()->withErrors([
-        'username' => 'Username atau password salah.',
-    ])->onlyInput('username');
-}
 
-
-    // Logout user
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/');
     }
 
-    // Tambahan untuk pakai kolom username saat login (bukan email)
     public function username()
     {
         return 'username';

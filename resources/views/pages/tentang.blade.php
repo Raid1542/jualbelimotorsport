@@ -4,46 +4,30 @@
 
 @section('content')
 <div class="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-    {{-- Deskripsi Perusahaan --}}
-    <div class="max-w-6xl mx-auto mb-16 text-center text-gray-800 space-y-10">
-        <p class="text-lg leading-relaxed max-w-3xl mx-auto">
-            <strong class="font-bold text-gray-900">Speedzone</strong> adalah platform belanja online miniatur motor dan mobil yang menghadirkan produk berkualitas. Kami berkomitmen memberikan pengalaman belanja yang cepat, aman, dan nyaman bagi para pecinta miniatur motor dan mobil di Indonesia.
-        </p>
 
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-2xl font-semibold text-yellow-600 mb-2">Cerita Kami</h2>
-            <p class="leading-relaxed">
-                Didirikan pada tahun 2025, Speedzone dimulai dari keinginan untuk menghadirkan pengalaman belanja mainan miniatur motor dan mobil yang modern dan terpercaya. Kami memulai dengan hanya beberapa produk dan kini telah berkembang menjadi banyak pilihan motor dan mobil dari beberapa kategori.
-            </p>
-        </div>
+<section class="py-16 bg-white">
+  <div class="max-w-4xl mx-auto text-center px-6">
+    <h2 class="text-2xl md:text-2xl font-extrabold text-yellow-500 mb-6">Cerita Kami</h2>
+    
+    <p class="text-gray-700 text-lg leading-relaxed">
+      <strong class="text-gray-900 font-semibold">Speedzone</strong> adalah platform belanja online miniatur motor dan mobil yang menghadirkan produk berkualitas.
+      Kami berkomitmen memberikan pengalaman belanja yang cepat, aman, dan nyaman bagi para pecinta miniatur motor dan mobil di Indonesia.
+      <br><br>
+      Didirikan pada tahun 2025, Speedzone dimulai dari keinginan untuk menghadirkan pengalaman belanja mainan miniatur motor dan mobil yang modern dan terpercaya.
+      Kami memulai dengan hanya beberapa produk dan kini telah berkembang menjadi banyak pilihan motor dan mobil dari berbagai kategori.
+    </p>
+  </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 text-left">
-            <div>
-                <h2 class="text-2xl font-semibold text-yellow-600 mb-2">Visi</h2>
-                <p class="leading-relaxed">
-                    Menjadi platform online nomor satu di Indonesia dengan pelayanan terbaik dan produk berkualitas tinggi.
-                </p>
-            </div>
-            <div>
-                <h2 class="text-2xl font-semibold text-yellow-600 mb-2">Misi</h2>
-                <ul class="list-disc list-inside space-y-2 text-gray-700">
-                    <li>Menyediakan produk otomotif yang lengkap dan terpercaya.</li>
-                    <li>Mendukung UMKM dan penjual lokal untuk berkembang secara digital.</li>
-                    <li>Memberikan layanan pelanggan yang cepat dan ramah.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    {{-- Nilai-Nilai --}}
-    <div class="max-w-6xl mx-auto mt-20 text-center">
-        <h2 class="text-2xl font-semibold text-yellow-600 mb-4">Nilai-Nilai Kami</h2>
+   <div class="max-w-6xl mx-auto mt-20 text-center">
+        <h2 class="text-2xl md:text-2xl font-extrabold text-yellow-500 mb-4">Nilai-Nilai Kami</h2>
         <ul class="space-y-4 max-w-2xl mx-auto text-base text-gray-700 leading-relaxed">
             <li><strong class="text-gray-900">Integritas</strong> – Menyediakan informasi produk yang transparan dan jujur.</li>
             <li><strong class="text-gray-900">Inovasi</strong> – Terus meningkatkan pengalaman pengguna melalui teknologi.</li>
             <li><strong class="text-gray-900">Kepuasan Pelanggan</strong> – Mendahulukan kebutuhan dan kenyamanan pelanggan.</li>
         </ul>
     </div>
+</section>
+   
 
     {{-- Tim Kami --}}
     <div class="max-w-6xl mx-auto text-center mt-24 mb-12">

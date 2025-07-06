@@ -2,27 +2,63 @@
 
 @section('content')
 
-{{-- Tulisan Selamat Datang (hanya muncul 1x setelah login) --}}
-@if('showWelcome')
-  <div class="bg-gray-100 border-b border-yellow-300 py-6">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <h1 class="text-2xl font-bold text-yellow-500">Selamat Datang, {{ Auth::user()->name }}</h1>
+
+@if($show_welcome)
+  <div class="text-black font-medium px-6 py-4 mb-6 rounded-lg">
+    <div class="max-w-7xl mx-auto text-center">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide">Selamat Datang, {{ $user->name }}!</h1>
     </div>
   </div>
 @endif
 
-{{-- Hero Section --}}
-<section class="h-screen bg-cover bg-center bg-no-repeat relative"
-  style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur.png');">
+
+{{-- Hero Section Slider --}}
+<section 
+  x-data="{
+    slides: [
+      {
+        title: 'Speedzone',
+        desc: 'Temukan produk impianmu di Speedzone! Miniatur motor sport, motor biasa, dan mobil tersedia lengkap.',
+        image: '/images/miniatur1.jpg'
+      },
+      {
+        title: 'Koleksi Terbaru',
+        desc: 'Jangan lewatkan koleksi terbaru kami dengan desain modern dan kualitas premium.',
+        image: '/images/miniatur2.jpg'
+      },
+      {
+        title: 'Kualitas Terjamin',
+        desc: 'Kami hanya menjual produk pilihan dengan standar kualitas tinggi untuk kepuasan pembeli.',
+        image: '/images/slider1.jpg'
+      }
+    ],
+    current: 0,
+    interval: null,
+    init() {
+      this.startSlider();
+    },
+    startSlider() {
+      this.interval = setInterval(() => {
+        this.next();
+      }, 10000);
+    },
+    next() {
+      this.current = (this.current + 1) % this.slides.length;
+    },
+    goTo(index) {
+      this.current = index;
+      clearInterval(this.interval);  // stop sementara biar UX enak
+      this.startSlider();           // lanjutkan auto-slide lagi
+    }
+  }"
+  class="h-screen bg-cover bg-center bg-no-repeat relative overflow-hidden"
+  :style="`background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url(${slides[current].image})`"
+>
   <div class="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
     <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div class="flex flex-col items-center md:items-start">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-2xl text-center md:text-left">
-          SpeedZone
-        </h1>
-        <p class="text-white text-lg mt-6 max-w-xl drop-shadow-md leading-relaxed tracking-wide text-center md:text-left">
-          Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
-        </p>
+      <div class="flex flex-col items-center md:items-start text-center md:text-left transition-all duration-700">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-2xl" x-text="slides[current].title"></h1>
+        <p class="text-white text-lg mt-6 max-w-xl drop-shadow-md leading-relaxed tracking-wide" x-text="slides[current].desc"></p>
         <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
           <a href="{{ route('produk') }}"
              class="bg-yellow-500 text-white font-bold px-8 py-4 rounded-full hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:scale-110">
@@ -30,11 +66,26 @@
           </a>
         </div>
       </div>
-      <div class="w-full max-w-md">
-      </div>
+      <div class="w-full max-w-md"></div>
     </div>
   </div>
+
+  {{-- 🔘 Titik Navigasi di Bawah --}}
+  <div class="absolute bottom-8 w-full flex justify-center gap-3 z-20">
+    <template x-for="(slide, index) in slides" :key="index">
+      <button
+        class="w-3 h-3 rounded-full border-2 transition-all duration-300"
+        :class="{
+          'bg-yellow-500 border-yellow-500 scale-125': current === index,
+          'bg-white border-white': current !== index
+        }"
+        @click="goTo(index)"
+      ></button>
+    </template>
+  </div>
 </section>
+
+
 
 {{-- Produk Section --}}
 <section class="bg-gray-100 py-20">
@@ -43,8 +94,8 @@
       <h2 class="text-4xl font-extrabold text-gray-800">Hasil Pencarian</h2>
       <p class="text-gray-600 mt-3 text-lg">Menampilkan hasil untuk: <strong>"{{ request('keyword') }}"</strong></p>
     @else
-      <h2 class="text-4xl font-extrabold text-gray-800">Produk Terbaru</h2>
-      <p class="text-gray-600 mt-3 text-lg">Temukan Produk terbaik Plihan anda di Speedzone cocok untuk menjadi koleksi kamu dirumah.</p>
+      <h2 class="text-4xl font-extrabold text-gray-800">🔸Produk Terbaru🔸</h2>
+      <p class="text-gray-600 mt-3 text-lg">Temukan Produk terbaik pilihan anda di Speedzone, cocok untuk menjadi koleksi kamu di rumah.</p>
     @endif
   </div>
 
@@ -80,10 +131,10 @@
 </section>
 
 {{-- Kenapa Memilih SpeedZone --}}
-<section class="bg-white py-24 px-6 lg:px-12">
+<section class="bg-gray-100 py-24 px-6 lg:px-12">
   <div class="max-w-7xl mx-auto text-center mb-16">
     <h2 class="text-4xl font-extrabold text-gray-800 mb-4">
-      Kenapa Memilih <span class="text-yellow-500">SpeedZone?</span>
+      Kenapa Memilih <span class="text-yellow-500">Speedzone?</span>
     </h2>
     <p class="text-lg text-gray-600 max-w-2xl mx-auto">
       Kami memberikan lebih dari sekadar produk. SpeedZone adalah pilihan cerdas untuk performa, harga, dan pelayanan terbaik.

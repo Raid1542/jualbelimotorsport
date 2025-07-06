@@ -132,4 +132,18 @@
     });
 </script>
 @endif
+
+@if(session('incomplete_profile'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        icon: 'warning',
+        title: 'Lengkapi Profil!',
+        text: @json(session('incomplete_profile')),
+        confirmButtonText: 'Lengkapi Sekarang',
+        confirmButtonColor: '#facc15',
+    });
+</script>
+@endif
+
 @endsection

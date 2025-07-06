@@ -51,6 +51,11 @@ class CheckoutController extends Controller
         $user = Auth::user();
         $metode = $request->metode_pembayaran_terpilih ?? 'cod';
 
+        // ✅ Validasi alamat dan telepon kosong
+        if (empty($user->alamat) || empty($user->telepon)) {
+            return redirect()->route('profil.edit')->with('incomplete_profile', 'Silakan lengkapi alamat dan nomor telepon terlebih dahulu sebelum checkout.');
+        }
+
         // 🔍 Dari keranjang
         if ($request->has('items')) {
             $keranjangIds = $request->input('items');
