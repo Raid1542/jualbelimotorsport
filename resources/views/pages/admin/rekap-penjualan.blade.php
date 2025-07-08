@@ -9,18 +9,9 @@
     <form method="GET" class="flex flex-wrap gap-4 items-center mb-6">
         <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="border p-2 rounded text-sm">
 
-        <select name="status" class="border p-2 rounded text-sm">
-            <option value="">Semua Status</option>
-            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-            <option value="dibayar" {{ request('status') == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
-            <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
-            <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
-            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-        </select>
-
         <select name="metode" class="border p-2 rounded text-sm">
             <option value="">Semua Metode</option>
-            <option value="transfer" {{ request('metode') == 'transfer' ? 'selected' : '' }}>Transfer</option>
+            <option value="cod" {{ request('metode') == 'cod' ? 'selected' : '' }}>COD</option>
             <option value="qris" {{ request('metode') == 'qris' ? 'selected' : '' }}>QRIS</option>
         </select>
 
@@ -44,12 +35,13 @@
                     <th class="px-4 py-2 border">Jumlah</th>
                     <th class="px-4 py-2 border">Total Harga</th>
                     <th class="px-4 py-2 border">Metode</th>
+                    <th class="px-4 py-2 border">Waktu</th>
                 </tr>
             </thead>
             <tbody>
                 @php $grandTotal = 0; @endphp
-                @forelse ($transaksis as $index => $trx)
-                    @foreach ($trx->detail as $item)
+                @forelse ($pesanan as $index => $trx)
+                    @foreach ($trx->detailPesanan as $item)
                         @php
                             $subtotal = $item->produk->harga * $item->jumlah;
                             $grandTotal += $subtotal;
@@ -57,11 +49,12 @@
                         <tr class="hover:bg-gray-300 text-gray-800">
                             <td class="px-4 py-2 border">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 border">TRX-{{ str_pad($trx->id, 4, '0', STR_PAD_LEFT) }}</td>
-                            <td class="px-4 py-2 border">{{ $trx->nama }}</td>
-                            <td class="px-4 py-2 border">{{ $item->produk->nama_produk ?? 'Produk dihapus' }}</td>
+                            <td class="px-4 py-2 border">{{ $trx->user->name ?? 'Tidak diketahui' }}</td>
+                            <td class="px-4 py-2 border">{{ $item->produk->nama ?? 'Produk dihapus' }}</td>
                             <td class="px-4 py-2 border">{{ $item->jumlah }}</td>
                             <td class="px-4 py-2 border">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
                             <td class="px-4 py-2 border">{{ ucfirst($trx->metode_pembayaran) }}</td>
+                            <td class="px-4 py-2 border">{{ $trx->created_at->format('d-m-Y H:i') }}</td>
                         </tr>
                     @endforeach
                 @empty
@@ -74,7 +67,7 @@
     </div>
 
     {{-- Total Penjualan --}}
-    @if($transaksis->count() > 0)
+    @if($pesanan->count() > 0)
         <div class="mt-4 text-right text-lg font-bold text-gray-700">
             Total Penjualan: Rp{{ number_format($grandTotal, 0, ',', '.') }}
         </div>
