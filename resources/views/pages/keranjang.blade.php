@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6 text-yellow-600">Keranjang Belanja Anda</h1>
+    <h1 class="text-3xl font-bold mb-6 text-yellow-500">Keranjang Belanja Anda</h1>
 
     @if($keranjang->isEmpty())
         <div class="bg-white p-6 rounded shadow text-center">

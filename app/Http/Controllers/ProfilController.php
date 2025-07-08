@@ -17,7 +17,7 @@ class ProfilController extends Controller
 {
     $user = Auth::user();
 
-    // Hapus flash popup_success jika ada (agar tidak muncul dari aksi sebelumnya)
+
     session()->forget('popup_success');
 
     return view('pages.profil', compact('user'));
@@ -29,45 +29,58 @@ class ProfilController extends Controller
         return view('pages.edit_profil', compact('user'));
     }
 
-    public function update(Request $request)
+public function update(Request $request)
 {
-    $user = Auth::user();
+    $user = auth()->user();
 
-    $request->validate([
+    // Validasi
+    $validated = $request->validate([
         'name' => 'required|string|max:255',
         'username' => 'required|string|max:255|unique:users,username,' . $user->id,
         'telepon' => 'nullable|string|max:20',
-        'alamat' => 'nullable|string|max:255',
-        'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+        'alamat' => 'nullable|string',
+        'foto' => 'nullable|image|max:2048',
     ]);
 
-    $user->name = $request->name;
-    $user->username = $request->username;
-    $user->telepon = $request->telepon;
-    $user->alamat = $request->alamat;
+    // Cek apakah ada perubahan data
+    $dataBerubah = false;
 
-    if ($request->hasFile('foto')) {
-        $file = $request->file('foto');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('images'), $filename);
-        $user->foto = $filename;
+    foreach (['name', 'username', 'telepon', 'alamat'] as $field) {
+        if ($request->$field !== $user->$field) {
+            $dataBerubah = true;
+            break;
+        }
     }
 
-    $user->save();
+    if ($request->hasFile('foto')) {
+        $dataBerubah = true;
+        $fotoBaru = $request->file('foto');
+        $namaFoto = time() . '.' . $fotoBaru->getClientOriginalExtension();
+        $fotoBaru->move(public_path('images'), $namaFoto);
+        $validated['foto'] = $namaFoto;
+    } else {
+        unset($validated['foto']); 
+    }
 
-   return redirect()->route('profil')->with('popup_success', 'Data berhasil disimpan!');
+    
+    if (!$dataBerubah) {
+        return redirect()->route('profil.edit'); 
+    }
 
+    
+    $user->update($validated);
 
+    return redirect()->route('profil.edit')->with('success', 'Profil berhasil diperbarui!');
 }
 
 
-    // Tambahan method untuk edit password
+
     public function editPassword()
     {
-        return view('pages.edit_password');  // pastikan file view ini ada
+        return view('pages.edit_password');  
     }
 
-    // Method untuk proses update password
+    
     public function updatePassword(Request $request)
 {
     $request->validate([
@@ -75,14 +88,23 @@ class ProfilController extends Controller
         'new_password' => 'required|min:8|confirmed',
     ]);
 
-    if (!Hash::check($request->current_password, auth()->user()->password)) {
+    $user = auth()->user();
+
+    // Cek apakah password lama benar
+    if (!Hash::check($request->current_password, $user->password)) {
         return back()->withErrors(['current_password' => 'Password lama salah']);
     }
 
-    auth()->user()->update([
+    // Cek apakah password baru sama dengan yang lama
+    if (Hash::check($request->new_password, $user->password)) {
+        return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama']);
+    }
+
+    // Simpan password baru
+    $user->update([
         'password' => Hash::make($request->new_password),
     ]);
 
-return redirect()->route('profil')->with('popup_success', 'Password berhasil diubah');
+    return redirect()->route('profil.edit_password')->with('status', 'Password berhasil diubah!');
 }
 }

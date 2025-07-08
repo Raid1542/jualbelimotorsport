@@ -1,15 +1,14 @@
-<header class="bg-white py-5 px-4 relative flex items-center justify-center shadow-md sticky top-0 z-50">
-  
-  <!-- Judul Tengah -->
-  <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-500">Profil Saya</h1>
+<header class="bg-white shadow-md sticky top-0 z-50 px-4 py-4">
+  <div class="relative flex items-center justify-center">
 
-  <!-- Ikon kanan -->
-  <div class="absolute right-4 flex space-x-4 text-gray-700 text-2xl">
-    <!-- Link ke Dashboard -->
-    <a href="{{ route('dashboard') }}" class="hover:text-yellow-500 transition-transform transform hover:scale-110">
-      <i class="fas fa-home"></i>
+    <!-- Kiri: Logo & Nama -->
+    <a href="{{ route('dashboard') }}" class="absolute left-4 flex items-center space-x-3">
+      <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-10 h-10 rounded-full object-cover">
+      <span class="text-xl font-extrabold text-yellow-500">Speedzone</span>
     </a>
 
-  
+    <!-- Tengah: Judul Halaman -->
+    <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-500 text-center">Profil Saya</h1>
+
   </div>
 </header>

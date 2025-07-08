@@ -159,8 +159,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/tentang-kami/{id}', [AdminTentangKamiController::class, 'update'])->name('tentangkami.update');
     Route::delete('/tentang-kami/{id}', [AdminTentangKamiController::class, 'destroy'])->name('tentangkami.destroy');
 
-    Route::get('/pesanan', [AdminPesananController::class, 'index'])->name('admin.pesanan');
+    Route::get('/pesanan', [AdminPesananController::class, 'index'])->name('pesanan');
     Route::post('/pesanan/{id}/konfirmasi', [AdminPesananController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
     Route::post('/pesanan/{id}/proses', [AdminPesananController::class, 'proses'])->name('pesanan.proses');
     Route::post('/pesanan/{id}/kirim', [AdminPesananController::class, 'kirim'])->name('pesanan.kirim');
+    Route::post('/pesanan/{id}/ubah-status', [AdminPesananController::class, 'ubahStatus'])->name('pesanan.ubah-status');
 });

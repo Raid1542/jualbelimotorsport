@@ -26,14 +26,17 @@ class AdminPesananController extends Controller
     public function ubahStatus(Request $request, $id)
     {
         $pesanan = Pesanan::findOrFail($id);
+
+        // ✅ Update status dari dropdown
         $pesanan->status = $request->status;
 
-        if ($request->status === 'diperjalanan' && $request->filled('no_resi')) {
+        // ✅ Simpan nomor resi jika diisi (tanpa tergantung status)
+        if ($request->filled('no_resi')) {
             $pesanan->no_resi = $request->no_resi;
         }
 
         $pesanan->save();
 
-        return back()->with('success', 'Status pesanan diperbarui.');
+        return back()->with('success', 'Status pesanan & nomor resi berhasil diperbarui.');
     }
 }

@@ -1,12 +1,14 @@
-<header class="bg-white py-4 px-4 relative flex items-center justify-center shadow-md sticky top-0 z-50">
-    <!-- Tombol Kembali -->
-    <a href="javascript:history.back()" class="absolute left-4 text-gray-700 hover:text-yellow-500 transition-transform transform hover:scale-110 text-base font-medium flex items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
+<header class="bg-white shadow-md sticky top-0 z-50 px-4 py-4">
+  <div class="relative flex items-center justify-center">
+
+    <!-- Kiri: Logo & Nama -->
+    <a href="{{ route('profil') }}" class="absolute left-4 flex items-center space-x-3">
+      <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-10 h-10 rounded-full object-cover">
+      <span class="text-xl font-extrabold text-yellow-500">Speedzone</span>
     </a>
 
+    <!-- Tengah: Judul Halaman -->
+    <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-500 text-center">Edit Profil</h1>
 
-    <!-- Judul Tengah -->
-    <h1 class="text-xl md:text-2xl font-extrabold text-yellow-500">Edit Profil</h1>
+  </div>
 </header>

@@ -11,12 +11,18 @@
         <p class="text-gray-500 text-sm">SpeedZone - Bukti Pembelian</p>
     </div>
 
-
     {{-- Info pesanan --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-sm">
         <div>
-            <h2 class="font-semibold text-yellow-600 mb-1">Informasi Invoice</h2>
-            <p><strong>No. Invoice:</strong> INV-{{ $pesanan->created_at->format('Ymd') }}-{{ str_pad($pesanan->id, 3, '0', STR_PAD_LEFT) }}</p>
+            <h2 class="font-semibold text-yellow-600 mb-1">Informasi Pengiriman</h2>
+
+            {{-- ✅ Ganti No. Invoice dengan No. Resi --}}
+            @if($pesanan->no_resi)
+                <p><strong>No. Resi:</strong> <span class="text-yellow-600 font-semibold">{{ $pesanan->no_resi }}</span></p>
+            @else
+                <p><strong>No. Resi:</strong> <span class="text-gray-400 italic">Belum tersedia</span></p>
+            @endif
+
             <p><strong>Tanggal:</strong> {{ $pesanan->created_at->format('d M Y, H:i') }}</p>
             <p><strong>Status:</strong> <span class="capitalize">{{ $pesanan->status }}</span></p>
         </div>

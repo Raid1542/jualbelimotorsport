@@ -51,6 +51,11 @@ class CheckoutController extends Controller
         $user = Auth::user();
         $metode = $request->metode_pembayaran_terpilih ?? 'cod';
 
+        // ✅ Validasi alamat dan telepon kosong
+        if (empty($user->alamat) || empty($user->telepon)) {
+            return redirect()->route('profil.edit')->with('incomplete_profile', 'Silakan lengkapi alamat dan nomor telepon terlebih dahulu sebelum checkout.');
+        }
+
         // 🔍 Dari keranjang
         if ($request->has('items')) {
             $keranjangIds = $request->input('items');
@@ -82,10 +87,13 @@ class CheckoutController extends Controller
                     'jumlah' => $item->jumlah,
                     'harga' => $item->produk->harga,
                 ]);
+                // Kurangi stok produk
+                $produk = $item->produk;
+                $produk->stok -= $item->jumlah;
+                $produk->save();
             }
 
             Keranjang::whereIn('id', $keranjangIds)->delete();
-
         } else {
             // 🔍 Dari beli langsung
             $produk = Produk::findOrFail($request->produk_id);
@@ -107,6 +115,9 @@ class CheckoutController extends Controller
                 'jumlah' => $jumlah,
                 'harga' => $produk->harga,
             ]);
+            // Kurangi stok produk
+            $produk->stok -= $jumlah;
+            $produk->save();
         }
 
         if ($metode === 'qris') {

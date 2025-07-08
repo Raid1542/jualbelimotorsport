@@ -4,6 +4,13 @@
 
 @section('content')
 
+{{-- ⚠️ Notifikasi error jika alamat / telepon belum diisi --}}
+@if(session('error'))
+  <div class="mb-6 px-4 py-3 rounded-xl bg-red-100 border border-red-300 text-red-700 font-semibold shadow">
+    {{ session('error') }}
+  </div>
+@endif
+
 {{-- ✅ Modal Popup Pesanan Berhasil + Redirect Otomatis --}}
 @if(session('success'))
 <div 
