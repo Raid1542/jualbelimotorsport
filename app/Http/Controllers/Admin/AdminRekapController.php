@@ -11,7 +11,7 @@ class AdminRekapController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Pesanan::with('detail.produk');
+        $query = Pesanan::with('detailPesanan.produk');
 
         // 🔍 Filter berdasarkan tanggal
         if ($request->filled('tanggal')) {
