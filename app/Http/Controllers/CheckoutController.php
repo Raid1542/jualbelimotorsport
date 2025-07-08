@@ -87,10 +87,13 @@ class CheckoutController extends Controller
                     'jumlah' => $item->jumlah,
                     'harga' => $item->produk->harga,
                 ]);
+                // Kurangi stok produk
+                $produk = $item->produk;
+                $produk->stok -= $item->jumlah;
+                $produk->save();
             }
 
             Keranjang::whereIn('id', $keranjangIds)->delete();
-
         } else {
             // 🔍 Dari beli langsung
             $produk = Produk::findOrFail($request->produk_id);
@@ -112,6 +115,9 @@ class CheckoutController extends Controller
                 'jumlah' => $jumlah,
                 'harga' => $produk->harga,
             ]);
+            // Kurangi stok produk
+            $produk->stok -= $jumlah;
+            $produk->save();
         }
 
         if ($metode === 'qris') {
