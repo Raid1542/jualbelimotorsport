@@ -30,7 +30,7 @@ class HomeController extends Controller
         $produks = Produk::all();
         $kategoris = Kategori::all(); // ambil semua kategori dari tabel
 
-        return view('pages.produk2', compact('produk', 'kategoris'));
+        return view('pages.produk', compact('produk', 'kategoris'));
     }
 
     public function redirectToHome()
