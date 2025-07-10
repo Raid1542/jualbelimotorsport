@@ -24,18 +24,13 @@
     </div>
 
     <!-- Info Pribadi -->
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="bg-white rounded-xl shadow-lg p-6">
-            <h3 class="text-xl font-semibold mb-4 text-black">Kontak</h3>
-            <ul class="space-y-2 text-gray-800">
-                <li><strong>Email:</strong> {{ $user->email ?? '-' }}</li>
-                <li><strong>Telepon:</strong> {{ $user->telepon ?? '-' }}</li>
-                <li>
-                    <strong>Alamat:</strong> 
-                    <p class="whitespace-pre-line">{{ $user->alamat ?? '-' }}</p>
-                </li>
-            </ul>
-        </div>
+    <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-semibold mb-4 text-black">Kontak</h3>
+        <ul class="space-y-2 text-gray-800">
+            <li><strong>Email:</strong> {{ $user->email ?? '-' }}</li>
+            <li><strong>Telepon:</strong> {{ $user->telepon ?? '-' }}</li>
+            <li><strong>Alamat:</strong> {{ $user->alamat ?? '-' }}</li>
+        </ul>
     </div>
 
     <!-- Pengaturan Akun -->
