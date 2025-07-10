@@ -1,4 +1,4 @@
-<footer class="bg-yellow-400 text-gray-800 mt-8">
+<footer class="bg-yellow-100 text-gray-800 mt-8">
   <div class="max-w-7xl mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-3 gap-6">
     {{-- Tentang Speedzone --}}
     <div>

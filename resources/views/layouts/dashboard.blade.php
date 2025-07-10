@@ -7,11 +7,11 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflar.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 </head>
-<body class="font-sans bg-gray-100 text-gray-800">
+<body class="font-sans bg-gradient-to-r from-yellow-50 to-white text-gray-800 min-h-screen">
 
   {{-- Navbar --}}
   @include('components.dashboard')

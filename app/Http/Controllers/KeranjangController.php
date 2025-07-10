@@ -23,26 +23,31 @@ class KeranjangController extends Controller
         return view('pages.keranjang', compact('keranjang'));
     }
 
-    public function tambah($id)
-    {
-        $user_id = Auth::id();
+   public function tambah(Request $request, $id)
+{
+    $user_id = Auth::id();
+    $jumlahInput = (int) $request->input('jumlah', 1); // Ambil jumlah dari input form
 
-        $keranjang = Keranjang::firstOrCreate(
-            [
-                'user_id' => $user_id,
-                'produk_id' => $id
-            ],
-            [
-                'jumlah' => 1
-            ]
-        );
+    $keranjang = Keranjang::where('user_id', $user_id)
+        ->where('produk_id', $id)
+        ->first();
 
-        if (!$keranjang->wasRecentlyCreated) {
-            $keranjang->increment('jumlah');
-        }
-
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
+    if ($keranjang) {
+        // Tambah jumlah yang dipilih
+        $keranjang->jumlah += $jumlahInput;
+        $keranjang->save();
+    } else {
+        // Buat baru dengan jumlah sesuai input
+        Keranjang::create([
+            'user_id' => $user_id,
+            'produk_id' => $id,
+            'jumlah' => $jumlahInput,
+        ]);
     }
+
+    return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
+}
+
 
     public function tambahLangsung($keranjang_id)
     {

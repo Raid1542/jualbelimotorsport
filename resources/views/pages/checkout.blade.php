@@ -74,8 +74,8 @@
            <img src="{{ asset('images/' . $produk->gambar) }}" alt="produk" class="w-20 h-20 object-cover rounded">
            <div class="flex-1">
               <h3 class="font-semibold text-gray-800">{{ $produk->nama }}</h3>
-              <p class="text-sm text-gray-500">Qty: 1</p>
-              <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
+              <p class="text-sm text-gray-500">Qty: {{ $jumlah }}</p> {{-- ✅ JUMLAH ditampilkan --}}
+              <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga * $jumlah, 0, ',', '.') }}</p>
            </div>
         </div>
       @endif
@@ -102,7 +102,7 @@
       </div>
    </div>
 
-  
+   <!-- Rincian Pembayaran -->
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Rincian Pembayaran</h2>
       <div class="flex justify-between text-sm text-gray-700 mb-1">
@@ -120,14 +120,16 @@
       @csrf
       <input type="hidden" name="metode_pembayaran_terpilih" id="metode_pembayaran_terpilih" value="cod">
 
-     
+      {{-- ✅ Data dari keranjang --}}
       @if(!empty($selectedItems))
         @foreach ($selectedItems as $id)
-        <input type="hidden" name="items[]" value="{{ $id }}">
+          <input type="hidden" name="items[]" value="{{ $id }}">
         @endforeach
+
+      {{-- ✅ Data dari beli langsung --}}
       @elseif(!empty($produk))
-     
         <input type="hidden" name="produk_id" value="{{ $produk->id }}">
+        <input type="hidden" name="jumlah" value="{{ $jumlah }}"> {{-- ✅ JUMLAH disubmit --}}
       @endif
 
       <button type="submit"

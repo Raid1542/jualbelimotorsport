@@ -56,12 +56,17 @@ if ($request->filled('keyword')) {
         return view('pages.produk', compact('produks', 'kategoris'));
     }
 
-    /**
-     * Menampilkan detail produk berdasarkan ID
-     */
+   
     public function show($id)
-    {
-        $produk = Produk::with('kategori')->findOrFail($id);
-        return view('pages.detail', compact('produk'));
-    }
+{
+    $produk = Produk::with('kategori')->findOrFail($id);
+
+    $produkLain = Produk::where('id', '!=', $id)
+        ->latest()
+        ->take(8)
+        ->get();
+
+    return view('pages.detail', compact('produk', 'produkLain'));
+}
+
 }

@@ -12,10 +12,10 @@ class DashboardPembeliController extends Controller
     {
         $user = Auth::user();
 
-        // Ambil 4 produk terbaru
-        $produkBaru = Produk::orderBy('created_at', 'desc')->take(4)->get();
+        
+        $produkBaru = Produk::orderBy('created_at', 'desc')->take(6)->get();
 
-        // Ambil dan hapus 'show_welcome' hanya sekali saat ke dashboard
+        
         $showWelcome = session()->pull('show_welcome', false);
 
         return view('pages.dashboard', [
