@@ -12,78 +12,24 @@
 @endif
 
 
-{{-- Hero Section Slider --}}
 <section 
-  x-data="{
-    slides: [
-      {
-        title: 'Speedzone',
-        desc: 'Temukan produk impianmu di Speedzone! Miniatur motor sport, motor biasa, dan mobil tersedia lengkap.',
-        image: '/images/miniatur1.jpg'
-      },
-      {
-        title: 'Koleksi Terbaru',
-        desc: 'Jangan lewatkan koleksi terbaru kami dengan desain modern dan kualitas premium.',
-        image: '/images/miniatur2.jpg'
-      },
-      {
-        title: 'Kualitas Terjamin',
-        desc: 'Kami hanya menjual produk pilihan dengan standar kualitas tinggi untuk kepuasan pembeli.',
-        image: '/images/slider1.jpg'
-      }
-    ],
-    current: 0,
-    interval: null,
-    init() {
-      this.startSlider();
-    },
-    startSlider() {
-      this.interval = setInterval(() => {
-        this.next();
-      }, 10000);
-    },
-    next() {
-      this.current = (this.current + 1) % this.slides.length;
-    },
-    goTo(index) {
-      this.current = index;
-      clearInterval(this.interval);  // stop sementara biar UX enak
-      this.startSlider();           // lanjutkan auto-slide lagi
-    }
-  }"
-  class="h-screen bg-cover bg-center bg-no-repeat relative overflow-hidden"
-  :style="`background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url(${slides[current].image})`"
+  class="w-full bg-cover bg-center bg-no-repeat relative overflow-hidden"
+  style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur.png')"
 >
-  <div class="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div class="flex flex-col items-center md:items-start text-center md:text-left transition-all duration-700">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-2xl" x-text="slides[current].title"></h1>
-        <p class="text-white text-lg mt-6 max-w-xl drop-shadow-md leading-relaxed tracking-wide" x-text="slides[current].desc"></p>
-        <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-          <a href="{{ route('produk') }}"
-             class="bg-yellow-500 text-white font-bold px-8 py-4 rounded-full hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:scale-110">
-            Lihat Produk
-          </a>
-        </div>
-      </div>
-      <div class="w-full max-w-md"></div>
-    </div>
-  </div>
-
-  {{-- 🔘 Titik Navigasi di Bawah --}}
-  <div class="absolute bottom-8 w-full flex justify-center gap-3 z-20">
-    <template x-for="(slide, index) in slides" :key="index">
-      <button
-        class="w-3 h-3 rounded-full border-2 transition-all duration-300"
-        :class="{
-          'bg-yellow-500 border-yellow-500 scale-125': current === index,
-          'bg-white border-white': current !== index
-        }"
-        @click="goTo(index)"
-      ></button>
-    </template>
+  <div class="relative z-10 max-w-7xl mx-auto py-20 md:py-32 px-6 lg:px-12 flex flex-col items-center text-center">
+    <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-2xl">
+      Speedzone
+    </h1>
+    <p class="text-white text-lg mt-6 max-w-2xl drop-shadow-md leading-relaxed tracking-wide">
+     Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
+    </p>
+    <a href="{{ route('produk') }}"
+       class="mt-8 bg-yellow-500 text-white font-bold px-8 py-4 rounded-full hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:scale-110">
+      Lihat Produk
+    </a>
   </div>
 </section>
+
 
 
 
@@ -94,7 +40,7 @@
       <h2 class="text-4xl font-extrabold text-gray-800">Hasil Pencarian</h2>
       <p class="text-gray-600 mt-3 text-lg">Menampilkan hasil untuk: <strong>"{{ request('keyword') }}"</strong></p>
     @else
-      <h2 class="text-4xl font-extrabold text-gray-800">🔸Produk Terbaru🔸</h2>
+      <h2 class="text-4xl font-extrabold text-gray-800">Produk Terbaru</h2>
       <p class="text-gray-600 mt-3 text-lg">Temukan Produk terbaik pilihan anda di Speedzone, cocok untuk menjadi koleksi kamu di rumah.</p>
     @endif
   </div>

@@ -12,9 +12,9 @@
     <div>
       <h3 class="text-lg font-semibold mb-2">Navigasi</h3>
       <ul class="space-y-1 text-sm">
+        <li><a href="{{ route('tentang') }}" class="hover:underline hover:text-yellow-300 transition">Tentang Speedzone</a></li>
         <li><a href="{{ route('dashboard') }}" class="hover:underline hover:text-yellow-300 transition">Beranda</a></li>
         <li><a href="{{ route('produk') }}" class="hover:underline hover:text-yellow-300 transition">Produk</a></li>
-        <li><a href="{{ route('tentang') }}" class="hover:underline hover:text-yellow-300 transition">Tentang Kami</a></li>
       </ul>
     </div>
 

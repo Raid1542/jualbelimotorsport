@@ -33,7 +33,7 @@ public function update(Request $request)
 {
     $user = auth()->user();
 
-    // Validasi
+
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'username' => 'required|string|max:255|unique:users,username,' . $user->id,
@@ -42,7 +42,7 @@ public function update(Request $request)
         'foto' => 'nullable|image|max:2048',
     ]);
 
-    // Cek apakah ada perubahan data
+   
     $dataBerubah = false;
 
     foreach (['name', 'username', 'telepon', 'alamat'] as $field) {
@@ -90,17 +90,17 @@ public function update(Request $request)
 
     $user = auth()->user();
 
-    // Cek apakah password lama benar
+    
     if (!Hash::check($request->current_password, $user->password)) {
         return back()->withErrors(['current_password' => 'Password lama salah']);
     }
 
-    // Cek apakah password baru sama dengan yang lama
+    
     if (Hash::check($request->new_password, $user->password)) {
         return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama']);
     }
 
-    // Simpan password baru
+   
     $user->update([
         'password' => Hash::make($request->new_password),
     ]);
