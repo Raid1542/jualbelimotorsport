@@ -118,15 +118,24 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const item = btn.closest('.keranjang-item');
             const input = item.querySelector('.qty-input');
+            const id = item.dataset.id;
             let val = parseInt(input.value);
             const harga = parseInt(item.dataset.harga);
-            val++;
-            input.value = val;
 
-            const subtotal = val * harga;
-            item.querySelector('.subtotal-text').textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
-            item.querySelector('.item-checkbox').dataset.subtotal = subtotal;
-            updateTotal();
+            fetch(`/keranjang/tambah-jumlah/${id}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            }).then(() => {
+                val++;
+                input.value = val;
+                const subtotal = val * harga;
+                item.querySelector('.subtotal-text').textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
+                item.querySelector('.item-checkbox').dataset.subtotal = subtotal;
+                updateTotal();
+            });
         });
     });
 
@@ -140,13 +149,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const id = item.dataset.id;
 
             if (val > 1) {
-                val--;
-                input.value = val;
-
-                const subtotal = val * harga;
-                item.querySelector('.subtotal-text').textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
-                item.querySelector('.item-checkbox').dataset.subtotal = subtotal;
-                updateTotal();
+                fetch(`/keranjang/kurangi-jumlah/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).then(() => {
+                    val--;
+                    input.value = val;
+                    const subtotal = val * harga;
+                    item.querySelector('.subtotal-text').textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
+                    item.querySelector('.item-checkbox').dataset.subtotal = subtotal;
+                    updateTotal();
+                });
             } else {
                 Swal.fire({
                     title: 'Hapus produk dari keranjang?',

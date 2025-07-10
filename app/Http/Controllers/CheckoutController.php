@@ -8,6 +8,7 @@ use App\Models\Produk;
 use App\Models\Pesanan;
 use App\Models\DetailPesanan;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Config;
 
 class CheckoutController extends Controller
 {
@@ -148,4 +149,66 @@ class CheckoutController extends Controller
 
         return redirect()->route('pesanan')->with('success', 'Pembayaran berhasil! Pesanan kamu sedang diproses.');
     }
+
+    // CheckoutController.php
+public function getSnapToken(Request $request)
+{
+    // ⛑ Init Midtrans Manual
+    \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+    \Midtrans\Config::$isProduction = false;
+    \Midtrans\Config::$isSanitized = true;
+    \Midtrans\Config::$is3ds = true;
+
+    $user = auth()->user();
+    $orderId = uniqid('ORDER-');
+    $dari = $request->input('dari', 'keranjang');
+    $total = 0;
+
+    try {
+        if ($dari === 'keranjang') {
+            // ✅ Validasi items tidak null dan harus array
+            $items = $request->input('items');
+            if (!is_array($items) || count($items) === 0) {
+                return response()->json([
+                    'error' => 'Daftar produk tidak valid atau kosong.'
+                ], 400);
+            }
+
+            $keranjang = Keranjang::with('produk')
+                ->whereIn('id', $items)
+                ->where('user_id', $user->id)
+                ->get();
+
+            $total = $keranjang->sum(fn($item) => $item->produk->harga * $item->jumlah);
+        } else {
+            // Dari beli sekarang
+            $produk = Produk::findOrFail($request->produk_id);
+            $total = $produk->harga;
+        }
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $orderId,
+                'gross_amount' => $total,
+            ],
+            'enable_payments' => ['qris'], // QRIS only
+            'customer_details' => [
+                'first_name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->telepon,
+            ]
+        ];
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        return response()->json(['snapToken' => $snapToken]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Gagal mendapatkan snap token',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
+
 }
