@@ -9,7 +9,7 @@
 
     {{-- Tengah: Navigasi Desktop --}}
     <nav class="hidden md:flex gap-8 font-semibold">
-      <a href="{{ route('produk2') }}" class="text-gray-700 hover:text-yellow-600">Produk</a>
+      <a href="{{ route('produk') }}" class="text-gray-700 hover:text-yellow-600">Produk</a>
       <a href="{{ route('tentang') }}" class="text-gray-700 hover:text-yellow-600">Tentang Kami</a>
     </nav>
 
@@ -35,7 +35,7 @@
 
   {{-- Mobile Menu --}}
   <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
-    <a href="{{ route('produk2') }}" class="block py-2 text-gray-700 hover:text-yellow-600 font-semibold">Produk</a>
+    <a href="{{ route('produk') }}" class="block py-2 text-gray-700 hover:text-yellow-600 font-semibold">Produk</a>
     <a href="{{ route('tentang') }}" class="block py-2 text-gray-700 hover:text-yellow-600 font-semibold">Tentang Kami</a>
   </div>
 </header>

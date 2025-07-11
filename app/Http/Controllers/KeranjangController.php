@@ -91,4 +91,35 @@ class KeranjangController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function tambahJumlah($id)
+{
+    $keranjang = Keranjang::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->first();
+
+    if ($keranjang) {
+        $keranjang->increment('jumlah');
+    }
+
+    return response()->json(['success' => true]);
+}
+
+public function kurangiJumlah($id)
+{
+    $keranjang = Keranjang::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->first();
+
+    if ($keranjang) {
+        if ($keranjang->jumlah > 1) {
+            $keranjang->decrement('jumlah');
+        } else {
+            $keranjang->delete();
+        }
+    }
+
+    return response()->json(['success' => true]);
+}
+
 }

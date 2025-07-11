@@ -132,25 +132,76 @@
         <input type="hidden" name="jumlah" value="{{ $jumlah }}"> {{-- ✅ JUMLAH disubmit --}}
       @endif
 
-      <button type="submit"
+      <button type="button" id="btn-buat-pesanan"
          class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl shadow">
          Buat Pesanan
       </button>
+
    </form>
 </div>
-
-<!-- AlpineJS & Script QR -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script>
-    const radios = document.querySelectorAll('input[name="metode_pembayaran"]');
-    const metodeHidden = document.getElementById('metode_pembayaran_terpilih');
-    const qrisSection = document.getElementById('qrisSection');
-
-    radios.forEach((radio) => {
-        radio.addEventListener('change', function () {
-            metodeHidden.value = this.value;
-            qrisSection.classList.toggle('hidden', this.value !== 'qris');
-        });
-    });
+    // Simpan variabel di atas supaya lebih aman dan tidak muncul error VSCode
+    let selectedItems = @json($selectedItems ?? []);
+    let produkId = @json($produk->id ?? null);
+    let dari = @json(isset($produk) ? 'beli' : 'keranjang');
 </script>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
+
+
+<script>
+document.getElementById('btn-buat-pesanan').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const metode = document.querySelector('input[name="metode_pembayaran"]:checked')?.value;
+
+    if (metode === 'cod') {
+        document.querySelector('form').submit();
+    } else if (metode === 'qris') {
+        const bodyData = {
+            dari,
+        };
+
+        if (dari === 'keranjang') {
+            bodyData.items = selectedItems;
+        } else if (dari === 'beli') {
+            bodyData.produk_id = produkId;
+        }
+
+        fetch("{{ route('midtrans.token') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(bodyData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.snapToken) {
+                alert("Gagal mendapatkan token pembayaran.");
+                return;
+            }
+
+            snap.pay(data.snapToken, {
+                onSuccess: function(result) {
+                    alert("Pembayaran berhasil!");
+                    window.location.href = "{{ route('checkout.sukses') }}";
+                },
+                onError: function(error) {
+                    console.error("Kesalahan pembayaran:", error);
+                    alert("Gagal memproses pembayaran.");
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Kesalahan jaringan:", error);
+            alert("Terjadi kesalahan saat memproses permintaan.");
+        });
+    }
+});
+</script>
+
+
+
+
 @endsection

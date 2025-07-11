@@ -17,7 +17,7 @@
           Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
         </p>
         <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-          <a href="{{ route('produk', $produkBaru->id) }}"
+          <a href="{{ route('produk') }}"
              class="bg-yellow-500 text-white font-bold px-8 py-4 rounded-full hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:scale-110">
             Lihat Produk
           </a>
