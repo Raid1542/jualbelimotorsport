@@ -9,8 +9,8 @@
 
     {{-- Tengah: Navigasi Desktop --}}
     <nav class="hidden md:flex gap-8 font-semibold">
-      <a href="{{ route('produk') }}" class="text-gray-700 hover:text-yellow-600">Produk</a>
-      <a href="{{ route('tentang') }}" class="text-gray-700 hover:text-yellow-600">Tentang Kami</a>
+      <a href="{{ route('produk', ['from' => 'home']) }}">Produk</a>
+      <a href="{{ route('tentang') }}" class="text-gray-700 hover:text-yellow-600">Tentang Speedzone</a>
     </nav>
 
     {{-- Kanan: Login & Hamburger --}}

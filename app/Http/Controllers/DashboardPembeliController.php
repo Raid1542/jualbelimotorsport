@@ -12,10 +12,11 @@ class DashboardPembeliController extends Controller
     {
         $user = Auth::user();
 
-        
-        $produkBaru = Produk::orderBy('created_at', 'desc')->take(6)->get();
+        // ✅ Reset session jika kembali ke dashboard
+        session()->forget('produk_back_to');
 
-        
+        $produkBaru = Produk::orderBy('created_at', 'desc')->take(8)->get();
+
         $showWelcome = session()->pull('show_welcome', false);
 
         return view('pages.dashboard', [

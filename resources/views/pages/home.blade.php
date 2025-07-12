@@ -5,55 +5,55 @@
 @section('content')
 
 {{-- Hero Section --}}
-<section class="h-screen bg-cover bg-center bg-no-repeat relative"
-  style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur.png');">
-  <div class="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div class="flex flex-col items-center md:items-start">
-        <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-2xl text-center md:text-left">
-          SpeedZone
-        </h1>
-        <p class="text-white text-lg mt-6 max-w-xl drop-shadow-md leading-relaxed tracking-wide text-center md:text-left">
-          Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
-        </p>
-        <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-          <a href="{{ route('produk') }}"
-             class="bg-yellow-500 text-white font-bold px-8 py-4 rounded-full hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:scale-110">
-            Lihat Produk
-          </a>
-        </div>
-      </div>
-      <div class="w-full max-w-md">
-        {{-- Tambahkan gambar banner promosi jika ingin --}}
-      </div>
+<section class="w-full bg-cover bg-center bg-no-repeat relative overflow-hidden"
+         style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur.png')">
+  <div class="relative z-10 max-w-7xl mx-auto py-24 md:py-36 px-6 lg:px-12 text-center flex flex-col items-center">
+    <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-xl">
+      Speedzone
+    </h1>
+    <p class="text-white text-lg mt-6 max-w-2xl leading-relaxed tracking-wide">
+      Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
+    </p>
+    <a href="{{ route('produk') }}"
+       class="mt-10 bg-gray-100 text-gray-800 font-bold px-8 py-4 rounded-full shadow-lg hover:bg-yellow-100 hover:scale-105 transition-all duration-300">
+      Lihat Produk
+    </a>
+  </div>
+</section>
+
+<section class="bg-gray-100 py-20">
+  <div class="text-center mb-16">
+    <h2 class="text-4xl font-extrabold text-gray-800">Produk Terbaru</h2>
+    <p class="text-gray-600 mt-3 text-lg max-w-2xl mx-auto">Temukan pilihan terbaik koleksi miniatur favoritmu di SpeedZone.</p>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      @foreach($produkBaru->take(8) as $item)
+        <a href="{{ route('produk.show', $item->id) }}"
+           class="group bg-white border rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 overflow-hidden">
+
+          {{-- Gambar --}}
+          <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}"
+               class="w-full h-44 object-cover transition-transform duration-300 ease-in-out">
+
+          {{-- Konten --}}
+          <div class="p-3 space-y-1">
+            {{-- Nama Produk --}}
+            <h3 class="text-sm text-gray-800 font-semibold leading-tight line-clamp-2">
+              {{ $item->nama }}
+            </h3>
+
+            {{-- Harga --}}
+            <div class="text-yellow-500 font-bold text-base">
+              Rp{{ number_format($item->harga, 0, ',', '.') }}
+            </div>
+          </div>
+        </a>
+      @endforeach
     </div>
   </div>
 </section>
 
-{{-- Produk Preview --}}
-<section class="bg-gray-100 py-20">
-  <div class="text-center mb-16">
-    <h2 class="text-4xl font-extrabold text-gray-800">Produk Terbaru</h2>
-    <p class="text-gray-600 mt-3 text-lg">Temukan Produk terbaik Plihan anda di Speedzone cocok untuk menjadi koleksi kamu dirumah.</p>
-  </div>
-
-  <div class="max-w-7xl mx-auto px-6 lg:px-12 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-    @forelse($produkBaru->take(3) as $item)
-      <div class="bg-white rounded-3xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300">
-        <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}"
-             class="w-full h-48 object-cover rounded-xl mb-4 transition transform hover:scale-105 duration-300">
-        <h3 class="text-xl font-bold text-yellow-600 mb-2">{{ $item->nama }}</h3>
-        <p class="text-gray-600 text-sm mb-4">Desain premium & performa tinggi untuk gaya hidupmu.</p>
-        <a href="{{ route('produk.show', $item->id) }}"
-           class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition">
-          Lihat Detail
-        </a>
-      </div>
-    @empty
-      <p class="text-gray-500 text-center col-span-full">Belum ada produk.</p>
-    @endforelse
-  </div>
-</section>
 
 {{-- Fitur Unggulan --}}
 <section class="bg-white py-24 px-6 lg:px-12">

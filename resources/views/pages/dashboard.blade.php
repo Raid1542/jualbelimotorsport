@@ -14,74 +14,55 @@
 <section class="w-full bg-cover bg-center bg-no-repeat relative overflow-hidden"
          style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur.png')">
   <div class="relative z-10 max-w-7xl mx-auto py-24 md:py-36 px-6 lg:px-12 text-center flex flex-col items-center">
+    
     <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-xl">
       Speedzone
     </h1>
+    
     <p class="text-white text-lg mt-6 max-w-2xl leading-relaxed tracking-wide">
-      Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
+      Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil
+      dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone.
     </p>
-    <a href="{{ route('produk') }}"
-       class="mt-10 bg-gray-100 text-gray-800 font-bold px-8 py-4 rounded-full shadow-lg hover:bg-yellow-100 hover:scale-105 transition-all duration-300">
+    
+    <a href="{{ route('produk', ['from' => 'dashboard']) }}"
+       class="mt-10 inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold text-lg px-8 py-3 rounded-full shadow-lg transition duration-300">
       Lihat Produk
     </a>
+
   </div>
 </section>
 
-{{-- Produk Section --}}
-<section class="bg-gray-50 py-24">
+
+<section class="bg-gray-100 py-20">
   <div class="text-center mb-16">
     <h2 class="text-4xl font-extrabold text-gray-800">Produk Terbaru</h2>
-    <p class="text-gray-600 mt-3 text-lg max-w-xl mx-auto">Produk terbaik pilihan untuk koleksi atau hadiah spesialmu!</p>
+    <p class="text-gray-600 mt-3 text-lg max-w-2xl mx-auto">Temukan pilihan terbaik koleksi miniatur favoritmu di SpeedZone.</p>
   </div>
 
-  <div class="max-w-7xl mx-auto px-6 lg:px-12">
-    @if($produkBaru->isEmpty())
-      <div class="text-center text-gray-500 text-lg">Produk tidak ditemukan.</div>
-    @else
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        @foreach($produkBaru->take(6) as $item)
-          <div class="relative bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition duration-300 group flex flex-col justify-between">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      @foreach($produkBaru->take(8) as $item)
+        <a href="{{ route('produk.show', $item->id) }}"
+           class="group bg-white border rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 overflow-hidden">
 
-            {{-- Badge Produk Baru --}}
-            <div class="absolute top-4 left-4 bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-              Baru
+          {{-- Gambar --}}
+          <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}"
+               class="w-full h-44 object-cover transition-transform duration-300 ease-in-out">
+
+          {{-- Konten --}}
+          <div class="p-3 space-y-1">
+            {{-- Nama Produk --}}
+            <h3 class="text-sm text-gray-800 font-semibold leading-tight line-clamp-2">
+              {{ $item->nama }}
+            </h3>
+
+            {{-- Harga --}}
+            <div class="text-yellow-500 font-bold text-base">
+              Rp{{ number_format($item->harga, 0, ',', '.') }}
             </div>
-
-            {{-- Gambar Produk --}}
-            <a href="{{ route('produk.show', ['id' => $item->id]) }}" class="block overflow-hidden">
-              <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}"
-                   class="w-full h-56 object-cover transform group-hover:scale-105 transition duration-500 ease-in-out">
-            </a>
-
-            {{-- Detail Produk --}}
-            <div class="p-5 text-center flex-1 flex flex-col justify-between">
-              <div class="space-y-2">
-                {{-- Nama Produk (dibatasi 1 baris dengan ellipsis) --}}
-                <h3 class="text-xl font-bold text-gray-900 truncate" title="{{ $item->nama }}">
-                  {{ $item->nama }}
-                </h3>
-
-                {{-- Tag Kategori (dibatasi juga jika panjang) --}}
-                @if($item->kategori && $item->kategori->nama)
-                  <span class="inline-block max-w-full truncate bg-gray-200 text-gray-700 text-xs font-medium px-3 py-1 rounded-full" title="{{ $item->kategori->nama }}">
-                    {{ $item->kategori->nama }}
-                  </span>
-                @endif
-              </div>
-
-              {{-- Tombol Lihat Detail --}}
-              <div class="mt-5">
-                <a href="{{ route('produk.show', ['id' => $item->id]) }}"
-                   class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-semibold px-4 py-2 rounded-full shadow transition duration-300">
-                  Lihat Detail
-                </a>
-              </div>
-            </div>
-
           </div>
-        @endforeach
-      </div>
-    @endif
+        </a>
+      @endforeach
+    </div>
   </div>
 </section>
 
@@ -89,7 +70,7 @@
 <section class="bg-white py-24 px-6 lg:px-12">
   <div class="max-w-7xl mx-auto text-center mb-16">
     <h2 class="text-4xl font-extrabold text-gray-800">
-      Kenapa Memilih <span class="text-yellow-500">SpeedZone?</span>
+      Kenapa Memilih <span class="text-yellow-500">Speedzone?</span>
     </h2>
     <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
       Kami tidak hanya menjual produk, tapi juga memberikan pengalaman belanja yang luar biasa.
