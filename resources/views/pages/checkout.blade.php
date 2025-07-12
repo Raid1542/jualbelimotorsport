@@ -4,14 +4,12 @@
 
 @section('content')
 
-{{-- ⚠️ Notifikasi error jika alamat / telepon belum diisi --}}
 @if(session('error'))
   <div class="mb-6 px-4 py-3 rounded-xl bg-red-100 border border-red-300 text-red-700 font-semibold shadow">
     {{ session('error') }}
   </div>
 @endif
 
-{{-- ✅ Modal Popup Pesanan Berhasil + Redirect Otomatis --}}
 @if(session('success'))
 <div 
   x-data="{ open: true }"
@@ -39,7 +37,7 @@
 @endif
 
 <div class="max-w-3xl mx-auto px-4 py-6">
-   <!-- Alamat Pengiriman -->
+
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Alamat Pengiriman</h2>
       <p class="text-sm text-gray-700 mb-1">
@@ -53,7 +51,6 @@
       </p>
    </div>
 
-   <!-- Produk -->
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg mb-3 text-yellow-600">Detail Produk</h2>
 
@@ -68,20 +65,18 @@
            </div>
         </div>
         @endforeach
-
       @elseif(!empty($produk))
         <div class="flex gap-4 items-start mb-4">
            <img src="{{ asset('images/' . $produk->gambar) }}" alt="produk" class="w-20 h-20 object-cover rounded">
            <div class="flex-1">
               <h3 class="font-semibold text-gray-800">{{ $produk->nama }}</h3>
-              <p class="text-sm text-gray-500">Qty: {{ $jumlah }}</p> {{-- ✅ JUMLAH ditampilkan --}}
-              <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga * $jumlah, 0, ',', '.') }}</p>
+              <p class="text-sm text-gray-500">Qty: 1</p>
+              <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
            </div>
         </div>
       @endif
    </div>
 
-   <!-- Metode Pembayaran -->
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Metode Pembayaran</h2>
       <div class="space-y-2">
@@ -94,15 +89,8 @@
             <span>QRIS (Scan untuk Bayar)</span>
          </label>
       </div>
-
-      <!-- Tampilkan QR jika QRIS dipilih -->
-      <div id="qrisSection" class="mt-4 hidden">
-         <p class="text-sm text-gray-700 mb-2">Silakan scan QR berikut untuk pembayaran:</p>
-         <img src="{{ asset('images/qris.jpg') }}" alt="QRIS" class="w-48 h-48 mx-auto rounded-xl shadow-md">
-      </div>
    </div>
 
-   <!-- Rincian Pembayaran -->
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Rincian Pembayaran</h2>
       <div class="flex justify-between text-sm text-gray-700 mb-1">
@@ -115,93 +103,85 @@
       </div>
    </div>
 
-   <!-- Tombol Buat Pesanan -->
-   <form action="{{ route('checkout.proses') }}" method="POST">
+   <form id="formCheckout" action="{{ route('checkout.proses') }}" method="POST">
       @csrf
       <input type="hidden" name="metode_pembayaran_terpilih" id="metode_pembayaran_terpilih" value="cod">
 
-      {{-- ✅ Data dari keranjang --}}
       @if(!empty($selectedItems))
         @foreach ($selectedItems as $id)
-          <input type="hidden" name="items[]" value="{{ $id }}">
+        <input type="hidden" name="items[]" value="{{ $id }}">
         @endforeach
-
-      {{-- ✅ Data dari beli langsung --}}
       @elseif(!empty($produk))
         <input type="hidden" name="produk_id" value="{{ $produk->id }}">
-        <input type="hidden" name="jumlah" value="{{ $jumlah }}"> {{-- ✅ JUMLAH disubmit --}}
       @endif
 
-      <button type="button" id="btn-buat-pesanan"
+      <button type="submit" id="btn-buat-pesanan"
          class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl shadow">
          Buat Pesanan
       </button>
-
    </form>
 </div>
-<script>
-    // Simpan variabel di atas supaya lebih aman dan tidak muncul error VSCode
-    let selectedItems = @json($selectedItems ?? []);
-    let produkId = @json($produk->id ?? null);
-    let dari = @json(isset($produk) ? 'beli' : 'keranjang');
-</script>
+
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
 
-
 <script>
-document.getElementById('btn-buat-pesanan').addEventListener('click', function (e) {
+let selectedItems = @json($selectedItems ?? []);
+let produkId = @json($produk->id ?? null);
+let dari = @json(isset($produk) ? 'beli' : 'keranjang');
+
+document.getElementById('formCheckout').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const metode = document.querySelector('input[name="metode_pembayaran"]:checked')?.value;
+    document.getElementById('metode_pembayaran_terpilih').value = metode;
 
-    if (metode === 'cod') {
-        document.querySelector('form').submit();
-    } else if (metode === 'qris') {
-        const bodyData = {
-            dari,
-        };
+    const form = this;
+    const formData = new FormData(form);
 
-        if (dari === 'keranjang') {
-            bodyData.items = selectedItems;
-        } else if (dari === 'beli') {
-            bodyData.produk_id = produkId;
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
-
-        fetch("{{ route('midtrans.token') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            },
-            body: JSON.stringify(bodyData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.snapToken) {
-                alert("Gagal mendapatkan token pembayaran.");
-                return;
-            }
-
-            snap.pay(data.snapToken, {
-                onSuccess: function(result) {
-                    alert("Pembayaran berhasil!");
-                    window.location.href = "{{ route('checkout.sukses') }}";
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'need_payment') {
+            fetch("{{ route('checkout.snap.token') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
-                onError: function(error) {
-                    console.error("Kesalahan pembayaran:", error);
-                    alert("Gagal memproses pembayaran.");
+                body: JSON.stringify({ pesanan_id: data.pesanan_id })
+            })
+            .then(res => res.json())
+            .then(midtrans => {
+                if (midtrans.snapToken) {
+                    snap.pay(midtrans.snapToken, {
+                        onSuccess: function(result) {
+                            window.location.href = "{{ route('pesanan') }}";
+                        },
+                        onPending: function(result) {
+                            window.location.href = "{{ route('pesanan') }}";
+                        },
+                        onError: function(result) {
+                            alert("Pembayaran gagal.");
+                        }
+                    });
+                } else {
+                    alert("Gagal mendapatkan Snap Token.");
                 }
             });
-        })
-        .catch(error => {
-            console.error("Kesalahan jaringan:", error);
-            alert("Terjadi kesalahan saat memproses permintaan.");
-        });
-    }
+        } else if (data.status === 'success') {
+            window.location.href = data.redirect;
+        }
+    })
+    .catch(error => {
+        console.error("Checkout error:", error);
+        alert("Terjadi kesalahan saat checkout.");
+    });
 });
 </script>
-
-
-
-
 @endsection
