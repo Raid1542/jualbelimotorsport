@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Produk extends Model
 {
     protected $table = 'produk'; // sesuai nama tabel
@@ -23,5 +24,6 @@ public function detailPesanan()
 {
     return $this->hasMany(DetailPesanan::class);
 }
+
 
 }

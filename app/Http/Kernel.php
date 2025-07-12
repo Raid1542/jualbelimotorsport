@@ -30,6 +30,9 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\ClearWelcomeSession::class,
+             \App\Http\Middleware\SavePreviousUrl::class,
+            \App\Http\Middleware\SetPreviousPage::class,
+
 
         ],
 
@@ -55,5 +58,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'penjual' => \App\Http\Middleware\CekPenjualSession::class,
+        'set.previous' => \App\Http\Middleware\SetPreviousPage::class,
     ];
 }

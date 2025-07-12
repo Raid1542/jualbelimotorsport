@@ -1,13 +1,22 @@
+@php
+  $logoLink = match(session('produk_back_to')) {
+      'home' => route('home'),
+      'dashboard' => route('dashboard'),
+      default => route('dashboard'),
+  };
+@endphp
+
+
 <nav class="bg-white shadow-md sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between relative">
 
     {{-- Kiri: Logo --}}
     <div class="flex items-center space-x-3">
       <img src="{{ asset('images/speedzone.jpg') }}" alt="Logo" class="w-12 h-12 rounded-full object-cover">
-      <a href="{{ route('dashboard') }}" class="text-2xl font-extrabold text-yellow-500">Speedzone</a>
+      <a href="{{ $logoLink }}" class="text-2xl font-extrabold text-yellow-500">Speedzone</a>
     </div>
 
-    {{-- Tengah: Search Bar di tengah absolute --}}
+    {{-- Tengah: Search Bar --}}
     <form action="{{ route('produk') }}" method="GET"
           class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-md">
       <div class="relative">

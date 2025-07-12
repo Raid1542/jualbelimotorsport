@@ -155,10 +155,10 @@ public function sukses()
 public function getSnapToken(Request $request)
 {
     // ⛑ Init Midtrans Manual
-    \Midtrans\Config::$serverKey = config('midtrans.serverKey');
-    \Midtrans\Config::$isProduction = false;
-    \Midtrans\Config::$isSanitized = true;
-    \Midtrans\Config::$is3ds = true;
+    Config::$serverKey = config('midtrans.serverKey');
+    Config::$isProduction = false;
+    Config::$isSanitized = true;
+    Config::$is3ds = true;
 
     $user = auth()->user();
     $orderId = uniqid('ORDER-');
@@ -200,7 +200,7 @@ public function getSnapToken(Request $request)
             ]
         ];
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        $snapToken = Snap::getSnapToken($params);
         return response()->json(['snapToken' => $snapToken]);
     } catch (\Exception $e) {
         return response()->json([

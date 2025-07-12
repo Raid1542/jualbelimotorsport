@@ -14,14 +14,17 @@ class KeranjangController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        $keranjang = Keranjang::with('produk')
-            ->where('user_id', Auth::id())
-            ->get();
+   public function index()
+{
+    $user = auth()->user();
+    $keranjang = Keranjang::with('produk')
+        ->where('user_id', $user->id)
+        ->orderBy('created_at', 'desc') // Urutkan dari yang terbaru
+        ->get();
 
-        return view('pages.keranjang', compact('keranjang'));
-    }
+    return view('pages.keranjang', compact('keranjang'));
+}
+
 
    public function tambah(Request $request, $id)
 {
