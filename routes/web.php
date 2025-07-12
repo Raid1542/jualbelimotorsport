@@ -30,10 +30,14 @@ use App\Http\Controllers\Admin\AdminPesananController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\FavoritController;
 
-Route::get('/bayar-motor', [CheckoutController::class, 'tampilkanFormBayar']);
-Route::post('/midtrans/callback', [CheckoutController::class, 'handleCallback']);
+Route::get('/bayar-motor', [CheckoutController::class, 'tampilkanFormBayar']); // Opsional
+Route::post('/checkout/proses', [CheckoutController::class, 'prosesCheckout'])->name('checkout.proses');
+Route::get('/checkout/sukses', [CheckoutController::class, 'sukses'])->name('checkout.sukses');
+
+// Midtrans Integration
 Route::post('/midtrans/token', [CheckoutController::class, 'getSnapToken'])->name('midtrans.token');
-Route::post('/checkout/snap-token', [CheckoutController::class, 'getSnapToken'])->name('checkout.token');
+Route::post('/checkout/snap-token', [CheckoutController::class, 'getSnapToken'])->name('checkout.snap.token');
+Route::post('/checkout/proses', [CheckoutController::class, 'prosesCheckout'])->name('checkout.proses');
 
 
 
