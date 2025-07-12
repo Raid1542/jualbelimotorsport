@@ -3,12 +3,13 @@
 @section('title', 'Tentang Kami')
 
 @section('content')
-<div class="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+<div class="bg-gradient-to-b from-yellow-50 to-white min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+
 
   {{-- Cerita Kami --}}
   <section class="py-16 bg-white">
     <div class="max-w-4xl mx-auto text-center px-6">
-      <h2 class="text-3xl md:text-4xl font-extrabold text-yellow-500 mb-6">Cerita Kami</h2>
+      <h2 class="text-3xl md:text-3xl font-extrabold text-gray-800 mb-6">Cerita Kami</h2>
       <p class="text-gray-700 text-lg leading-relaxed">
         <strong class="text-gray-900 font-semibold">Speedzone</strong> adalah platform belanja online miniatur motor dan mobil yang menghadirkan produk berkualitas.
         Kami berkomitmen memberikan pengalaman belanja yang cepat, aman, dan nyaman bagi para pecinta miniatur motor dan mobil di Indonesia.
@@ -22,7 +23,7 @@
   {{-- Nilai-Nilai Kami --}}
   <section class="py-16 bg-white">
     <div class="max-w-6xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-extrabold text-yellow-500 mb-4">Nilai-Nilai Kami</h2>
+      <h2 class="text-3xl md:text-3xl font-extrabold text-gray-800 mb-4">Nilai-Nilai Kami</h2>
       <ul class="space-y-4 max-w-2xl mx-auto text-base text-gray-700 leading-relaxed">
         <li><strong class="text-gray-900">Integritas</strong> – Menyediakan informasi produk yang transparan dan jujur.</li>
         <li><strong class="text-gray-900">Inovasi</strong> – Terus meningkatkan pengalaman pengguna melalui teknologi.</li>

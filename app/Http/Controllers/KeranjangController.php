@@ -14,35 +14,43 @@ class KeranjangController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        $keranjang = Keranjang::with('produk')
-            ->where('user_id', Auth::id())
-            ->get();
+   public function index()
+{
+    $user = auth()->user();
+    $keranjang = Keranjang::with('produk')
+        ->where('user_id', $user->id)
+        ->orderBy('created_at', 'desc') // Urutkan dari yang terbaru
+        ->get();
 
-        return view('pages.keranjang', compact('keranjang'));
+    return view('pages.keranjang', compact('keranjang'));
+}
+
+
+   public function tambah(Request $request, $id)
+{
+    $user_id = Auth::id();
+    $jumlahInput = (int) $request->input('jumlah', 1); // Ambil jumlah dari input form
+
+    $keranjang = Keranjang::where('user_id', $user_id)
+        ->where('produk_id', $id)
+        ->first();
+
+    if ($keranjang) {
+        // Tambah jumlah yang dipilih
+        $keranjang->jumlah += $jumlahInput;
+        $keranjang->save();
+    } else {
+        // Buat baru dengan jumlah sesuai input
+        Keranjang::create([
+            'user_id' => $user_id,
+            'produk_id' => $id,
+            'jumlah' => $jumlahInput,
+        ]);
     }
 
-    public function tambah($id)
-    {
-        $user_id = Auth::id();
+    return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
+}
 
-        $keranjang = Keranjang::firstOrCreate(
-            [
-                'user_id' => $user_id,
-                'produk_id' => $id
-            ],
-            [
-                'jumlah' => 1
-            ]
-        );
-
-        if (!$keranjang->wasRecentlyCreated) {
-            $keranjang->increment('jumlah');
-        }
-
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
-    }
 
     public function tambahLangsung($keranjang_id)
     {

@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gradient-to-b from-yellow-50 to-white text-gray-800 min-h-screen">
 
   @include('components.keranjang')
 

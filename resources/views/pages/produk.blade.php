@@ -83,31 +83,38 @@
         </div>
       @else
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-          @foreach ($produks->take(30) as $produk)
-            <a href="{{ route('produk.show', $produk->id) }}"
-               class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 flex flex-col h-full overflow-hidden">
+        @foreach ($produks->take(30) as $produk)
+  <a href="{{ route('produk.show', $produk->id) }}"
+     class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 flex flex-col h-full overflow-hidden relative">
 
-              <!-- Gambar -->
-              <div class="w-full h-52 overflow-hidden bg-gray-100">
-                <img src="{{ asset('images/' . $produk->gambar) }}"
-                     class="w-full h-full object-cover object-center"
-                     alt="{{ $produk->nama }}">
-              </div>
+    <!-- Gambar Produk -->
+    <div class="w-full h-52 overflow-hidden bg-gray-100 relative">
+      <img src="{{ asset('images/' . $produk->gambar) }}"
+           class="w-full h-full object-cover object-center"
+           alt="{{ $produk->nama }}">
 
-              <!-- Konten -->
-              <div class="p-4 flex flex-col justify-between flex-grow">
-                <div class="mb-2">
-                  <h3 class="text-base font-semibold text-gray-800 leading-tight mb-1 truncate">{{ $produk->nama }}</h3>
-                  <p class="text-yellow-600 font-bold text-sm mb-1">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
-                </div>
-                <div class="text-sm text-gray-500 mt-auto leading-snug">
-                  <p>Kategori: <span class="text-gray-700">{{ $produk->kategori->nama ?? '-' }}</span></p>
-                  <p>Stok: {{ $produk->stok }} | Warna: {{ $produk->warna }}</p>
-                </div>
-              </div>
+      @if($produk->stok == 0)
+      <!-- Badge Stok Habis -->
+      <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow">
+        Stok Habis
+      </div>
+      @endif
+    </div>
 
-            </a>
-          @endforeach
+    <!-- Konten -->
+    <div class="p-4 flex flex-col justify-between flex-grow">
+      <div class="mb-2">
+        <h3 class="text-base font-semibold text-gray-800 leading-tight mb-1 truncate">{{ $produk->nama }}</h3>
+        <p class="text-gray-800 font-bold text-sm mb-1">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
+      </div>
+      <div class="text-sm text-gray-500 mt-auto leading-snug">
+        <p>Kategori: <span class="text-gray-700">{{ $produk->kategori->nama ?? '-' }}</span></p>
+        <p>Stok: {{ $produk->stok }} | Warna: {{ $produk->warna }}</p>
+      </div>
+    </div>
+
+  </a>
+@endforeach
         </div>
       @endif
     </main>

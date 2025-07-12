@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\AdminTransaksiController;
 use App\Http\Controllers\Admin\AdminRekapController;
 use App\Http\Controllers\Admin\AdminPesananController;
 use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\FavoritController;
 
 Route::get('/bayar-motor', [CheckoutController::class, 'tampilkanFormBayar']);
 Route::post('/midtrans/callback', [CheckoutController::class, 'handleCallback']);
@@ -45,6 +46,14 @@ Route::post('/checkout/snap-token', [CheckoutController::class, 'getSnapToken'])
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/welcome', 'welcome');
 
+ Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
+
+ Route::get('/reset-backto', function () {
+    session()->forget('produk_back_to');
+    return redirect()->route('home');
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Rute Autentikasi
@@ -57,7 +66,7 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardPembeliController::class, 'index'])->name('dashboard');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 // Register
@@ -121,16 +130,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'index'])->name('konfirmasi.index');
     Route::post('/konfirmasi-pembayaran', [PembayaranController::class, 'store'])->name('konfirmasi.store');
 
-    Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
-    Route::post('/favorite/{produk}', [FavoriteController::class, 'store'])->name('favorite.store');
+    Route::get('/favorit', [FavoritController::class, 'index'])->name('favorit.index');
+    Route::post('/favorit/{produk}', [FavoritController::class, 'store'])->name('favorit.store');
+    Route::post('/favorit/toggle/{produk}', [FavoritController::class, 'toggle'])->name('favorit.toggle');
+
 
     Route::get('/resi', [ResiController::class, 'resi'])->middleware('auth')->name('resi');
     Route::get('/riwayat_pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
 
-    Route::get('/pembayaran/{id}', [TransaksiController::class, 'showPembayaran'])->name('pembayaran.show');
-    Route::post('/pembayaran/{id}/upload', [TransaksiController::class, 'uploadBukti'])->name('pembayaran.upload');
 
-    Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
+    
+
 });
 
 
@@ -143,12 +153,6 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-
-    // Transaksi
-    Route::get('/transaksi', [AdminTransaksiController::class, 'index'])->name('transaksi');
-    Route::post('/transaksi/update-status/{id}', [AdminTransaksiController::class, 'updateStatus'])->name('transaksi.update');
-    Route::post('/pesanan/konfirmasi/{id}', [AdminTransaksiController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
-    Route::post('/pesanan/kirim/{id}', [AdminTransaksiController::class, 'kirim'])->name('pesanan.kirim');
 
     // Rekap Penjualan
     Route::get('/rekap-penjualan', [AdminRekapController::class, 'index'])->name('rekap-penjualan');
