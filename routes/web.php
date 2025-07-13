@@ -133,6 +133,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/konfirmasi/store', [PembayaranController::class, 'store'])->name('konfirmasi.store');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'index'])->name('konfirmasi.index');
     Route::post('/konfirmasi-pembayaran', [PembayaranController::class, 'store'])->name('konfirmasi.store');
+
+
+
     Route::get('/resi', [ResiController::class, 'resi'])->middleware('auth')->name('resi');
     Route::get('/riwayat_pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
 
@@ -148,7 +151,7 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
