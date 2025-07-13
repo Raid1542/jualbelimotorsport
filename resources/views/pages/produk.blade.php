@@ -18,7 +18,8 @@
         <h3 class="text-lg font-semibold text-gray-700 mb-3">Kategori</h3>
         <div class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1">
           @forelse($kategoris as $kategori)
-            <label class="flex items-center space-x-3 group hover:bg-yellow-50 px-3 py-2 rounded-md transition cursor-pointer">
+            <label class="flex items-center space-x-3 group hover:bg-white
+             px-3 py-2 rounded-md transition cursor-pointer">
               <input
                 type="checkbox"
                 name="kategori[]"
@@ -83,38 +84,48 @@
         </div>
       @else
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-        @foreach ($produks->take(30) as $produk)
-  <a href="{{ route('produk.show', $produk->id) }}"
-     class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 flex flex-col h-full overflow-hidden relative">
+       @foreach ($produks->take(30) as $produk)
+<a href="{{ route('produk.show', $produk->id) }}"
+   class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 flex flex-col h-full overflow-hidden relative">
 
-    <!-- Gambar Produk -->
-    <div class="w-full h-52 overflow-hidden bg-gray-100 relative">
-      <img src="{{ asset('images/' . $produk->gambar) }}"
-           class="w-full h-full object-cover object-center"
-           alt="{{ $produk->nama }}">
+  <!-- Gambar Produk -->
+  <div class="w-full h-52 overflow-hidden bg-gray-100 relative">
+    <img src="{{ asset('images/' . $produk->gambar) }}"
+         class="w-full h-full object-cover object-center"
+         alt="{{ $produk->nama }}">
 
-      @if($produk->stok == 0)
-      <!-- Badge Stok Habis -->
-      <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow">
-        Stok Habis
-      </div>
-      @endif
+    @if($produk->stok < 1)
+    <!-- Badge Stok Habis -->
+    <div class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-semibold px-4 py-2 rounded-full shadow-lg uppercase tracking-wider z-10">
+      Stok Habis
     </div>
+    @endif
+  </div>
 
-    <!-- Konten -->
-    <div class="p-4 flex flex-col justify-between flex-grow">
-      <div class="mb-2">
-        <h3 class="text-base font-semibold text-gray-800 leading-tight mb-1 truncate">{{ $produk->nama }}</h3>
-        <p class="text-gray-800 font-bold text-sm mb-1">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
-      </div>
-      <div class="text-sm text-gray-500 mt-auto leading-snug">
-        <p>Kategori: <span class="text-gray-700">{{ $produk->kategori->nama ?? '-' }}</span></p>
-        <p>Stok: {{ $produk->stok }} | Warna: {{ $produk->warna }}</p>
-      </div>
+  <!-- Konten -->
+  <div class="p-4 flex flex-col justify-between flex-grow space-y-2">
+
+    {{-- Nama Produk --}}
+    <h3 class="text-base font-semibold text-gray-800 truncate">
+      {{ $produk->nama }}
+    </h3>
+
+    {{-- Harga --}}
+    <p class="text-yellow-600 font-bold text-sm">
+      Rp{{ number_format($produk->harga, 0, ',', '.') }}
+    </p>
+
+    {{-- Info Detail --}}
+    <div class="text-sm text-gray-500 mt-auto leading-snug space-y-1">
+      <p>Kategori: <span class="text-gray-700">{{ $produk->kategori->nama ?? '-' }}</span></p>
+      <p>Stok: {{ $produk->stok }} | Warna: {{ $produk->warna }}</p>
     </div>
+    
+  </div>
 
-  </a>
+</a>
 @endforeach
+
         </div>
       @endif
     </main>

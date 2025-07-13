@@ -92,12 +92,18 @@
 
 
     {{-- Beli Sekarang --}}
-    <form method="GET" :action="'{{ route('checkout.beli', $produk->id) }}'" @submit.prevent="window.location.href = '{{ route('checkout.beli', $produk->id) }}' + '?jumlah=' + count">
-      <button type="submit"
-        class="w-full sm:w-auto text-center bg-gray-100 hover:bg-gray-200 text-yellow-600 px-6 py-3 rounded-xl shadow-md font-semibold text-base transition-all duration-300">
-        Beli Sekarang
-      </button>
-    </form>
+  {{-- Beli Sekarang --}}
+<form method="GET" action="{{ route('checkout.beli', $produk->id) }}"
+      x-ref="formBeliSekarang"
+      @submit.prevent="$refs.inputJumlahBeli.value = count; $refs.formBeliSekarang.submit()">
+  <input type="hidden" name="jumlah" x-ref="inputJumlahBeli" />
+  <button type="submit"
+    class="w-full sm:w-auto text-center bg-gray-100 hover:bg-gray-200 text-yellow-600 px-6 py-3 rounded-xl shadow-md font-semibold text-base transition-all duration-300">
+    Beli Sekarang
+  </button>
+</form>
+
+
 
   @else
     {{-- Produk Habis --}}
@@ -118,7 +124,7 @@
 
 {{-- Produk Lainnya --}}
 @if($produkLain->isNotEmpty())
-<section class="py-16 bg-gradient-to-br from-yellow-50 to-white min-h-screen">
+<section class="py-16 bg-gradient-to-br from-white min-h-screen">
   <div class="max-w-7xl mx-auto px-6">
     <h2 class="text-3xl font-bold text-gray-800 mb-10 text-center">Produk Lainnya</h2>
 

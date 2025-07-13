@@ -5,9 +5,9 @@
 @section('content')
 
 @if(session('error'))
-  <div class="mb-6 px-4 py-3 rounded-xl bg-red-100 border border-red-300 text-red-700 font-semibold shadow">
+<div class="mb-6 px-4 py-3 rounded-xl bg-red-100 border border-red-300 text-red-700 font-semibold shadow">
     {{ session('error') }}
-  </div>
+</div>
 @endif
 
 @if(session('success'))
@@ -38,6 +38,7 @@
 
 <div class="max-w-3xl mx-auto px-4 py-6">
 
+   {{-- Alamat --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Alamat Pengiriman</h2>
       <p class="text-sm text-gray-700 mb-1">
@@ -51,6 +52,7 @@
       </p>
    </div>
 
+   {{-- Produk --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg mb-3 text-yellow-600">Detail Produk</h2>
 
@@ -65,18 +67,20 @@
            </div>
         </div>
         @endforeach
+
       @elseif(!empty($produk))
         <div class="flex gap-4 items-start mb-4">
-           <img src="{{ asset('images/' . $produk->gambar) }}" alt="produk" class="w-20 h-20 object-cover rounded">
-           <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">{{ $produk->nama }}</h3>
-              <p class="text-sm text-gray-500">Qty: 1</p>
-              <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
-           </div>
+          <img src="{{ asset('images/' . $produk->gambar) }}" alt="produk" class="w-20 h-20 object-cover rounded">
+          <div class="flex-1">
+            <h3 class="font-semibold text-gray-800">{{ $produk->nama }}</h3>
+            <p class="text-sm text-gray-500">Qty: {{ $jumlah ?? 1 }}</p>
+            <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga * ($jumlah ?? 1), 0, ',', '.') }}</p>
+          </div>
         </div>
       @endif
    </div>
 
+   {{-- Metode Pembayaran --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Metode Pembayaran</h2>
       <div class="space-y-2">
@@ -91,28 +95,34 @@
       </div>
    </div>
 
+   {{-- Rincian Pembayaran --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Rincian Pembayaran</h2>
       <div class="flex justify-between text-sm text-gray-700 mb-1">
          <span>Subtotal</span>
-         <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
+         <span>Rp{{ number_format($subtotal ?? 0, 0, ',', '.') }}</span>
       </div>
       <div class="flex justify-between text-base font-bold text-gray-800 mt-2">
          <span>Total</span>
-         <span class="text-red-600">Rp{{ number_format($total, 0, ',', '.') }}</span>
+         <span class="text-red-600">Rp{{ number_format($total ?? 0, 0, ',', '.') }}</span>
       </div>
    </div>
 
+   {{-- Form --}}
    <form id="formCheckout" action="{{ route('checkout.proses') }}" method="POST">
       @csrf
       <input type="hidden" name="metode_pembayaran_terpilih" id="metode_pembayaran_terpilih" value="cod">
 
+      {{-- Untuk checkout dari keranjang --}}
       @if(!empty($selectedItems))
         @foreach ($selectedItems as $id)
-        <input type="hidden" name="items[]" value="{{ $id }}">
+          <input type="hidden" name="items[]" value="{{ $id }}">
         @endforeach
+
+      {{-- Untuk checkout langsung beli sekarang --}}
       @elseif(!empty($produk))
         <input type="hidden" name="produk_id" value="{{ $produk->id }}">
+        <input type="hidden" name="jumlah" value="{{ $jumlah ?? 1 }}">
       @endif
 
       <button type="submit" id="btn-buat-pesanan"
@@ -122,13 +132,10 @@
    </form>
 </div>
 
+{{-- Midtrans --}}
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
 
 <script>
-let selectedItems = @json($selectedItems ?? []);
-let produkId = @json($produk->id ?? null);
-let dari = @json(isset($produk) ? 'beli' : 'keranjang');
-
 document.getElementById('formCheckout').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -184,4 +191,5 @@ document.getElementById('formCheckout').addEventListener('submit', function (e) 
     });
 });
 </script>
+
 @endsection
