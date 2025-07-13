@@ -19,10 +19,6 @@
   <main>
     @yield('content')
   </main>
-
-  {{-- Footer (opsional, bisa pakai include jika ada komponen) --}}
-  @include('components.footer')
-
 </body>
 
 </html>

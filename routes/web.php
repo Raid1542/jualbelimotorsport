@@ -133,12 +133,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/konfirmasi/store', [PembayaranController::class, 'store'])->name('konfirmasi.store');
     Route::get('/konfirmasi-pembayaran', [PembayaranController::class, 'index'])->name('konfirmasi.index');
     Route::post('/konfirmasi-pembayaran', [PembayaranController::class, 'store'])->name('konfirmasi.store');
-
-    Route::get('/favorit', [FavoritController::class, 'index'])->name('favorit.index');
-    Route::post('/favorit/{produk}', [FavoritController::class, 'store'])->name('favorit.store');
-    Route::post('/favorit/toggle/{produk}', [FavoritController::class, 'toggle'])->name('favorit.toggle');
-
-
     Route::get('/resi', [ResiController::class, 'resi'])->middleware('auth')->name('resi');
     Route::get('/riwayat_pesanan', [PesananController::class, 'index'])->middleware('auth')->name('pesanan');
 
@@ -154,7 +148,7 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
