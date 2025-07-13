@@ -2,10 +2,10 @@
 
 @section('content')
 <section class="py-16">
-  <div class="max-w-7xl mx-auto px-6 flex gap-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">
 
     <!-- Sidebar Filter -->
-    <form method="GET" action="{{ route('produk') }}" class="w-72 bg-white rounded-2xl shadow-lg p-6 space-y-6 sticky top-24 max-h-[80vh] overflow-y-auto shrink-0">
+    <form method="GET" action="{{ route('produk') }}" class="w-full lg:w-72 bg-white rounded-2xl shadow-lg p-6 space-y-6 lg:sticky top-24 max-h-[80vh] overflow-y-auto">
       <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L14 13.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 018 17v-3.586L3.293 6.707A1 1 0 013 6V4z" />
@@ -71,7 +71,7 @@
     <!-- Produk Grid -->
     <main class="flex-grow">
       <div class="mb-10 text-center">
-        <h2 class="text-4xl font-bold text-gray-800">Berikut Daftar Produk Yang Dijual</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-800">Berikut Daftar Produk Yang Dijual</h2>
       </div>
 
       @if ($produks->isEmpty())
@@ -82,39 +82,37 @@
           @endif
         </div>
       @else
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-        @foreach ($produks->take(30) as $produk)
-  <a href="{{ route('produk.show', $produk->id) }}"
-     class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 flex flex-col h-full overflow-hidden relative">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+          @foreach ($produks->take(30) as $produk)
+            <a href="{{ route('produk.show', $produk->id) }}"
+               class="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 flex flex-col h-full overflow-hidden relative">
 
-    <!-- Gambar Produk -->
-    <div class="w-full h-52 overflow-hidden bg-gray-100 relative">
-      <img src="{{ asset('images/' . $produk->gambar) }}"
-           class="w-full h-full object-cover object-center"
-           alt="{{ $produk->nama }}">
+              <!-- Gambar Produk -->
+              <div class="w-full h-52 overflow-hidden bg-gray-100 relative">
+                <img src="{{ asset('images/' . $produk->gambar) }}"
+                     class="w-full h-full object-cover object-center"
+                     alt="{{ $produk->nama }}">
+                @if($produk->stok == 0)
+                  <!-- Badge Stok Habis -->
+                  <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow">
+                    Stok Habis
+                  </div>
+                @endif
+              </div>
 
-      @if($produk->stok == 0)
-      <!-- Badge Stok Habis -->
-      <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow">
-        Stok Habis
-      </div>
-      @endif
-    </div>
-
-    <!-- Konten -->
-    <div class="p-4 flex flex-col justify-between flex-grow">
-      <div class="mb-2">
-        <h3 class="text-base font-semibold text-gray-800 leading-tight mb-1 truncate">{{ $produk->nama }}</h3>
-        <p class="text-gray-800 font-bold text-sm mb-1">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
-      </div>
-      <div class="text-sm text-gray-500 mt-auto leading-snug">
-        <p>Kategori: <span class="text-gray-700">{{ $produk->kategori->nama ?? '-' }}</span></p>
-        <p>Stok: {{ $produk->stok }} | Warna: {{ $produk->warna }}</p>
-      </div>
-    </div>
-
-  </a>
-@endforeach
+              <!-- Konten -->
+              <div class="p-4 flex flex-col justify-between flex-grow">
+                <div class="mb-2">
+                  <h3 class="text-base font-semibold text-gray-800 leading-tight mb-1 truncate">{{ $produk->nama }}</h3>
+                  <p class="text-gray-800 font-bold text-sm mb-1">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
+                </div>
+                <div class="text-sm text-gray-500 mt-auto leading-snug">
+                  <p>Kategori: <span class="text-gray-700">{{ $produk->kategori->nama ?? '-' }}</span></p>
+                  <p>Stok: {{ $produk->stok }} | Warna: {{ $produk->warna }}</p>
+                </div>
+              </div>
+            </a>
+          @endforeach
         </div>
       @endif
     </main>
