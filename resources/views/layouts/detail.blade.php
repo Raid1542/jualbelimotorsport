@@ -14,7 +14,7 @@
 </head>
 <body class="bg-gray-100">
 
- @include('components.detail')
+ @include('components.produk')
 
   {{-- Konten --}}
   <main>
