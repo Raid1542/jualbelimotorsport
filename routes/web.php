@@ -129,6 +129,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/qris/{id}', [CheckoutController::class, 'checkoutQris'])->name('checkout.qris');
     Route::get('/beli-sekarang/{id}', [CheckoutController::class, 'beliSekarang'])->name('checkout.beli');
     Route::get('/checkout/sukses', [CheckoutController::class, 'sukses'])->name('checkout.sukses');
+    Route::post('/checkout/beli/{id}', [CheckoutController::class, 'beliSekarangPost'])->name('checkout.beli.post');
 
 
     Route::post('/konfirmasi/store', [PembayaranController::class, 'store'])->name('konfirmasi.store');
