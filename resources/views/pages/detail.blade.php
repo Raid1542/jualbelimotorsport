@@ -14,7 +14,7 @@
 </div>
 @endif
 
-<section class="py-16 bg-gradient-to-br from-yellow-50 to-white min-h-screen">
+<section class="py-16 bg-gradient-to-br from-gray-50 to-white min-h-screen">
   <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
 
     {{-- Gambar Produk --}}
@@ -91,17 +91,17 @@
 </form>
 
 
-    {{-- Beli Sekarang --}}
-  {{-- Beli Sekarang --}}
-<form method="GET" action="{{ route('checkout.beli', $produk->id) }}"
-      x-ref="formBeliSekarang"
-      @submit.prevent="$refs.inputJumlahBeli.value = count; $refs.formBeliSekarang.submit()">
-  <input type="hidden" name="jumlah" x-ref="inputJumlahBeli" />
+  <form method="POST" action="{{ route('checkout.beli.post', $produk->id) }}">
+  @csrf
+  <input type="hidden" name="jumlah" :value="count" />
   <button type="submit"
     class="w-full sm:w-auto text-center bg-gray-100 hover:bg-gray-200 text-yellow-600 px-6 py-3 rounded-xl shadow-md font-semibold text-base transition-all duration-300">
     Beli Sekarang
   </button>
 </form>
+
+
+
 
 
 

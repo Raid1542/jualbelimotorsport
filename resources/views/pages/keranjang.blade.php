@@ -43,7 +43,13 @@
                         <div class="flex-1">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h2 class="text-lg font-semibold">{{ $produk ? $produk->nama : 'Produk dihapus' }}</h2>
+                                    @if($produk)
+  <a href="{{ route('produk.show', $produk->id) }}" class="text-lg font-semibold text-yellow-600 hover:underline">
+    {{ $produk->nama }}
+  </a>
+@else
+  <span class="text-lg font-semibold text-gray-400 italic">Produk dihapus</span>
+@endif
                                     <p class="text-sm text-gray-500">Harga: Rp {{ number_format($harga, 0, ',', '.') }}</p>
                                 </div>
                                 <div class="text-yellow-600 font-bold text-lg subtotal-text">
