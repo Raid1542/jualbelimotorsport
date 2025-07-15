@@ -5,121 +5,98 @@
 @section('content')
 @include('components.navbar_edit_profil')
 
-<main class="max-w-2xl mx-auto py-10 px-6 bg-white rounded-lg shadow-lg mt-8">
-    <form action="{{ route('profil.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-        @csrf
+<main class="max-w-4xl mx-auto px-6 py-16">
+    <div class="bg-white rounded-3xl shadow-xl p-10 space-y-10 border border-gray-100">
 
-        <!-- Nama Lengkap -->
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-            <input
-                type="text"
-                id="name"
-                name="name"
-                value="{{ old('name', $user->name ?? '') }}"
-                placeholder="Masukkan nama lengkap"
-                class="w-full bg-white text-gray-900 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-500 transition-all duration-200"
-                required
-            >
-            @error('name')
-                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-            @enderror
+        <div class="text-center space-y-1">
+            <h2 class="text-3xl font-bold text-gray-800">Edit Profil Anda</h2>
+            <p class="text-gray-500 text-sm">Perbarui informasi akun agar tetap relevan & up-to-date</p>
         </div>
 
-        <!-- Username -->
-        <div>
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-            <input
-                type="text"
-                id="username"
-                name="username"
-                value="{{ old('username', $user->username ?? '') }}"
-                placeholder="Masukkan username"
-                class="w-full bg-white text-gray-900 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-500 transition-all duration-200"
-                required
-            >
-            @error('username')
-                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
+        <form action="{{ route('profil.update') }}" method="POST" enctype="multipart/form-data" class="grid md:grid-cols-2 gap-8">
+            @csrf
 
-       <!-- Email (readonly) -->
-<div>
-    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-    <input
-        type="email"
-        id="email"
-        name="email"
-        value="{{ old('email', $user->email ?? '') }}"
-        class="w-full bg-gray-100 text-gray-900 border border-gray-300 rounded-md px-4 py-2 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-500 transition-all duration-200"
-        readonly
-    >
-</div>
+            {{-- Nama --}}
+            <div class="relative">
+                <label for="name" class="text-sm font-medium text-gray-700">Nama Lengkap</label>
+                <input type="text" id="name" name="name" value="{{ old('name', $user->name ?? '') }}" required
+                    class="mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-yellow-400 focus:border-yellow-500 block px-4 py-2 transition" />
+                @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
+            {{-- Username --}}
+            <div class="relative">
+                <label for="username" class="text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username" value="{{ old('username', $user->username ?? '') }}" required
+                    class="mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-yellow-400 focus:border-yellow-500 block px-4 py-2 transition" />
+                @error('username')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
+            {{-- Email --}}
+            <div class="relative col-span-2">
+                <label for="email" class="text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email', $user->email ?? '') }}" readonly
+                    class="mt-1 w-full bg-gray-100 border border-gray-200 text-gray-500 text-base rounded-lg px-4 py-2 cursor-not-allowed" />
+            </div>
 
-        <!-- Telepon -->
-        <div>
-            <label for="telepon" class="block text-sm font-medium text-gray-700 mb-1">Telepon</label>
-            <input
-                type="text"
-                id="telepon"
-                name="telepon"
-                value="{{ old('telepon', $user->telepon ?? '') }}"
-                placeholder="Nomor telepon aktif"
-                class="w-full bg-white text-gray-900 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-500 transition-all duration-200"
-            >
-            @error('telepon')
-                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
+            {{-- Telepon --}}
+            <div class="relative">
+                <label for="telepon" class="text-sm font-medium text-gray-700">Nomor Telepon</label>
+                <input type="text" id="telepon" name="telepon" value="{{ old('telepon', $user->telepon ?? '') }}"
+                    class="mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-yellow-400 focus:border-yellow-500 block px-4 py-2 transition" />
+                @error('telepon')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <!-- Alamat -->
-        <div>
-            <label for="alamat" class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
-            <textarea
-                id="alamat"
-                name="alamat"
-                rows="3"
-                placeholder="Alamat lengkap..."
-                class="w-full bg-white text-gray-900 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-500 transition-all duration-200"
-            >{{ old('alamat', $user->alamat ?? '') }}</textarea>
-            @error('alamat')
-                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
+            {{-- Alamat --}}
+            <div class="relative">
+                <label for="alamat" class="text-sm font-medium text-gray-700">Alamat Lengkap</label>
+                <textarea id="alamat" name="alamat" rows="3"
+                    class="mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-yellow-400 focus:border-yellow-500 block px-4 py-2 transition">{{ old('alamat', $user->alamat ?? '') }}</textarea>
+                @error('alamat')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <!-- Upload Foto Profil -->
-        <div>
-            <label for="foto" class="block text-sm font-medium text-gray-700 mb-2">Foto Profil</label>
-            <input
-                type="file"
-                id="foto"
-                name="foto"
-                class="block w-full text-sm text-gray-700 file:bg-yellow-500 file:text-white file:font-semibold file:px-4 file:py-2 file:rounded file:border-0 transition-all"
-            >
-            @error('foto')
-                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-            @enderror
+            {{-- Upload Foto --}}
+            <div class="col-span-2">
+                <label for="foto" class="block text-sm font-medium text-gray-700 mb-1">Foto Profil</label>
+                <input type="file" name="foto" id="foto"
+                    class="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-white hover:file:bg-yellow-600 transition w-full" />
+                @error('foto')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
 
-            @if(!empty($user->foto))
-                <p class="mt-2 text-sm text-gray-600">Foto saat ini:</p>
-                <img src="{{ asset('images/' . $user->foto) }}" alt="Foto Profil" class="mt-2 w-24 h-24 rounded-full object-cover">
-            @endif
-        </div>
+                @if(!empty($user->foto))
+                    <div class="mt-4 flex items-center gap-4">
+                        <img src="{{ asset('images/' . $user->foto) }}" alt="Foto Profil"
+                             class="w-20 h-20 rounded-full object-cover border border-gray-200 shadow-sm">
+                        <span class="text-sm text-gray-500">Foto saat ini</span>
+                    </div>
+                @endif
+            </div>
 
-        <!-- Tombol Simpan dan Batal -->
-        <div class="flex justify-end gap-4 pt-4">
-            <a href="{{ route('profil') }}" class="bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-6 rounded transition">
-                Batal
-            </a>
-            <button type="submit" class="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-6 rounded transition">
-                Simpan Perubahan
-            </button>
-        </div>
-    </form>
+            {{-- Tombol --}}
+            <div class="col-span-2 flex justify-end gap-4 pt-6">
+                <a href="{{ route('profil') }}"
+                   class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-md transition">
+                    Batal
+                </a>
+                <button type="submit"
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition">
+                    Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
 </main>
 
+{{-- SweetAlert --}}
 @if(session('success'))
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -145,5 +122,4 @@
     });
 </script>
 @endif
-
 @endsection

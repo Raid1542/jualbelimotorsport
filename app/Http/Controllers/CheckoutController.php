@@ -173,6 +173,14 @@ class CheckoutController extends Controller
     ]);
 }
 
+public function beliSekarangPost(Request $request, $id)
+{
+    $jumlah = intval($request->input('jumlah', 1));
+    if ($jumlah <= 0) $jumlah = 1;
+
+    return redirect()->route('checkout.beli', ['id' => $id, 'jumlah' => $jumlah]);
+}
+
 
     public function sukses()
     {

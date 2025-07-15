@@ -3,7 +3,7 @@
 @section('title', 'Tentang Kami')
 
 @section('content')
-<div class="bg-gradient-to-b from-yellow-50 to-white min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+<div class="bg-gradient-to-b from-gray-50 to-white min-h-screen py-12 px-4 sm:px-6 lg:px-8">
 
 
   {{-- Cerita Kami --}}
@@ -46,7 +46,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
       <!-- Simpel -->
       <div class="text-center transform hover:scale-105 transition-transform duration-300">
-        <img src="{{ asset('images/simpel.png') }}" alt="Simpel" class="w-full rounded-xl shadow-lg mb-6 object-cover h-56">
+        <img src="{{ asset('images/simpel.jpg') }}" alt="Simpel" class="w-full rounded-xl shadow-lg mb-6 object-cover h-56">
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Simpel</h3>
         <p class="text-gray-600 text-sm leading-relaxed px-3">
           Kami percaya akan kesederhanaan dan integritas; memastikan kehidupan yang jujur, rendah hati, dan apa adanya.
@@ -64,7 +64,7 @@
 
       <!-- Bersama-sama -->
       <div class="text-center transform hover:scale-105 transition-transform duration-300">
-        <img src="{{ asset('images/bersama.png') }}" alt="Bersama-sama" class="w-full rounded-xl shadow-lg mb-6 object-cover h-56">
+        <img src="{{ asset('images/kerjasama.png') }}" alt="Bersama-sama" class="w-full rounded-xl shadow-lg mb-6 object-cover h-56">
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Bersama-sama</h3>
         <p class="text-gray-600 text-sm leading-relaxed px-3">
           Kita mencapai tujuan bersama dengan bekerja sama dan saling berkolaborasi, sambil menghabiskan waktu berkualitas.
