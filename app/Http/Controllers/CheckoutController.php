@@ -33,110 +33,154 @@ class CheckoutController extends Controller
         return view('pages.checkout', compact('keranjang', 'user', 'subtotal', 'total', 'totalProduk', 'selectedItems'));
     }
 
-    public function beliSekarang($id)
-    {
-        $user = Auth::user();
-        $produk = Produk::findOrFail($id);
+  public function beliSekarang(Request $request, $id)
+{
+    $user = Auth::user();
+    $produk = Produk::findOrFail($id);
+    
+    // Ambil jumlah dari parameter GET (default 1 jika tidak ada)
+    $jumlah = intval($request->input('jumlah', 1));
+    if ($jumlah <= 0) $jumlah = 1;
 
-        $subtotal = $produk->harga;
-        $total = $subtotal;
+    $subtotal = $produk->harga * $jumlah;
+    $total = $subtotal;
 
-        return view('pages.checkout', compact('produk', 'user', 'subtotal', 'total'));
-    }
+    return view('pages.checkout', compact('produk', 'user', 'subtotal', 'total', 'jumlah'));
+}
+
+
+
 
     // ✅ Proses checkout (AJAX)
     public function prosesCheckout(Request $request)
-    {
-        $user = Auth::user();
-        $metode = $request->metode_pembayaran_terpilih ?? 'cod';
+{
+    $user = Auth::user();
+    $metode = $request->metode_pembayaran_terpilih ?? 'cod';
 
-        // Validasi alamat dan telepon
-        if (empty($user->alamat) || empty($user->telepon)) {
+    // Validasi alamat dan telepon
+    if (empty($user->alamat) || empty($user->telepon)) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Silakan lengkapi alamat dan nomor telepon terlebih dahulu.'
+        ], 422);
+    }
+
+    $pesanan = null;
+
+    // 🔁 Checkout dari keranjang
+    if ($request->has('items')) {
+        $keranjangIds = $request->input('items');
+        $keranjang = Keranjang::with('produk')
+            ->whereIn('id', $keranjangIds)
+            ->where('user_id', $user->id)
+            ->get();
+
+        if ($keranjang->isEmpty()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Silakan lengkapi alamat dan nomor telepon terlebih dahulu.'
+                'message' => 'Keranjang kosong.'
             ], 422);
         }
 
-        $pesanan = null;
+        $total = $keranjang->sum(fn($item) => $item->produk->harga * $item->jumlah);
 
-        // Dari keranjang
-        if ($request->has('items')) {
-            $keranjangIds = $request->input('items');
-            $keranjang = Keranjang::with('produk')
-                ->whereIn('id', $keranjangIds)
-                ->where('user_id', $user->id)
-                ->get();
+        // ✅ Buat pesanan
+        $pesanan = Pesanan::create([
+            'user_id' => $user->id,
+            'alamat' => $user->alamat,
+            'telepon' => $user->telepon,
+            'metode_pembayaran' => $metode,
+            'total' => $total,
+            'status' => 'menunggu konfirmasi',
+        ]);
 
-            if ($keranjang->isEmpty()) {
+        foreach ($keranjang as $item) {
+            $produk = $item->produk;
+
+            // ✅ Cek stok dulu
+            if ($produk->stok < $item->jumlah) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Keranjang kosong.'
+                    'message' => 'Stok tidak cukup untuk produk: ' . $produk->nama,
                 ], 422);
             }
-
-            $total = $keranjang->sum(fn($item) => $item->produk->harga * $item->jumlah);
-
-            $pesanan = Pesanan::create([
-                'user_id' => $user->id,
-                'alamat' => $user->alamat,
-                'telepon' => $user->telepon,
-                'metode_pembayaran' => $metode,
-                'total' => $total,
-                'status' => $metode === 'cod' ? 'menunggu konfirmasi' : 'menunggu konfirmasi',
-            ]);
-
-            foreach ($keranjang as $item) {
-                DetailPesanan::create([
-                    'pesanan_id' => $pesanan->id,
-                    'produk_id' => $item->produk_id,
-                    'jumlah' => $item->jumlah,
-                    'harga' => $item->produk->harga,
-                ]);
-                $produk = $item->produk;
-                $produk->stok -= $item->jumlah;
-                $produk->save();
-            }
-
-            Keranjang::whereIn('id', $keranjangIds)->delete();
-
-        } else {
-            // Dari beli sekarang
-            $produk = Produk::findOrFail($request->produk_id);
-            $jumlah = 1;
-            $total = $produk->harga * $jumlah;
-
-            $pesanan = Pesanan::create([
-                'user_id' => $user->id,
-                'alamat' => $user->alamat,
-                'telepon' => $user->telepon,
-                'metode_pembayaran' => $metode,
-                'total' => $total,
-                'status' => $metode === 'cod' ? 'menunggu konfirmasi' : 'menunggu konfirmasi',
-            ]);
 
             DetailPesanan::create([
                 'pesanan_id' => $pesanan->id,
                 'produk_id' => $produk->id,
-                'jumlah' => $jumlah,
+                'jumlah' => $item->jumlah,
                 'harga' => $produk->harga,
             ]);
-            $produk->stok -= $jumlah;
+
+            // ✅ Update stok
+            $produk->stok -= $item->jumlah;
             $produk->save();
         }
 
-        if ($metode === 'qris') {
+        // 🗑️ Hapus keranjang
+        Keranjang::whereIn('id', $keranjangIds)->delete();
+
+    } else {
+        // ✅ Dari Beli Sekarang
+        $produk = Produk::findOrFail($request->produk_id);
+        $jumlah = intval($request->input('jumlah', 1));
+
+        if ($jumlah <= 0) $jumlah = 1;
+
+        // ✅ Cek stok
+        if ($produk->stok < $jumlah) {
             return response()->json([
-                'status' => 'need_payment',
-                'pesanan_id' => $pesanan->id,
-            ]);
+                'status' => 'error',
+                'message' => 'Stok tidak cukup untuk produk: ' . $produk->nama,
+            ], 422);
         }
 
+        $total = $produk->harga * $jumlah;
+
+        $pesanan = Pesanan::create([
+            'user_id' => $user->id,
+            'alamat' => $user->alamat,
+            'telepon' => $user->telepon,
+            'metode_pembayaran' => $metode,
+            'total' => $total,
+            'status' => 'menunggu konfirmasi',
+        ]);
+
+        DetailPesanan::create([
+            'pesanan_id' => $pesanan->id,
+            'produk_id' => $produk->id,
+            'jumlah' => $jumlah,
+            'harga' => $produk->harga,
+        ]);
+
+        // ✅ Update stok
+        $produk->stok -= $jumlah;
+        $produk->save();
+    }
+
+    // 🔁 QRIS Midtrans (jika dipakai)
+    if ($metode === 'qris') {
         return response()->json([
-            'status' => 'success',
-            'redirect' => route('pesanan'),
+            'status' => 'need_payment',
+            'pesanan_id' => $pesanan->id,
         ]);
     }
+
+    // ✅ Sukses
+    return response()->json([
+        'status' => 'success',
+        'redirect' => route('pesanan'),
+    ]);
+}
+
+public function beliSekarangPost(Request $request, $id)
+{
+    $jumlah = intval($request->input('jumlah', 1));
+    if ($jumlah <= 0) $jumlah = 1;
+
+    return redirect()->route('checkout.beli', ['id' => $id, 'jumlah' => $jumlah]);
+}
+
 
     public function sukses()
     {

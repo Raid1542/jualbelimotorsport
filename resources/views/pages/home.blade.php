@@ -1,4 +1,4 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('title', 'SpeedZone - Temukan Motor Impianmu')
 
@@ -12,7 +12,7 @@
       Speedzone
     </h1>
     <p class="text-white text-lg mt-6 max-w-2xl leading-relaxed tracking-wide">
-      Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil  dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone
+      Temukan produk impianmu di Speedzone! Berbagai pilihan kategori mulai dari miniatur motor sport, miniatur motor biasa, dan mobil dengan harga terbaik dan nikmati pengalaman belanja terbaik di Speedzone.
     </p>
     <a href="{{ route('produk') }}"
        class="mt-10 bg-gray-100 text-gray-800 font-bold px-8 py-4 rounded-full shadow-lg hover:bg-yellow-100 hover:scale-105 transition-all duration-300">
@@ -21,6 +21,7 @@
   </div>
 </section>
 
+{{-- Produk Terbaru --}}
 <section class="bg-gray-100 py-20">
   <div class="text-center mb-16">
     <h2 class="text-4xl font-extrabold text-gray-800">Produk Terbaru</h2>
@@ -28,32 +29,33 @@
   </div>
 
   <div class="max-w-7xl mx-auto px-6 lg:px-12 grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-      @foreach($produkBaru->take(8) as $item)
-        <a href="{{ route('produk.show', $item->id) }}"
-           class="group bg-white border rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 overflow-hidden">
+    @foreach($produkBaru->take(8) as $item)
+    <a href="{{ route('produk.show', $item->id) }}"
+       class="group bg-white border rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] overflow-hidden flex flex-col">
+       
+      {{-- Gambar --}}
+      <div class="w-full h-44 overflow-hidden bg-gray-100">
+        <img src="{{ asset('images/' . $item->gambar) }}"
+             alt="{{ $item->nama }}"
+             class="object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-105">
+      </div>
 
-          {{-- Gambar --}}
-          <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->nama }}"
-               class="w-full h-44 object-cover transition-transform duration-300 ease-in-out">
+      {{-- Konten --}}
+      <div class="p-4 flex flex-col justify-between flex-grow">
+        {{-- Nama Produk (hanya 1 baris + ... jika kepanjangan) --}}
+        <h3 class="text-sm text-gray-800 font-semibold truncate whitespace-nowrap overflow-hidden">
+          {{ $item->nama }}
+        </h3>
 
-          {{-- Konten --}}
-          <div class="p-3 space-y-1">
-            {{-- Nama Produk --}}
-            <h3 class="text-sm text-gray-800 font-semibold leading-tight line-clamp-2">
-              {{ $item->nama }}
-            </h3>
-
-            {{-- Harga --}}
-            <div class="text-yellow-500 font-bold text-base">
-              Rp{{ number_format($item->harga, 0, ',', '.') }}
-            </div>
-          </div>
-        </a>
-      @endforeach
-    </div>
+        {{-- Harga --}}
+        <div class="text-yellow-500 font-bold text-base mt-2">
+          Rp{{ number_format($item->harga, 0, ',', '.') }}
+        </div>
+      </div>
+    </a>
+    @endforeach
   </div>
 </section>
-
 
 {{-- Fitur Unggulan --}}
 <section class="bg-white py-24 px-6 lg:px-12">

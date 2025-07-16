@@ -14,7 +14,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-yellow-300 font-sans">
+<body class="bg-gray-50 text-yellow-300 font-sans">
 
     {{-- Pop-up notifikasi sukses --}}
     @if(session('success'))

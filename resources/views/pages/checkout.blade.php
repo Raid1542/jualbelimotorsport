@@ -15,19 +15,13 @@
   x-data="{ open: true }"
   x-show="open"
   x-transition
-  x-init="
-    setTimeout(() => {
-        open = false;
-        window.location.href = '{{ route('pesanan') }}';
-    }, 4000)
-  "
+  x-init="setTimeout(() => { open = false; window.location.href = '{{ route('pesanan') }}'; }, 4000)"
   class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
 >
   <div class="bg-white rounded-xl shadow-xl p-8 max-w-sm w-full text-center">
     <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-green-500 mb-4" fill="none"
          viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M5 13l4 4L19 7" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
     </svg>
     <h2 class="text-2xl font-bold text-gray-800 mb-2">Pesanan Berhasil!</h2>
     <p class="text-gray-600 mb-4">Terima kasih telah berbelanja di <span class="text-yellow-600 font-semibold">Speedzone</span>.</p>
@@ -38,22 +32,17 @@
 
 <div class="max-w-3xl mx-auto px-4 py-6">
 
+   {{-- Alamat --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Alamat Pengiriman</h2>
-      <p class="text-sm text-gray-700 mb-1">
-         <span class="font-medium">Nama:</span> {{ Auth::user()->name ?? '-' }}
-      </p>
-      <p class="text-sm text-gray-700 mb-1">
-         <span class="font-medium">Telepon:</span> {{ Auth::user()->telepon ?? '-' }}
-      </p>
-      <p class="text-sm text-gray-700">
-         <span class="font-medium">Alamat:</span> {{ Auth::user()->alamat ?? '-' }}
-      </p>
+      <p class="text-sm text-gray-700 mb-1"><span class="font-medium">Nama:</span> {{ Auth::user()->name ?? '-' }}</p>
+      <p class="text-sm text-gray-700 mb-1"><span class="font-medium">Telepon:</span> {{ Auth::user()->telepon ?? '-' }}</p>
+      <p class="text-sm text-gray-700"><span class="font-medium">Alamat:</span> {{ Auth::user()->alamat ?? '-' }}</p>
    </div>
 
+   {{-- Produk --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg mb-3 text-yellow-600">Detail Produk</h2>
-
       @if(!empty($keranjang))
         @foreach($keranjang as $item)
         <div class="flex gap-4 items-start mb-4">
@@ -70,13 +59,14 @@
            <img src="{{ asset('images/' . $produk->gambar) }}" alt="produk" class="w-20 h-20 object-cover rounded">
            <div class="flex-1">
               <h3 class="font-semibold text-gray-800">{{ $produk->nama }}</h3>
-              <p class="text-sm text-gray-500">Qty: 1</p>
-              <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
+              <p class="text-sm text-gray-500">Qty: {{ $jumlah }}</p>
+              <p class="text-sm font-semibold text-red-600">Rp{{ number_format($produk->harga * $jumlah, 0, ',', '.') }}</p>
            </div>
         </div>
       @endif
    </div>
 
+   {{-- Pembayaran --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Metode Pembayaran</h2>
       <div class="space-y-2">
@@ -91,6 +81,7 @@
       </div>
    </div>
 
+   {{-- Rincian --}}
    <div class="bg-white rounded-xl shadow-md p-4 mb-4">
       <h2 class="font-bold text-lg text-yellow-600 mb-2">Rincian Pembayaran</h2>
       <div class="flex justify-between text-sm text-gray-700 mb-1">
@@ -103,32 +94,30 @@
       </div>
    </div>
 
+   {{-- Form --}}
    <form id="formCheckout" action="{{ route('checkout.proses') }}" method="POST">
       @csrf
       <input type="hidden" name="metode_pembayaran_terpilih" id="metode_pembayaran_terpilih" value="cod">
 
       @if(!empty($selectedItems))
         @foreach ($selectedItems as $id)
-        <input type="hidden" name="items[]" value="{{ $id }}">
+          <input type="hidden" name="items[]" value="{{ $id }}">
         @endforeach
       @elseif(!empty($produk))
         <input type="hidden" name="produk_id" value="{{ $produk->id }}">
       @endif
 
-      <button type="submit" id="btn-buat-pesanan"
-         class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl shadow">
-         Buat Pesanan
-      </button>
+      <div class="flex gap-4 mt-4">
+         <a href="{{ route('keranjang.index') }}" class="w-1/2 bg-white hover:bg-gray-100 text-yellow-500 font-semibold py-3 rounded-xl shadow text-center transition">Batal</a>
+         <button type="submit" id="btn-buat-pesanan" class="w-1/2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl shadow transition">Buat Pesanan</button>
+      </div>
    </form>
 </div>
 
+{{-- Midtrans Script --}}
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
 
 <script>
-let selectedItems = @json($selectedItems ?? []);
-let produkId = @json($produk->id ?? null);
-let dari = @json(isset($produk) ? 'beli' : 'keranjang');
-
 document.getElementById('formCheckout').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -141,9 +130,7 @@ document.getElementById('formCheckout').addEventListener('submit', function (e) 
     fetch(form.action, {
         method: 'POST',
         body: formData,
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        }
+        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
     })
     .then(res => res.json())
     .then(data => {
@@ -160,15 +147,9 @@ document.getElementById('formCheckout').addEventListener('submit', function (e) 
             .then(midtrans => {
                 if (midtrans.snapToken) {
                     snap.pay(midtrans.snapToken, {
-                        onSuccess: function(result) {
-                            window.location.href = "{{ route('pesanan') }}";
-                        },
-                        onPending: function(result) {
-                            window.location.href = "{{ route('pesanan') }}";
-                        },
-                        onError: function(result) {
-                            alert("Pembayaran gagal.");
-                        }
+                        onSuccess: () => window.location.href = "{{ route('pesanan') }}",
+                        onPending: () => window.location.href = "{{ route('pesanan') }}",
+                        onError: () => alert("Pembayaran gagal.")
                     });
                 } else {
                     alert("Gagal mendapatkan Snap Token.");

@@ -6,63 +6,62 @@
 
 @php
     use Illuminate\Support\Facades\Storage;
+
     $user = $user ?? auth()->user();
-    $fotoProfil = ($user && $user->foto && Storage::disk('public')->exists($user->foto))
-        ? Storage::url($user->foto)
+
+    $fotoProfil = ($user && $user->foto && file_exists(public_path('images/' . $user->foto)))
+        ? asset('images/' . $user->foto)
         : asset('images/default.jpg');
 @endphp
 
-<main class="max-w-5xl mx-auto py-12 px-6 space-y-10">
+<main class="max-w-6xl mx-auto py-16 px-6 space-y-12">
 
-    <!-- Header Profil -->
-    <div class="bg-white rounded-3xl shadow-2xl p-8 flex flex-col md:flex-row items-center md:items-start gap-8">
-        <div class="w-36 h-36 rounded-full overflow-hidden border-[5px] border-yellow-400 shadow-lg">
+    {{-- Profil Header --}}
+    <section class="bg-gradient-to-br from-yellow-100 via-white to-yellow-50 rounded-3xl shadow-xl p-10 flex flex-col md:flex-row items-center md:items-start gap-10">
+        <div class="w-40 h-40 rounded-full overflow-hidden border-[6px] border-yellow-500 shadow-md">
             <img src="{{ $fotoProfil }}" alt="Foto Profil" class="w-full h-full object-cover">
         </div>
-        <div class="text-center md:text-left flex-1 space-y-2">
-            <h2 class="text-4xl font-bold text-gray-900">{{ $user->username ?? 'Pengguna' }}</h2>
-            <p class="text-gray-500 text-lg">Selamat datang kembali di <span class="text-yellow-500 font-semibold">Speedzone</span>!</p>
+        <div class="flex-1 text-center md:text-left space-y-3">
+            <h1 class="text-4xl font-bold text-gray-800 leading-tight">{{ $user->username ?? 'Pengguna' }}</h1>
+            <p class="text-lg text-gray-600">Selamat datang di <span class="text-yellow-600 font-semibold">SpeedZone</span></p>
+            <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-4">
+                <a href="{{ route('profil.edit') }}" class="px-5 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full font-medium transition-all shadow">
+                    Edit Profil
+                </a>
+                <a href="{{ route('profil.edit_password') }}" class="px-5 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full font-medium transition-all shadow">
+                    Ubah Kata Sandi
+                </a>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Info & Pengaturan -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Informasi Kontak -->
-        <div class="bg-white rounded-2xl shadow-md p-6 space-y-4">
-            <h3 class="text-xl font-semibold text-yellow-500 flex items-center gap-2">
-                📞 <span>Informasi Kontak</span>
-            </h3>
-            <ul class="space-y-2 text-gray-700 text-base">
-                <li><span class="font-medium">Email:</span> {{ $user->email ?? '-' }}</li>
-                <li><span class="font-medium">Telepon:</span> {{ $user->telepon ?? '-' }}</li>
-                <li><span class="font-medium">Alamat:</span> {{ $user->alamat ?? '-' }}</li>
+    {{-- Informasi Kontak + Logout --}}
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {{-- Informasi Kontak --}}
+        <div class="bg-white rounded-2xl shadow-md p-8">
+            <h2 class="text-xl font-semibold text-yellow-600 mb-4 border-b pb-2">Informasi Kontak</h2>
+            <ul class="text-gray-700 space-y-3 text-base">
+                <li><span class="font-semibold">Email:</span> {{ $user->email ?? '-' }}</li>
+                <li><span class="font-semibold">Telepon:</span> {{ $user->telepon ?? '-' }}</li>
+                <li><span class="font-semibold">Alamat:</span> {{ $user->alamat ?? '-' }}</li>
             </ul>
         </div>
 
-        <!-- Pengaturan Akun -->
-        <div class="bg-white rounded-2xl shadow-md p-6 space-y-4">
-            <h3 class="text-xl font-semibold text-yellow-500 flex items-center gap-2">
-                ⚙️ <span>Pengaturan Akun</span>
-            </h3>
-            <div class="flex flex-col gap-4">
-                <a href="{{ route('profil.edit') }}"
-                   class="flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 rounded-lg font-semibold shadow transition-all">
-                    ✏️ Edit Profil
-                </a>
-                <a href="{{ route('profil.edit_password') }}"
-                   class="flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 rounded-lg font-semibold shadow transition-all">
-                    🔒 Ubah Kata Sandi
-                </a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                        class="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-semibold shadow transition-all">
-                        🚪 Logout
-                    </button>
-                </form>
+        {{-- Logout --}}
+        <div class="bg-white rounded-2xl shadow-md p-8 flex flex-col justify-between">
+            <div>
+                <h2 class="text-xl font-semibold text-yellow-600 mb-4 border-b pb-2">Keluar Akun</h2>
+                <p class="text-gray-600 mb-6">Jika kamu ingin keluar dari akunmu, klik tombol di bawah ini.</p>
             </div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold shadow-md transition-all">
+                    Logout
+                </button>
+            </form>
         </div>
-    </div>
+    </section>
+
 </main>
 @endsection
 
