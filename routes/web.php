@@ -157,8 +157,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     // Rekap Penjualan
+    // Rekap Penjualan
     Route::get('/rekap-penjualan', [AdminRekapController::class, 'index'])->name('rekap-penjualan');
     Route::get('/rekap-penjualan/export', [AdminRekapController::class, 'export'])->name('rekap-penjualan.export');
+
 
     // Produk (CRUD)
     Route::get('/produk', [AdminProdukController::class, 'index'])->name('produk.index');
