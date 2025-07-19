@@ -8,7 +8,7 @@
 <section class="w-full bg-cover bg-center bg-no-repeat relative overflow-hidden"
          style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('/images/miniatur.png')">
   <div class="relative z-10 max-w-7xl mx-auto py-24 md:py-36 px-6 lg:px-12 text-center flex flex-col items-center">
-    <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-xl">
+    <h1 class="text-5xl md:text-6xl font-extrabold text-yellow-500 leading-tight drop-shadow-xl">
       Speedzone
     </h1>
     <p class="text-white text-lg mt-6 max-w-2xl leading-relaxed tracking-wide">
