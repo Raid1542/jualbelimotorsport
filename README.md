@@ -1,6 +1,6 @@
 # SpeedZone – Aplikasi Jual Beli Miniatur Motorsport
 
-- SpeedZone adalah aplikasi berbasis web yang dirancang untuk memudahkan proses jual beli miniatur motorsport secara daring. Aplikasi ini dibuat sebagai bagian dari tugas akhir mata kuliah Project Based Learning (PBL) oleh mahasiswa Program Studi Teknik Informatika, Politeknik Negeri Batam.
+SpeedZone adalah aplikasi berbasis web yang dirancang untuk memudahkan proses jual beli miniatur motorsport secara daring. Aplikasi ini dibuat sebagai bagian dari tugas akhir mata kuliah Project Based Learning (PBL) oleh mahasiswa Program Studi Teknik Informatika, Politeknik Negeri Batam.
 
 ---
 
