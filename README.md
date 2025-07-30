@@ -51,6 +51,22 @@ Manager Proyek: Yeni Rokhayati, S.Si., M.Sc
 
 ## 🛡️ Kebutuhan Non-Funsional
 
+| Code   | Feature Name           | Actor  | Description                                           |
+|--------|------------------------|--------|-------------------------------------------------------|
+| FR-1   | Register               | Seller | Seller can register a new account                    |
+| FR-2   | Login                  | Seller | Seller can log in to manage products and orders      |
+| FR-5   | Manage Products        | Seller | Add, update, delete, and view car products           |
+| FR-7   | View Incoming Orders   | Seller | See and filter customer orders                       |
+| FR-10  | Verify Payment         | Seller | Confirm buyer payments (cash or down payment)        |
+| FR-14  | View Dashboard         | Seller | Filter sales data by date                            |
+| FR-15  | Sales Analytics        | Seller | View performance charts and stats                    |
+| FR-17  | View Cars              | Buyer  | Browse all available and unavailable cars            |
+| FR-18  | Search & Filter Cars  | Buyer  | Filter by brand, category, year, price               |
+| FR-20  | Payment Simulation     | Buyer  | Simulate installment or cash payments                |
+| FR-28  | Submit Purchase        | Buyer  | Submit purchase request (credit or cash)             |
+| FR-30  | Make Payment           | Buyer  | Perform payments: down payment, cash, or installments|
+| FR-31  | Download Invoice       | Buyer  | Download purchase invoice in digital format          |
+
 ---
 
 ## ⚙️ Langkah Instalasi Aplikasi
