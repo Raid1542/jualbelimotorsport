@@ -117,7 +117,7 @@ Jalankan perintah berikut:
 ```bash
 php artisan serve
 ```
-Akses dibrowser:
+Akses di browser:
 http://localhost:8000
 
 ---
