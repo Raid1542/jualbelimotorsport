@@ -42,3 +42,22 @@ Proyek ini dikembangkan oleh:
 - Frima Rizky Lianda-3312401016
 
 Manager Proyek: Yeni Rokhayati, S.Si., M.Sc
+
+---
+
+## 📋 Kebutuhan Fungsional
+
+---
+
+## 🛡️ Kebutuhan Non-Funsional
+
+---
+
+## ⚙️ Langkah Instalasi Aplikasi
+
+---
+
+## 📄 Lisensi Proyek
+
+Aplikasi ini dikembangkan khusus untuk keperluan akademik dalam Proyek Berbasis Pembelajaran (PBL) semester 2.
+Seluruh hak cipta dan konten © 2025 dimiliki oleh Tim SpeedZone.
