@@ -47,29 +47,78 @@ Manager Proyek: Yeni Rokhayati, S.Si., M.Sc
 
 ## 📋 Kebutuhan Fungsional
 
+Berikut link kebutuhan fungsional dari aplikasi speedzone: [Klik disini](https://drive.google.com/file/d/1EmUcHMzv_marOjtO1gZwBgoycUmKT3Gn/view?usp=sharing)
+
 ---
 
 ## 🛡️ Kebutuhan Non-Funsional
 
-| Code   | Feature Name           | Actor  | Description                                           |
-|--------|------------------------|--------|-------------------------------------------------------|
-| FR-1   | Register               | Seller | Seller can register a new account                    |
-| FR-2   | Login                  | Seller | Seller can log in to manage products and orders      |
-| FR-5   | Manage Products        | Seller | Add, update, delete, and view car products           |
-| FR-7   | View Incoming Orders   | Seller | See and filter customer orders                       |
-| FR-10  | Verify Payment         | Seller | Confirm buyer payments (cash or down payment)        |
-| FR-14  | View Dashboard         | Seller | Filter sales data by date                            |
-| FR-15  | Sales Analytics        | Seller | View performance charts and stats                    |
-| FR-17  | View Cars              | Buyer  | Browse all available and unavailable cars            |
-| FR-18  | Search & Filter Cars  | Buyer  | Filter by brand, category, year, price               |
-| FR-20  | Payment Simulation     | Buyer  | Simulate installment or cash payments                |
-| FR-28  | Submit Purchase        | Buyer  | Submit purchase request (credit or cash)             |
-| FR-30  | Make Payment           | Buyer  | Perform payments: down payment, cash, or installments|
-| FR-31  | Download Invoice       | Buyer  | Download purchase invoice in digital format          |
+Berikut tabel kebutuhan non-fungsional dari aplikasi speedzone:
+
+| Kode    | Keterangan                                                                    |
+|---------|-------------------------------------------------------------------------------|
+| NFR-1   | Data transaksi harus terenkripsi dan data pengguna harus aman               |
+| NFR-2   | Memastikan aplikasi tidak error saat dijalankan                             |
+| NFR-3   | Desain yang sederhana dan mudah dipahami pengguna                           |
+| NFR-4   | Memastikan aplikasi dengan respon yang cepat                                |
 
 ---
 
 ## ⚙️ Langkah Instalasi Aplikasi
+
+Berikut langkah-langkah untuk menjalankan aplikasi ini secara lokal:
+
+### 1. Clone Repository
+
+Salin kode dari Github ke lokal:
+
+```bash
+git clone https://github.com/Raid1542/jualbelimotorsport
+cd speedzone
+```
+
+### 2. Install Dependensi
+
+Install semua dependensi:
+
+```bash
+composer install
+npm install && npm run dev
+```
+
+### 3. Setup File .env
+
+Salin dan buat konfigurasi:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+Edit file .env untuk sesuaikan konfigurasi database:
+
+```env
+DB_DATABASE=namadatabase
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4. Migrasi Database
+
+Jalankan perintah berikut:
+
+```bash
+php artisan migrate
+```
+
+### 5. Jalankan server laravel
+
+Jalankan perintah berikut:
+
+```bash
+php artisan serve
+```
+Akses dibrowser:
+http://localhost:8000
 
 ---
 
