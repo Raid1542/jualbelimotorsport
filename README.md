@@ -18,6 +18,19 @@ SpeedZone adalah aplikasi berbasis web yang dirancang untuk memudahkan proses ju
 
 ## 🏍️ Deskripsi Singkat
 
+SpeedZone adalah aplikasi web jual beli miniatur motor sport, motor, dan mobil yang dirancang untuk memberikan pengalaman transaksi online yang praktis, aman, dan nyaman bagi para pecinta otomotif miniatur.
+
+Aplikasi ini memungkinkan penjual untuk mengunggah produk lengkap dengan foto dan spesifikasi, serta memberikan kemudahan bagi pembeli untuk mencari, memilih, dan membeli produk berdasarkan kategori atau nama.
+
+Dengan fitur utama seperti:
+
+- 🔐 Registrasi dan login
+- 🏠 Halaman beranda dengan produk unggulan
+- 🛒 Keranjang belanja & checkout
+- 💳 Sistem pembayaran aman & riwayat pesanan
+
+SpeedZone bertujuan membangun ekosistem jual beli miniatur otomotif yang lebih modern, tertata, dan ramah pengguna.
+
 ---
 
 ## 👥 Tim Pengembang
